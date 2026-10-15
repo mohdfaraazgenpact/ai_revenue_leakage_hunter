@@ -115,3 +115,61 @@ def test_outside_term_and_unknown_sku_raise():
         p(terms(), "2027-01-01")
     with pytest.raises(KeyError):
         p(terms(), "2025-01-01", sku="NOPE")
+
+
+# ---- hand-computed boundary cases (independent of the generator's ground-truth code) ----
+def test_simple_escalation_is_not_compounded():
+    t = terms(
+        escalation={
+            "type": "fixed_pct",
+            "rate_pct": "5",
+            "first_escalation_date": "2025-01-01",
+            "compounding": False,
+        }
+    )
+    assert p(t, "2025-06-01") == Decimal("105.00")
+    assert p(t, "2026-06-01") == Decimal("110.00")  # 100 x (1 + 5% + 5%), not 110.25
+
+
+def test_unresolved_escalation_date_raises_instead_of_ignoring_the_clause():
+    t = terms(escalation={"type": "fixed_pct", "rate_pct": "5"})
+    with pytest.raises(ValueError, match="first escalation date"):
+        p(t, "2025-06-01")
+
+
+def test_unresolved_fixed_rate_raises():
+    t = terms(escalation={"type": "fixed_pct", "first_escalation_date": "2025-01-01"})
+    with pytest.raises(ValueError, match="rate"):
+        p(t, "2025-06-01")
+
+
+def test_leap_day_effective_date_escalates_on_28_february():
+    t = terms(
+        effective_date="2024-02-29",
+        end_date="2027-02-28",
+        escalation={"type": "fixed_pct", "rate_pct": "4", "first_escalation_date": "2025-02-28"},
+    )
+    assert p(t, "2025-02-27") == Decimal("100.00")
+    assert p(t, "2025-02-28") == Decimal("104.00")
+
+
+def test_cpi_is_clamped_to_floor_and_cap():
+    esc = {"type": "cpi", "floor_pct": "2", "cap_pct": "4", "first_escalation_date": "2025-01-01"}
+    t = terms(escalation=esc)
+    assert p(t, "2025-03-01", cpi={2024: Decimal("6.5")}) == Decimal("104.00")  # capped
+    assert p(t, "2025-03-01", cpi={2024: Decimal("1.0")}) == Decimal("102.00")  # floored
+
+
+def test_same_day_amendment_already_includes_that_anniversary():
+    t = terms(
+        amendments=[
+            {
+                "amendment_id": "AM1",
+                "effective_date": "2025-01-01",
+                "sku": "S1",
+                "new_unit_price": "120",
+            }
+        ]
+    )
+    assert p(t, "2025-01-01") == Decimal("120.00")  # no extra 5% on the amendment day
+    assert p(t, "2026-01-01") == Decimal("126.00")  # next anniversary escalates the new price

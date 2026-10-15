@@ -34,10 +34,34 @@ def test_generator_outputs(portfolio):
 
 
 def test_pipeline_with_gold_terms_matches_ground_truth(portfolio, tmp_path):
-    run(portfolio / "eval" / "gold", data_dir=portfolio, out_dir=tmp_path)
+    out = run(portfolio / "eval" / "gold", data_dir=portfolio, out_dir=tmp_path)
     res = evaluate(out_dir=tmp_path, eval_dir=portfolio / "eval")
     assert res["fn"] == 0 and res["fp"] == 0
+    assert res["unmatched_records"] == 0 and res["outcome_accuracy"] == 1.0
     assert check(res) == [] or res["tp"] == 0  # gate passes (small samples may have no leakage)
+    assert out["summary"]["run_mode"].startswith("ORACLE")
+
+
+@pytest.fixture(scope="module")
+def full_portfolio(tmp_path_factory) -> Path:
+    d = tmp_path_factory.mktemp("full")
+    generate(d)
+    return d
+
+
+def test_integrity_overlay_scenarios_are_handled(full_portfolio, tmp_path):
+    out = run(full_portfolio / "eval" / "gold", data_dir=full_portfolio, out_dir=tmp_path)
+    lines = out["lines"]
+    issues = set(lines["issue_type"])
+    assert {"CURRENCY_MISMATCH", "INVALID_INPUT", "POSSIBLE_DUPLICATE"} <= issues
+    assert (lines["status"] == "DUPLICATE").sum() == 2
+    res = evaluate(out_dir=tmp_path, eval_dir=full_portfolio / "eval")
+    assert check(res) == []  # duplicates are not double-counted, credits/returns reconcile
+    assert res["exact_duplicate_rows_excluded"] == 2
+    assert res["expected_review_routed"] == res["expected_review_lines"] == 5
+    causes = {f.root_cause for f in out["findings"]}
+    assert "UNSUPPORTED_CREDIT" in causes
+    assert (tmp_path / "input_issues.csv").exists()
 
 
 def test_rule_extractor_reads_prices_and_dates(portfolio):

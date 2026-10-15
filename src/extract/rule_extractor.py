@@ -32,6 +32,26 @@ def _cite(ch: ClauseChunk) -> Citation:
     return Citation(clause_id=ch.clause_id, page=ch.page, quote=ch.text)
 
 
+SIMPLE_ESCALATION = re.compile(
+    r"non-?compounding|not compound|simple (?:annual )?(?:increase|escalation|interest)|"
+    r"of the (?:original|base|initial) (?:Unit )?Price",
+    re.I,
+)
+
+
+def _compounding(text: str) -> bool:
+    """False only when the clause says the increase is simple; otherwise the D-004 default."""
+    return not SIMPLE_ESCALATION.search(text)
+
+
+def _confidence(esc: Escalation) -> dict[str, float]:
+    """Regex cannot judge its own accuracy, but it knows when it failed to resolve a term."""
+    unresolved = esc.type != "none" and (
+        esc.first_escalation_date is None or (esc.type == "fixed_pct" and esc.rate_pct is None)
+    )
+    return {"all": 1.0, "escalation": 0.3 if unresolved else 1.0}
+
+
 def extract(
     path: Path, contract_id: str | None = None, pages: list[Page] | None = None
 ) -> ContractTerms:
@@ -84,6 +104,7 @@ def extract(
                 type="fixed_pct",
                 rate_pct=Decimal(rm.group(1)),
                 first_escalation_date=parse_date(dm.group(1)) if dm else None,
+                compounding=_compounding(ch.text),
                 citation=_cite(ch),
             )
             break
@@ -136,6 +157,6 @@ def extract(
         escalation=esc,
         amendments=amendments,
         approved_discounts=discounts,
-        field_confidence={"all": 1.0},
+        field_confidence=_confidence(esc),
         source="rule",
     )

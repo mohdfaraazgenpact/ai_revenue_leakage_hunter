@@ -1,7 +1,16 @@
-adjustment_id,invoice_line_id,adjustment_type,amount,adjustment_date,reason
-ADJ-0001,IL-00863,debit_note,5537.00,2025-08-14,Price correction to contract rate
-ADJ-0002,IL-00866,debit_note,4587.80,2025-11-14,Price correction to contract rate
-ADJ-0003,IL-00867,debit_note,4881.60,2025-12-15,Price correction to contract rate
-ADJ-0004,IL-01171,debit_note,1584.00,2025-06-04,Price correction to contract rate
-ADJ-0005,IL-01180,debit_note,1745.28,2025-09-04,Price correction to contract rate
-ADJ-0006,IL-01186,debit_note,1589.76,2025-11-04,Price correction to contract rate
+adjustment_id,invoice_line_id,adjustment_type,amount,quantity,adjustment_date,reason
+ADJ-0001,IL-00863,debit_note,5537.00,,2025-08-14,Price correction to contract rate
+ADJ-0002,IL-00866,debit_note,4587.80,,2025-11-14,Price correction to contract rate
+ADJ-0003,IL-00867,debit_note,4881.60,,2025-12-15,Price correction to contract rate
+ADJ-0004,IL-01171,debit_note,1584.00,,2025-06-04,Price correction to contract rate
+ADJ-0005,IL-01180,debit_note,1745.28,,2025-09-04,Price correction to contract rate
+ADJ-0006,IL-01186,debit_note,1589.76,,2025-11-04,Price correction to contract rate
+ADJ-0007,IL-00128,credit_note,2992.27,,2025-08-30,Price correction to contract rate
+ADJ-0008,IL-00075,credit_note,269.28,,2024-07-30,Price correction to contract rate
+ADJ-0009,IL-00455,credit_note,1349.00,,2024-11-04,Price correction to contract rate
+ADJ-0010,IL-00029,credit_note,1600.05,,2025-03-30,Goodwill credit - no approval reference
+ADJ-0011,IL-00443,credit_note,4120.32,,2024-08-04,Goodwill credit - no approval reference
+ADJ-0012,IL-00427,credit_note,4927.68,,2024-04-04,Goodwill credit - no approval reference
+ADJ-0013,IL-00809,return_credit,7341.75,3,2024-08-09,Return of 3 unit(s)
+ADJ-0014,IL-00474,return_credit,45.90,3,2025-04-04,Return of 3 unit(s)
+ADJ-0015,IL-00424,return_credit,259.50,3,2024-03-06,Return of 3 unit(s)

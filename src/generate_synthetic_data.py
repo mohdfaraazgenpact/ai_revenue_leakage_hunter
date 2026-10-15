@@ -14,6 +14,12 @@ Outputs
 The ground-truth price timeline is computed here with an event-driven method that is
 deliberately independent of ``src/price_schedule.py`` so the engine is not graded
 against its own logic.
+
+After the base portfolio is built, ``inject_integrity_scenarios`` overlays line-level billing and
+data-quality cases with a separate random stream (the base contracts and their seeded leakage do
+not change): justified credit notes, unsupported credit notes, returns, exact duplicate rows,
+duplicate billing under a new line ID, a currency mismatch and malformed rows. Every truth row
+carries ``expected_outcome`` (MATCH / UNDERBILLING / OVERBILLING / REVIEW).
 """
 
 from __future__ import annotations
@@ -402,9 +408,137 @@ ADJ_FIELDS = [
     "invoice_line_id",
     "adjustment_type",
     "amount",
+    "quantity",
     "adjustment_date",
     "reason",
 ]
+OVERLAY_SEED_OFFSET = 1000  # separate random stream for the integrity overlay
+
+
+def _outcome(under: Decimal, over: Decimal) -> str:
+    return "UNDERBILLING" if under > 0 else "OVERBILLING" if over > 0 else "MATCH"
+
+
+def inject_integrity_scenarios(
+    invoices: list[dict], truth: list[dict], adjustments: list[dict], seed: int
+) -> dict[str, int]:
+    """Overlay credit/return/duplicate/data-quality cases onto base lines (mutates the lists)."""
+    rng = random.Random(seed + OVERLAY_SEED_OFFSET)
+    by_id = {t["invoice_line_id"]: t for t in truth}
+    inv_by_id = {r["invoice_line_id"]: r for r in invoices}
+    controls = [t["invoice_line_id"] for t in truth if t["scenario"] == "control"]
+    leaks = [t["invoice_line_id"] for t in truth if t["scenario"] == "missed_escalation"]
+    plan = {
+        "trap_credit_note": 3,
+        "unsupported_credit": 3,
+        "return_credit_control": 3,
+        "exact_duplicate_row": 1,
+        "duplicate_billing": 2,
+        "currency_mismatch": 1,
+        "invalid_input": 2,
+    }
+    if len(controls) < sum(plan.values()):
+        return {}
+    picks = iter(rng.sample(controls, sum(plan.values())))
+    adj_no = len(adjustments) + 1
+    counts: dict[str, int] = {}
+
+    def add_adj(lid, kind, amount, reason, qty=""):
+        nonlocal adj_no
+        d = date.fromisoformat(inv_by_id[lid]["invoice_date"]) + timedelta(days=15)
+        adjustments.append(
+            {
+                "adjustment_id": f"ADJ-{adj_no:04d}",
+                "invoice_line_id": lid,
+                "adjustment_type": kind,
+                "amount": f"{amount:.2f}",
+                "quantity": qty,
+                "adjustment_date": d.isoformat(),
+                "reason": reason,
+            }
+        )
+        adj_no += 1
+
+    def relabel(lid, scenario, outcome, under="0.00", net=None):
+        t = by_id[lid]
+        t.update(
+            scenario=scenario,
+            expected_outcome=outcome,
+            is_leakage=str(Decimal(under) > 0).lower(),
+            seeded_leakage_amount=under,
+            seeded_overbilling_amount="0.00",
+        )
+        if net is not None:
+            t["net_billed_amount"] = net
+        counts[scenario] = counts.get(scenario, 0) + 1
+
+    for _ in range(plan["trap_credit_note"]):  # billed 3% high, fully credited -> MATCH
+        lid = next(picks)
+        r, qty = inv_by_id[lid], int(inv_by_id[lid]["quantity"])
+        exp_amt = Decimal(r["invoiced_line_amount"])
+        unit = money(Decimal(r["invoiced_unit_price"]) * Decimal("1.03"))
+        r["invoiced_unit_price"], r["invoiced_line_amount"] = (
+            f"{unit:.2f}",
+            f"{money(unit * qty):.2f}",
+        )
+        add_adj(
+            lid, "credit_note", money(unit * qty) - exp_amt, "Price correction to contract rate"
+        )
+        relabel(lid, "trap_credit_note", "MATCH", net=f"{exp_amt:.2f}")
+
+    for _ in range(plan["unsupported_credit"]):  # billed correctly, then an unapproved credit
+        lid = next(picks)
+        amt = Decimal(inv_by_id[lid]["invoiced_line_amount"])
+        credit = money(amt * Decimal(str(rng.choice([0.04, 0.05, 0.08]))))
+        add_adj(lid, "credit_note", credit, "Goodwill credit - no approval reference")
+        relabel(lid, "unsupported_credit", "UNDERBILLING", f"{credit:.2f}", f"{amt - credit:.2f}")
+
+    for _ in range(plan["return_credit_control"]):  # units returned and credited at contract price
+        lid = next(picks)
+        r, qty = inv_by_id[lid], int(inv_by_id[lid]["quantity"])
+        k = max(1, min(3, qty - 1))
+        unit = Decimal(r["invoiced_unit_price"])
+        add_adj(lid, "return_credit", money(unit * k), f"Return of {k} unit(s)", str(k))
+        by_id[lid]["expected_line_amount"] = f"{money(unit * (qty - k)):.2f}"
+        relabel(lid, "return_credit_control", "MATCH", net=f"{money(unit * (qty - k)):.2f}")
+
+    # exact duplicate rows: one control line and one leakage line, copied verbatim; the truth keeps
+    # a single row so a double-counted line shows up as $ error
+    dup_sources = [next(picks)] + (rng.sample(leaks, 1) if leaks else [])
+    for lid in dup_sources:
+        invoices.append(dict(inv_by_id[lid]))
+        counts["exact_duplicate_row"] = counts.get("exact_duplicate_row", 0) + 1
+
+    for n in range(1, plan["duplicate_billing"] + 1):  # same line billed again under a new ID
+        src = inv_by_id[next(picks)]
+        new_id = f"IL-D{n:04d}"
+        invoices.append({**src, "invoice_line_id": new_id})
+        truth.append(
+            {
+                **by_id[src["invoice_line_id"]],
+                "invoice_line_id": new_id,
+                "scenario": "duplicate_billing",
+                "expected_outcome": "REVIEW",
+                "is_leakage": "false",
+                "seeded_leakage_amount": "0.00",
+                "seeded_overbilling_amount": "0.00",
+            }
+        )
+        counts["duplicate_billing"] = counts.get("duplicate_billing", 0) + 1
+
+    lid = next(picks)  # currency mismatch: no FX policy, so the engine must not compare amounts
+    inv_by_id[lid]["currency"] = "EUR"
+    relabel(lid, "currency_mismatch", "REVIEW")
+
+    bad = [
+        ("invoice_date", lambda v: date.fromisoformat(v).strftime("%d/%m/%Y")),
+        ("invoiced_line_amount", lambda v: ""),
+    ]
+    for col, corrupt in bad[: plan["invalid_input"]]:  # malformed rows must be quarantined
+        lid = next(picks)
+        inv_by_id[lid][col] = corrupt(inv_by_id[lid][col])
+        relabel(lid, "invalid_input", "REVIEW")
+    return counts
 
 
 def write_csv(path: Path, rows: list[dict], fieldnames: list[str] | None = None):
@@ -492,6 +626,7 @@ def main(data_dir: Path = DATA, n_contracts: int | None = None, seed: int = SEED
                             "invoice_line_id": line_id,
                             "adjustment_type": "debit_note" if diff > 0 else "credit_note",
                             "amount": f"{abs(diff):.2f}",
+                            "quantity": "",
                             "adjustment_date": (d + timedelta(days=20)).isoformat(),
                             "reason": "Price correction to contract rate",
                         }
@@ -513,6 +648,7 @@ def main(data_dir: Path = DATA, n_contracts: int | None = None, seed: int = SEED
                         "is_leakage": str(under > 0).lower(),
                         "seeded_leakage_amount": f"{under:.2f}",
                         "seeded_overbilling_amount": f"{over:.2f}",
+                        "expected_outcome": _outcome(under, over),
                     }
                 )
                 line_no += 1
@@ -530,6 +666,7 @@ def main(data_dir: Path = DATA, n_contracts: int | None = None, seed: int = SEED
             }
         )
 
+    overlay = inject_integrity_scenarios(invoices, truth, adjustments, seed)
     write_csv(data_dir / "invoice_lines.csv", invoices)
     write_csv(data_dir / "billing_adjustments.csv", adjustments, fieldnames=ADJ_FIELDS)
     write_csv(
@@ -551,7 +688,7 @@ def main(data_dir: Path = DATA, n_contracts: int | None = None, seed: int = SEED
     write_csv(eval_dir / "expected_price_schedule.csv", schedule_rows)
     write_csv(eval_dir / "contract_scenarios.csv", scen_rows)
 
-    billed_total = sum(Decimal(r["invoiced_line_amount"]) for r in invoices)
+    billed_total = sum(Decimal(r["invoiced_line_amount"] or "0") for r in invoices)
     leak_total = sum(Decimal(r["seeded_leakage_amount"]) for r in truth)
     summary = {
         "contracts": len(specs),
@@ -561,6 +698,7 @@ def main(data_dir: Path = DATA, n_contracts: int | None = None, seed: int = SEED
         "seeded_leakage": f"{leak_total:,.2f}",
         "leakage_pct_of_billed": f"{(leak_total / billed_total * 100):.2f}%",
         "leakage_lines": sum(r["is_leakage"] == "true" for r in truth),
+        "integrity_overlay": overlay,
     }
     print(json.dumps(summary, indent=2))
     return summary

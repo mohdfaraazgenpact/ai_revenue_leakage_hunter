@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leakage Hunter v2 Changes</title>
+<style>
+:root {
+  --bg: #f7f7f5; --surface: #ffffff; --text: #1d1f23; --muted: #5d6470; --border: #dfe1e5;
+  --accent: #1f5fa8; --accent-soft: #e8f0fa; --pass: #1e7a46; --pass-soft: #e5f4ec;
+  --fail: #b3261e; --fail-soft: #fbeaea; --warn: #8a5a00; --warn-soft: #fbf1dc; --code: #f0f1f3;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171a; --surface: #1d2024; --text: #e6e8eb; --muted: #9aa1ab; --border: #30343a;
+    --accent: #6ea8ec; --accent-soft: #1d2a3a; --pass: #5cc48a; --pass-soft: #17291f;
+    --fail: #f08a84; --fail-soft: #331c1b; --warn: #e3b55a; --warn-soft: #2f2715; --code: #262a2f;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15171a; --surface: #1d2024; --text: #e6e8eb; --muted: #9aa1ab; --border: #30343a;
+  --accent: #6ea8ec; --accent-soft: #1d2a3a; --pass: #5cc48a; --pass-soft: #17291f;
+  --fail: #f08a84; --fail-soft: #331c1b; --warn: #e3b55a; --warn-soft: #2f2715; --code: #262a2f;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font: 15px/1.55 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+main { max-width: 980px; margin: 0 auto; padding: 32px 16px 64px; }
+h1 { font-size: 1.75rem; margin: 0 0 4px; }
+h2 { font-size: 1.25rem; margin: 40px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1.02rem; margin: 0 0 6px; }
+p { margin: 0 0 10px; }
+.sub { color: var(--muted); margin-bottom: 20px; }
+code { background: var(--code); padding: 1px 5px; border-radius: 4px; font-size: .88em; }
+a { color: var(--accent); }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+.chip { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px;
+  font-size: .82rem; color: var(--muted); }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 20px 0 6px; }
+.kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+.kpi .v { font-size: 1.5rem; font-weight: 650; font-variant-numeric: tabular-nums; }
+.kpi .l { color: var(--muted); font-size: .85rem; }
+.kpi .d { font-size: .82rem; margin-top: 2px; }
+.callout { background: var(--accent-soft); border-left: 4px solid var(--accent); border-radius: 6px; padding: 12px 14px; margin: 14px 0; }
+.callout.warn { background: var(--warn-soft); border-color: var(--warn); }
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .03em; }
+tr:last-child td { border-bottom: 0; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tag { display: inline-block; font-size: .74rem; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.p0 { background: var(--fail-soft); color: var(--fail); }
+.p1 { background: var(--warn-soft); color: var(--warn); }
+.ok { background: var(--pass-soft); color: var(--pass); }
+.no { background: var(--fail-soft); color: var(--fail); }
+.mid { background: var(--warn-soft); color: var(--warn); }
+.cards { display: grid; gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.card .head { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; margin-bottom: 6px; }
+.card dl { display: grid; grid-template-columns: 92px 1fr; gap: 4px 12px; margin: 0; font-size: .92rem; }
+.card dt { color: var(--muted); font-weight: 600; }
+.card dd { margin: 0; }
+footer { margin-top: 48px; color: var(--muted); font-size: .85rem; }
+@media (max-width: 560px) { .card dl { grid-template-columns: 1fr; } .card dt { margin-top: 6px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>AI Revenue Leakage Hunter: v2 Changes</h1>
+  <p class="sub">What changed between branch <code>ai_revenue_leakage_hunter_v1</code> and <code>ai_revenue_leakage_hunter_v2</code>, and why. Synthetic data only.</p>
+  <div class="meta">
+    <span class="chip">Repo: <a href="https://github.com/mohdfaraazgenpact/ai_revenue_leakage_hunter/tree/ai_revenue_leakage_hunter_v2">mohdfaraazgenpact/ai_revenue_leakage_hunter</a></span>
+    <span class="chip">Commits 63785e9, 0a4c280</span>
+    <span class="chip">15 Oct 2026</span>
+    <span class="chip">Plan v6 (integrity hardening)</span>
+  </div>
+
+  <div class="callout">
+    <strong>Why v2 exists.</strong> An external source-code review of v1 found defects that could put wrong numbers in front of the jury: cross-currency comparisons, duplicates counted twice, an ignored compounding setting, and an evaluation that duplicate keys could distort. Its advice was to fix correctness and evaluation before adding features. v2 does only that. v1 stays on GitHub as the frozen baseline.
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="v">35 / 43</div><div class="l">Vetting checks passing</div><div class="d">was 22 / 43</div></div>
+    <div class="kpi"><div class="v">1</div><div class="l">Vetting checks failing</div><div class="d">was 14 (remaining: blind holdout)</div></div>
+    <div class="kpi"><div class="v">64</div><div class="l">Automated tests passing</div><div class="d">was 29</div></div>
+    <div class="kpi"><div class="v">$140k</div><div class="l">False overbilling, rules baseline</div><div class="d">was $455k</div></div>
+  </div>
+
+  <h2>1. Priority fixes from the review (P0)</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="head"><span class="tag p0">P0</span><h3>Currency mismatch no longer creates false leakage</h3></div>
+      <dl>
+        <dt>Change</dt><dd>If an invoice's currency differs from the contract's, the line goes to review (<code>CURRENCY_MISMATCH</code>) and is not priced.</dd>
+        <dt>Why</dt><dd>v1 compared a EUR invoice with a USD price and reported the gap as $50 of underbilling. There is no FX policy yet, so the engine must not convert or compare.</dd>
+        <dt>Where</dt><dd><code>src/reconcile.py</code> · decision D-013 · open item B-007 (FX policy)</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <div class="head"><span class="tag p0">P0</span><h3>Duplicate invoice lines are never counted twice</h3></div>
+      <dl>
+        <dt>Change</dt><dd>An exact copy of a row is kept once. The copy gets status <code>DUPLICATE</code> and is left out of every total. Rows that share an ID but differ go to review, and so does the same invoice, SKU, date, quantity and amount under a new ID. Nothing is deleted.</dd>
+        <dt>Why</dt><dd>v1 processed every row independently, so a duplicated line doubled the leakage ($100 instead of $50). Adjustments keyed by line ID could also be applied twice.</dd>
+        <dt>Where</dt><dd><code>src/reconcile.py</code> · D-014</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <div class="head"><span class="tag p0">P0</span><h3>Simple vs compound escalation follows the contract</h3></div>
+      <dl>
+        <dt>Change</dt><dd>The price calculation now reads the <code>compounding</code> setting. Simple escalation applies the sum of the rates to the original price. Both extractors read the convention from the contract wording, and the default stays compounding (D-004) when the contract is silent.</dd>
+        <dt>Why</dt><dd>The schema had the field, but the calculation ignored it. A 5% simple contract would have been priced at 110.25 instead of 110.00 after two years.</dd>
+        <dt>Where</dt><dd><code>src/price_schedule.py</code>, <code>src/extract/*</code>, <code>prompts/extract_terms.v2.md</code> · D-010 · B-003</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <div class="head"><span class="tag p0">P0</span><h3>Evaluation cannot be distorted by duplicate keys</h3></div>
+      <dl>
+        <dt>Change</dt><dd>Evaluation checks that line IDs are unique on both sides before joining, and fails if they are not. It reports unmatched records, and the gate fails if there are any.</dd>
+        <dt>Why</dt><dd>A repeated ID could multiply rows in the join and inflate precision, recall and dollar totals.</dd>
+        <dt>Where</dt><dd><code>src/evaluate.py</code> · D-018</dd>
+      </dl>
+    </div>
+    <div class="card">
+      <div class="head"><span class="tag p0">P0</span><h3>No silent fallback to the answer key</h3></div>
+      <dl>
+        <dt>Change</dt><dd>A normal run without extracted terms now stops with a clear message. Using the answer-key terms requires <code>--oracle</code>. Those runs are labelled <code>ORACLE</code> in the outputs, and the app shows a warning banner.</dd>
+        <dt>Why</dt><dd>If extracted terms were missing, v1 quietly scored itself against the answers, which made a run look perfect.</dd>
+        <dt>Where</dt><dd><code>src/pipeline.py</code>, <code>src/reconcile.py</code>, app · D-017</dd>
+      </dl>
+    </div>
+  </div>
+
+  <h2>2. Data integrity</h2>
+  <p>Rule: the engine never guesses and never drops a record silently. A line it cannot price safely goes to a review queue. It is never counted as a match or as leakage, and it is logged with its source file and row number in <code>data/output/input_issues.csv</code>.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Change</th><th>Why</th><th>Decision</th></tr></thead>
+    <tbody>
+      <tr><td>Each row is validated before any arithmetic: ISO dates only, numeric and non-negative quantity, price and amount, a 3-letter currency, and non-blank IDs.</td><td>In v1, one bad date or blank amount crashed the whole run with a raw traceback, and valid rows produced no output.</td><td>D-011</td></tr>
+      <tr><td>Ambiguous date formats such as <code>15/06/2024</code> are quarantined, not interpreted.</td><td>15/06 and 06/15 can't be told apart, and a wrong date can change which price applies.</td><td>D-011</td></tr>
+      <tr><td>Negative quantities and prices are rejected. Returns are booked as <code>return_credit</code> adjustments with a returned quantity.</td><td>In v1, a −5 unit line was treated as an ordinary line, and its sign meaning was undefined.</td><td>D-012</td></tr>
+      <tr><td>Only <code>debit_note</code>, <code>credit_note</code> and <code>return_credit</code> adjustments with positive amounts are accepted. Anything else sends the line to review.</td><td>v1 treated any unrecognised adjustment type as a credit.</td><td>D-012</td></tr>
+      <tr><td>Quantity × unit price must equal the line amount within $0.01, or the line goes to an invoice-integrity review.</td><td>v1 took the root cause from the unit price but the dollar amount from the line amount, so the two could disagree inside one finding.</td><td>D-015</td></tr>
+      <tr><td>An escalation clause whose date or rate couldn't be resolved sends the line to review.</td><td>v1 priced such contracts as if the clause didn't exist. That was the main source of the rules baseline's $455k false overbilling.</td><td>D-016</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>3. Evaluation and reporting</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Change</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Underbilling, overbilling, review routing and contract-level metrics are reported separately.</td><td>Overbilling is a different business problem and needs its own precision and recall.</td></tr>
+      <tr><td>Reports show true positives, false positives, false negatives and true negatives with their denominators, plus line-level dollar error and the number of correctly flagged lines with a wrong amount.</td><td>An aggregate dollar error can hide line errors that cancel out. A correct flag with a wrong amount still matters.</td></tr>
+      <tr><td>Ground truth gains an <code>expected_outcome</code> column (MATCH / UNDERBILLING / OVERBILLING / REVIEW), and the gate checks that lines which must go to review actually do.</td><td>Lines that need review must not count as ordinary matches.</td></tr>
+      <tr><td>The README results table is generated by the build and stamped with a dataset fingerprint, the generator seed and the git commit.</td><td>Headline numbers must be reproducible and tied to the exact data and code that produced them.</td></tr>
+      <tr><td>Contract PDF and DOCX files are now byte-identical when regenerated from the same seed.</td><td>Embedded timestamps made every rebuild look like a change in git.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>4. Synthetic data: new scenarios</h2>
+  <p>These are layered onto the existing portfolio with a separate random seed. The original 30 contracts and their seeded leakage are unchanged, so results stay comparable with v1.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Scenario</th><th>Lines</th><th>Expected outcome</th><th>What it tests</th></tr></thead>
+    <tbody>
+      <tr><td>Justified credit note</td><td class="num">3</td><td>MATCH</td><td>Billed 3% high, then corrected by a credit note</td></tr>
+      <tr><td>Unsupported credit note</td><td class="num">3</td><td>UNDERBILLING</td><td>Correct price, then a credit with no approval reference. Gets its own new root cause, <code>UNSUPPORTED_CREDIT</code></td></tr>
+      <tr><td>Return credit</td><td class="num">3</td><td>MATCH</td><td>Units returned and credited at the contract price</td></tr>
+      <tr><td>Exact duplicate row</td><td class="num">2</td><td>counted once</td><td>One control line and one leakage line copied verbatim</td></tr>
+      <tr><td>Duplicate billing under a new ID</td><td class="num">2</td><td>REVIEW</td><td>Same invoice line billed again</td></tr>
+      <tr><td>Currency mismatch</td><td class="num">1</td><td>REVIEW</td><td>EUR invoice on a USD contract</td></tr>
+      <tr><td>Malformed rows</td><td class="num">2</td><td>REVIEW</td><td>A DD/MM/YYYY date and a blank amount</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>5. App, prompt and documentation</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Change</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>"Unbilled revenue found" becomes "Potential underbilling (unvalidated)", "Estimated recoverable" becomes "Illustrative recoverable estimate" (with its basis shown), and the value calculator is marked "(simulated)".</td><td>The labels presented candidates as facts (vetting UX-02).</td></tr>
+      <tr><td>CSV exports for findings, line results and input issues, plus a review queue in the Findings tab.</td><td>Reviewers had no way to take results out of the app (UX-03) or to see lines that weren't reconciled.</td></tr>
+      <tr><td>Recoverability uses the latest invoice date in the run instead of a hard-coded date, and is labelled illustrative.</td><td>The claim windows have not been validated by finance or legal (D-019, B-008).</td></tr>
+      <tr><td>Prompt v2 adds the compounding field and an instruction to treat the contract as untrusted data.</td><td>Reads the escalation convention and reduces prompt-injection risk (AI-04).</td></tr>
+      <tr><td>Streamlit is set to run headless.</td><td><code>tasks.ps1 app</code> no longer stops at the first-run email prompt.</td></tr>
+      <tr><td>New: decisions D-010 to D-019, blockers B-007 to B-009, <code>docs/release_gates.md</code>, <code>docs/jury_storyline.md</code>, and plan v6.</td><td>Every rule change is recorded for mentor sign-off, with a clear line between what is proven and what is not.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>6. Results: v1 vs v2 (synthetic data)</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Measure</th><th>v1</th><th>v2</th><th>Reading</th></tr></thead>
+    <tbody>
+      <tr><td>Answer key: leakage found / dollar error</td><td class="num">100% / 0%</td><td class="num">100% / 0%</td><td>The money engine is exact when the terms are right</td></tr>
+      <tr><td>Rules baseline: leakage lines found</td><td class="num">77.9%</td><td class="num">71.4%</td><td>Lower because lines with unclear terms now go to review instead of being mispriced</td></tr>
+      <tr><td>Rules baseline: false overbilling</td><td class="num">$454,903</td><td class="num">$139,908</td><td>The remainder comes from rates the regex misread on 3 contracts</td></tr>
+      <tr><td>Rules baseline: lines sent to review</td><td class="num">0</td><td class="num">335</td><td>v1 never flagged its own uncertainty</td></tr>
+      <tr><td>Gemini</td><td>not run</td><td>not run</td><td>Needs an API key and policy approval</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout warn">The rules recall fell because v2 is more honest, not because detection got worse. v1 counted some lucky matches from mispriced contracts. v2 refuses to price what it can't read.</div>
+
+  <h2>7. Vetting checklist: status changes</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Check</th><th>v1</th><th>v2</th><th>What changed</th></tr></thead>
+    <tbody>
+      <tr><td>FIN-05 Compounding</td><td><span class="tag no">Fail</span></td><td><span class="tag ok">Pass</span></td><td>Simple escalation priced correctly</td></tr>
+      <tr><td>FIN-09 Currency</td><td><span class="tag no">Fail</span></td><td><span class="tag ok">Pass</span></td><td>Mismatch goes to review</td></tr>
+      <tr><td>FIN-14 Duplicates</td><td><span class="tag no">Fail</span></td><td><span class="tag ok">Pass</span></td><td>Counted once, or sent to review</td></tr>
+      <tr><td>FIN-15 Line arithmetic</td><td><span class="tag no">Fail</span></td><td><span class="tag ok">Pass</span></td><td>Integrity check added</td></tr>
+      <tr><td>EXT-02 to EXT-05 Bad input</td><td><span class="tag no">Fail</span></td><td><span class="tag ok">Pass</span></td><td>Bad rows quarantined, the rest still processed</td></tr>
+      <tr><td>OPS-03 Error logging</td><td><span class="tag no">Fail</span></td><td><span class="tag ok">Pass</span></td><td><code>input_issues.csv</code> records file and row</td></tr>
+      <tr><td>EVAL-01, EVAL-02 Metrics</td><td><span class="tag no">Fail</span></td><td><span class="tag ok">Pass</span></td><td>True negatives, denominators and line-level dollar error</td></tr>
+      <tr><td>UX-02, UX-03 Labels and exports</td><td><span class="tag no">Fail</span></td><td><span class="tag ok">Pass</span></td><td>Claim-free labels and CSV exports</td></tr>
+      <tr><td>OPS-01 Clean install</td><td><span class="tag ok">Pass</span></td><td><span class="tag ok">Pass</span></td><td>Re-run on v2: fresh clone, 64/64 tests, HTTP 200, no email prompt</td></tr>
+      <tr><td>EVAL-04 Blind holdout</td><td><span class="tag no">Fail</span></td><td><span class="tag no">Fail</span></td><td>Needs blind contracts from Mentor 1 (B-005)</td></tr>
+      <tr><td>AI-01 to AI-04 Live Gemini</td><td><span class="tag mid">Blocked</span></td><td><span class="tag mid">Blocked</span></td><td>Needs an API key and policy approval (B-001, B-002)</td></tr>
+      <tr><td>UX-01, UX-04 Human walkthroughs</td><td><span class="tag mid">Blocked</span></td><td><span class="tag mid">Blocked</span></td><td>Need a finance reviewer and a new user</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>8. What is still open</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Item</th><th>Owner</th><th>Blocks</th></tr></thead>
+    <tbody>
+      <tr><td>Sign off the pricing and data rules: rounding, the compounding default, FX, adjustment signs, recoverability, and the new scenarios (B-003, B-006 to B-009)</td><td>Mentor 1</td><td>Financial correctness and ground-truth gates</td></tr>
+      <tr><td>3–5 blind contracts with an independent answer key, split by contract (B-005)</td><td>Mentor 1</td><td>Evaluation gate</td></tr>
+      <tr><td>Gemini policy approval and API key, then a rules-vs-AI comparison (B-001, B-002, B-004)</td><td>Mentor 2 / Builder</td><td>AI comparison gate. No AI accuracy figure goes to the jury before then</td></tr>
+      <tr><td>Finance-reviewer and new-user walkthroughs (UX-01, UX-04)</td><td>Mentors</td><td>UI and claims gate</td></tr>
+    </tbody>
+  </table></div>
+
+  <footer>Generated 15 Oct 2026 for branch <code>ai_revenue_leakage_hunter_v2</code>. Figures come from <code>vetting/results.json</code> and the README results block generated from the run. Synthetic demonstration only: no real client data, and no validated recoveries.</footer>
+</main>
+</body>
+</html>
