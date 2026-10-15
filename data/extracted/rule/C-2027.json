@@ -1,0 +1,60 @@
+{
+  "contract_id": "C-2027",
+  "customer_name": "Horizon Last-Mile Inc",
+  "customer_id": null,
+  "currency": "USD",
+  "effective_date": "2023-12-01",
+  "end_date": "2026-11-30",
+  "prices": [
+    {
+      "sku": "LOG-3003",
+      "description": "Last-mile parcel delivery",
+      "unit_price": "9.25",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "LOG-3003 - Last-mile parcel delivery: USD 9.25 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "LOG-3004",
+      "description": "Cold-chain handling per pallet",
+      "unit_price": "96.50",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 3,
+        "quote": "LOG-3004 - Cold-chain handling per pallet: USD 96.50 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "LOG-3002",
+      "description": "Pallet storage per pallet-month",
+      "unit_price": "27.25",
+      "citation": {
+        "clause_id": "A.3",
+        "page": 3,
+        "quote": "LOG-3002 - Pallet storage per pallet-month: USD 27.25 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "none",
+    "rate_pct": null,
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": null,
+    "frequency": "annual",
+    "compounding": true,
+    "citation": null
+  },
+  "amendments": [],
+  "approved_discounts": [],
+  "field_confidence": {
+    "all": 1.0
+  },
+  "source": "rule",
+  "prompt_version": null
+}

@@ -1,0 +1,54 @@
+{
+  "contract_id": "C-2021",
+  "customer_name": "Riverbend Warehousing Inc",
+  "customer_id": null,
+  "currency": "USD",
+  "effective_date": "2023-09-01",
+  "end_date": "2026-08-31",
+  "prices": [
+    {
+      "sku": "LOG-3005",
+      "description": "Cross-dock handling per pallet",
+      "unit_price": "14.50",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "LOG-3005 - Cross-dock handling per pallet: USD 14.50 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "LOG-3002",
+      "description": "Pallet storage per pallet-month",
+      "unit_price": "24.75",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 3,
+        "quote": "LOG-3002 - Pallet storage per pallet-month: USD 24.75 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "5",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2024-09-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "On September 1, 2024 and on each anniversary of that date thereafter, the Unit Prices shall increase by 5%.",
+      "verified": null
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [],
+  "field_confidence": {
+    "all": 1.0
+  },
+  "source": "rule",
+  "prompt_version": null
+}

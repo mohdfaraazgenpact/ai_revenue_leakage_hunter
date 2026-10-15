@@ -1,0 +1,66 @@
+{
+  "contract_id": "C-2019",
+  "customer_name": "Oakridge Metalforming Inc",
+  "customer_id": "CU-119",
+  "currency": "USD",
+  "effective_date": "2024-06-01",
+  "end_date": "2027-05-31",
+  "prices": [
+    {
+      "sku": "MFG-1001",
+      "description": "Precision bearing assembly",
+      "unit_price": "100.75",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "MFG-1001 - Precision bearing assembly: USD 100.75 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "MFG-1005",
+      "description": "Servo motor unit",
+      "unit_price": "499.75",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 3,
+        "quote": "MFG-1005 - Servo motor unit: USD 499.75 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "2.5",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2025-06-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "13.4",
+      "page": 2,
+      "quote": "Notwithstanding Section 4.2, the Unit Prices in Schedule A will escalate at two and one-half percent (2.5%) per annum, with the first such escalation on 1 June 2025 and subsequent escalations on each anniversary thereof.",
+      "verified": null
+    }
+  },
+  "amendments": [
+    {
+      "amendment_id": "AM1",
+      "effective_date": "2025-02-01",
+      "sku": "MFG-1005",
+      "new_unit_price": "528.00",
+      "new_escalation_rate_pct": null,
+      "citation": {
+        "clause_id": "AM1.1",
+        "page": 4,
+        "quote": "With effect from 1 February 2025, the Unit Price for MFG-1005 (Servo motor unit) in Schedule A shall be USD 528.00 per unit. Price adjustments under the Agreement continue to apply to the amended Unit Price on subsequent anniversaries.",
+        "verified": null
+      }
+    }
+  ],
+  "approved_discounts": [],
+  "field_confidence": {},
+  "source": "gold",
+  "prompt_version": null
+}

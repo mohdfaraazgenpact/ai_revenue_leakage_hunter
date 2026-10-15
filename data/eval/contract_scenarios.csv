@@ -1,0 +1,31 @@
+contract_id,customer_name,industry,scenario,escalation_type,wording_variant,format,has_amendment,has_side_letter
+C-2001,Northwind Fabrication Ltd,Manufacturing,control,cpi,1,pdf,True,False
+C-2002,Bluepeak Systems Inc,Hi-Tech,control,cpi,0,pdf,False,False
+C-2003,Meridian Freightways Inc,Logistics,amendment_not_applied,fixed_pct,2,pdf,True,False
+C-2004,Ironvale Components Inc,Manufacturing,trap_approved_discount,fixed_pct,7,docx,False,True
+C-2005,Quantum Harbor Networks LLC,Hi-Tech,control_no_escalation,none,1,pdf,False,False
+C-2006,Coastal Relay Logistics LLC,Logistics,partial_escalation,cpi,0,pdf,False,False
+C-2007,Crestline Tooling Co,Manufacturing,partial_escalation,fixed_pct,5,pdf,False,False
+C-2008,Nimbus Edge Devices Inc,Hi-Tech,price_below_contract,fixed_pct,3,docx,False,False
+C-2009,Trailhead Distribution Co,Logistics,price_below_contract,fixed_pct,5,pdf,False,False
+C-2010,Redfield Castings LLC,Manufacturing,control,fixed_pct,4,pdf,True,False
+C-2011,Vertex Lattice Software Ltd,Hi-Tech,amendment_not_applied,fixed_pct,6,pdf,True,False
+C-2012,Bayfront Cold Chain Inc,Logistics,trap_approved_discount,fixed_pct,2,docx,False,True
+C-2013,Harborview Plastics Inc,Manufacturing,overbilling,fixed_pct,1,pdf,False,False
+C-2014,Brightwave Semiconductors Inc,Hi-Tech,control_no_escalation,none,1,pdf,False,False
+C-2015,Keystone Parcel Services Ltd,Logistics,control,fixed_pct,3,pdf,False,False
+C-2016,Summit Gearworks Ltd,Manufacturing,trap_billing_adjustment,fixed_pct,4,docx,False,False
+C-2017,Coralstone Data Inc,Hi-Tech,missed_escalation,cpi,1,pdf,False,False
+C-2018,Northstar Intermodal LLC,Logistics,price_below_contract,fixed_pct,5,pdf,False,False
+C-2019,Oakridge Metalforming Inc,Manufacturing,control,fixed_pct,6,pdf,True,False
+C-2020,Helix Arc Robotics LLC,Hi-Tech,missed_escalation,fixed_pct,1,docx,False,False
+C-2021,Riverbend Warehousing Inc,Logistics,control,fixed_pct,1,pdf,False,False
+C-2022,Pinecrest Hydraulics LLC,Manufacturing,trap_billing_adjustment,fixed_pct,7,pdf,False,False
+C-2023,Lumen Forge Analytics Inc,Hi-Tech,missed_escalation,fixed_pct,8,pdf,False,False
+C-2024,Cascade Fleet Partners LLC,Logistics,trap_approved_discount,fixed_pct,6,docx,False,True
+C-2025,Granite Bay Fasteners Inc,Manufacturing,partial_escalation,fixed_pct,6,pdf,False,False
+C-2026,Stratos Grid Technologies Ltd,Hi-Tech,amendment_not_applied,fixed_pct,4,pdf,True,False
+C-2027,Horizon Last-Mile Inc,Logistics,control_no_escalation,none,0,pdf,False,False
+C-2028,Silverline Pumps Ltd,Manufacturing,missed_escalation,fixed_pct,3,docx,False,False
+C-2029,Polaris Mesh Labs Inc,Hi-Tech,missed_escalation,fixed_pct,2,pdf,False,False
+C-2030,Evergreen Cargo Systems Ltd,Logistics,control,fixed_pct,3,pdf,False,False

@@ -1,0 +1,41 @@
+{
+  "contract_id": "C-2016",
+  "customer_name": "Summit Gearworks Ltd",
+  "customer_id": "CU-116",
+  "currency": "USD",
+  "effective_date": "2023-03-01",
+  "end_date": "2026-02-28",
+  "prices": [
+    {
+      "sku": "MFG-1002",
+      "description": "Hydraulic valve block",
+      "unit_price": "277.00",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 1,
+        "quote": "MFG-1002 - Hydraulic valve block: USD 277.00 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "4",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2024-03-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "Following the end of the first Contract Year, the Unit Prices shall increase at the start of each subsequent Contract Year by four percent.",
+      "verified": null
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [],
+  "field_confidence": {},
+  "source": "gold",
+  "prompt_version": null
+}

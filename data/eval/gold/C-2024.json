@@ -1,0 +1,65 @@
+{
+  "contract_id": "C-2024",
+  "customer_name": "Cascade Fleet Partners LLC",
+  "customer_id": "CU-124",
+  "currency": "USD",
+  "effective_date": "2023-04-01",
+  "end_date": "2026-03-31",
+  "prices": [
+    {
+      "sku": "LOG-3004",
+      "description": "Cold-chain handling per pallet",
+      "unit_price": "76.00",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 1,
+        "quote": "LOG-3004 - Cold-chain handling per pallet: USD 76.00 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "LOG-3003",
+      "description": "Last-mile parcel delivery",
+      "unit_price": "13.75",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 1,
+        "quote": "LOG-3003 - Last-mile parcel delivery: USD 13.75 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "4.5",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2024-04-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "13.4",
+      "page": 1,
+      "quote": "Notwithstanding Section 4.2, the Unit Prices in Schedule A will escalate at four and one-half percent (4.5%) per annum, with the first such escalation on April 1, 2024 and subsequent escalations on each anniversary thereof.",
+      "verified": null
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [
+    {
+      "sku": "LOG-3003",
+      "discount_pct": "5",
+      "start_date": "2024-01-01",
+      "end_date": "2024-04-30",
+      "citation": {
+        "clause_id": "SL1.1",
+        "page": 1,
+        "quote": "For the period from January 1, 2024 to April 30, 2024 (inclusive), Supplier grants Customer a promotional discount of five percent (5%) on the Unit Price of LOG-3003 (Last-mile parcel delivery). The discount applies only during the stated period.",
+        "verified": null
+      }
+    }
+  ],
+  "field_confidence": {},
+  "source": "gold",
+  "prompt_version": null
+}

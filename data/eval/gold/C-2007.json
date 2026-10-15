@@ -1,0 +1,63 @@
+{
+  "contract_id": "C-2007",
+  "customer_name": "Crestline Tooling Co",
+  "customer_id": "CU-107",
+  "currency": "USD",
+  "effective_date": "2023-01-01",
+  "end_date": "2025-12-31",
+  "prices": [
+    {
+      "sku": "MFG-1005",
+      "description": "Servo motor unit",
+      "unit_price": "488.25",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "MFG-1005 - Servo motor unit: USD 488.25 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "MFG-1004",
+      "description": "Industrial gasket kit",
+      "unit_price": "31.75",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 3,
+        "quote": "MFG-1004 - Industrial gasket kit: USD 31.75 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "MFG-1003",
+      "description": "Machined steel housing",
+      "unit_price": "128.00",
+      "citation": {
+        "clause_id": "A.3",
+        "page": 3,
+        "quote": "MFG-1003 - Machined steel housing: USD 128.00 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "3.5",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2024-01-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "The parties agree to an annual price uplift of 3.5% which shall take effect on January 1, 2024 and annually thereafter.",
+      "verified": null
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [],
+  "field_confidence": {},
+  "source": "gold",
+  "prompt_version": null
+}

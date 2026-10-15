@@ -1,0 +1,7 @@
+adjustment_id,invoice_line_id,adjustment_type,amount,adjustment_date,reason
+ADJ-0001,IL-00863,debit_note,5537.00,2025-08-14,Price correction to contract rate
+ADJ-0002,IL-00866,debit_note,4587.80,2025-11-14,Price correction to contract rate
+ADJ-0003,IL-00867,debit_note,4881.60,2025-12-15,Price correction to contract rate
+ADJ-0004,IL-01171,debit_note,1584.00,2025-06-04,Price correction to contract rate
+ADJ-0005,IL-01180,debit_note,1745.28,2025-09-04,Price correction to contract rate
+ADJ-0006,IL-01186,debit_note,1589.76,2025-11-04,Price correction to contract rate

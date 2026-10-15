@@ -1,0 +1,54 @@
+{
+  "contract_id": "C-2004",
+  "customer_name": "Ironvale Components Inc",
+  "customer_id": "CU-104",
+  "currency": "USD",
+  "effective_date": "2023-11-01",
+  "end_date": "2026-10-31",
+  "prices": [
+    {
+      "sku": "MFG-1002",
+      "description": "Hydraulic valve block",
+      "unit_price": "377.25",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 1,
+        "quote": "MFG-1002 - Hydraulic valve block: USD 377.25 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "5",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2024-11-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "A.99",
+      "page": 1,
+      "quote": "Annual Adjustment: the Unit Prices above increase by 5% compounding, first applied on November 1, 2024 and on each anniversary thereafter.",
+      "verified": null
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [
+    {
+      "sku": "MFG-1002",
+      "discount_pct": "7.5",
+      "start_date": "2025-02-01",
+      "end_date": "2025-06-30",
+      "citation": {
+        "clause_id": "SL1.1",
+        "page": 1,
+        "quote": "For the period from February 1, 2025 to June 30, 2025 (inclusive), Supplier grants Customer a promotional discount of seven and one-half percent (7.5%) on the Unit Price of MFG-1002 (Hydraulic valve block). The discount applies only during the stated period.",
+        "verified": null
+      }
+    }
+  ],
+  "field_confidence": {},
+  "source": "gold",
+  "prompt_version": null
+}

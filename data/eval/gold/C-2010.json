@@ -1,0 +1,88 @@
+{
+  "contract_id": "C-2010",
+  "customer_name": "Redfield Castings LLC",
+  "customer_id": "CU-110",
+  "currency": "USD",
+  "effective_date": "2023-10-01",
+  "end_date": "2026-09-30",
+  "prices": [
+    {
+      "sku": "MFG-1004",
+      "description": "Industrial gasket kit",
+      "unit_price": "15.00",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "MFG-1004 - Industrial gasket kit: USD 15.00 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "MFG-1001",
+      "description": "Precision bearing assembly",
+      "unit_price": "116.00",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 3,
+        "quote": "MFG-1001 - Precision bearing assembly: USD 116.00 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "MFG-1003",
+      "description": "Machined steel housing",
+      "unit_price": "86.50",
+      "citation": {
+        "clause_id": "A.3",
+        "page": 3,
+        "quote": "MFG-1003 - Machined steel housing: USD 86.50 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "MFG-1005",
+      "description": "Servo motor unit",
+      "unit_price": "683.75",
+      "citation": {
+        "clause_id": "A.4",
+        "page": 3,
+        "quote": "MFG-1005 - Servo motor unit: USD 683.75 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "2",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2024-10-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "Following the end of the first Contract Year, the Unit Prices shall increase at the start of each subsequent Contract Year by two percent.",
+      "verified": null
+    }
+  },
+  "amendments": [
+    {
+      "amendment_id": "AM1",
+      "effective_date": "2025-06-01",
+      "sku": "MFG-1003",
+      "new_unit_price": "95.50",
+      "new_escalation_rate_pct": null,
+      "citation": {
+        "clause_id": "AM1.1",
+        "page": 4,
+        "quote": "With effect from June 1, 2025, the Unit Price for MFG-1003 (Machined steel housing) in Schedule A shall be USD 95.50 per unit. Price adjustments under the Agreement continue to apply to the amended Unit Price on subsequent anniversaries.",
+        "verified": null
+      }
+    }
+  ],
+  "approved_discounts": [],
+  "field_confidence": {},
+  "source": "gold",
+  "prompt_version": null
+}

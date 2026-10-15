@@ -1,0 +1,66 @@
+{
+  "contract_id": "C-2001",
+  "customer_name": "Northwind Fabrication Ltd",
+  "customer_id": "CU-101",
+  "currency": "USD",
+  "effective_date": "2024-01-01",
+  "end_date": "2026-12-31",
+  "prices": [
+    {
+      "sku": "MFG-1003",
+      "description": "Machined steel housing",
+      "unit_price": "81.50",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "MFG-1003 - Machined steel housing: USD 81.50 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "MFG-1002",
+      "description": "Hydraulic valve block",
+      "unit_price": "260.75",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 3,
+        "quote": "MFG-1002 - Hydraulic valve block: USD 260.75 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "cpi",
+    "rate_pct": null,
+    "cap_pct": "4",
+    "floor_pct": "1.5",
+    "first_escalation_date": "2025-01-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "Commencing 1 January 2025 and annually thereafter, Unit Prices shall be revised in line with the annual CPI-U inflation rate published for the prior calendar year, subject to a minimum increase of one and one-half percent (1.5%) and a maximum increase of four percent (4%).",
+      "verified": null
+    }
+  },
+  "amendments": [
+    {
+      "amendment_id": "AM1",
+      "effective_date": "2025-02-01",
+      "sku": "MFG-1002",
+      "new_unit_price": "295.50",
+      "new_escalation_rate_pct": null,
+      "citation": {
+        "clause_id": "AM1.1",
+        "page": 4,
+        "quote": "With effect from 1 February 2025, the Unit Price for MFG-1002 (Hydraulic valve block) in Schedule A shall be USD 295.50 per unit. Price adjustments under the Agreement continue to apply to the amended Unit Price on subsequent anniversaries.",
+        "verified": null
+      }
+    }
+  ],
+  "approved_discounts": [],
+  "field_confidence": {},
+  "source": "gold",
+  "prompt_version": null
+}

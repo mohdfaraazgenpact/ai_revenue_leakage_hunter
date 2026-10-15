@@ -1,0 +1,55 @@
+{
+  "contract_id": "C-2026",
+  "customer_name": "Stratos Grid Technologies Ltd",
+  "customer_id": "CU-126",
+  "currency": "USD",
+  "effective_date": "2023-07-01",
+  "end_date": "2026-06-30",
+  "prices": [
+    {
+      "sku": "HTC-2004",
+      "description": "Premium support per device",
+      "unit_price": "40.00",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "HTC-2004 - Premium support per device: USD 40.00 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "3",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2024-07-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "Following the end of the first Contract Year, the Unit Prices shall increase at the start of each subsequent Contract Year by three percent.",
+      "verified": null
+    }
+  },
+  "amendments": [
+    {
+      "amendment_id": "AM1",
+      "effective_date": "2025-06-01",
+      "sku": "HTC-2004",
+      "new_unit_price": "44.00",
+      "new_escalation_rate_pct": null,
+      "citation": {
+        "clause_id": "AM1.1",
+        "page": 4,
+        "quote": "With effect from June 1, 2025, the Unit Price for HTC-2004 (Premium support per device) in Schedule A shall be USD 44.00 per unit. Price adjustments under the Agreement continue to apply to the amended Unit Price on subsequent anniversaries.",
+        "verified": null
+      }
+    }
+  ],
+  "approved_discounts": [],
+  "field_confidence": {},
+  "source": "gold",
+  "prompt_version": null
+}

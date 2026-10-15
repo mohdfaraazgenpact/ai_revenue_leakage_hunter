@@ -1,0 +1,54 @@
+{
+  "contract_id": "C-2009",
+  "customer_name": "Trailhead Distribution Co",
+  "customer_id": null,
+  "currency": "USD",
+  "effective_date": "2023-03-01",
+  "end_date": "2026-02-28",
+  "prices": [
+    {
+      "sku": "LOG-3005",
+      "description": "Cross-dock handling per pallet",
+      "unit_price": "16.75",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "LOG-3005 - Cross-dock handling per pallet: USD 16.75 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "LOG-3001",
+      "description": "Full truckload lane per load",
+      "unit_price": "1427.25",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 3,
+        "quote": "LOG-3001 - Full truckload lane per load: USD 1,427.25 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "5",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2024-03-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "The parties agree to an annual price uplift of 5% which shall take effect on 1 March 2024 and annually thereafter.",
+      "verified": null
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [],
+  "field_confidence": {
+    "all": 1.0
+  },
+  "source": "rule",
+  "prompt_version": null
+}

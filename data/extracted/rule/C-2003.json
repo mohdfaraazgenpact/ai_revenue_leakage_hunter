@@ -1,0 +1,68 @@
+{
+  "contract_id": "C-2003",
+  "customer_name": "Meridian Freightways Inc",
+  "customer_id": null,
+  "currency": "USD",
+  "effective_date": "2024-06-01",
+  "end_date": "2027-05-31",
+  "prices": [
+    {
+      "sku": "LOG-3003",
+      "description": "Last-mile parcel delivery",
+      "unit_price": "11.25",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "LOG-3003 - Last-mile parcel delivery: USD 11.25 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "LOG-3002",
+      "description": "Pallet storage per pallet-month",
+      "unit_price": "38.50",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 3,
+        "quote": "LOG-3002 - Pallet storage per pallet-month: USD 38.50 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "2.5",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2025-06-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "Unit Prices are subject to an annual increase of two and one-half percent (2.5%) effective each June 1, commencing 1 June 2025.",
+      "verified": null
+    }
+  },
+  "amendments": [
+    {
+      "amendment_id": "AM1",
+      "effective_date": "2024-09-29",
+      "sku": "LOG-3003",
+      "new_unit_price": "12.00",
+      "new_escalation_rate_pct": null,
+      "citation": {
+        "clause_id": "AM1.1",
+        "page": 4,
+        "quote": "With effect from 29 September 2024, the Unit Price for LOG-3003 (Last-mile parcel delivery) in Schedule A shall be USD 12.00 per unit. Price adjustments under the Agreement continue to apply to the amended Unit Price on subsequent anniversaries.",
+        "verified": null
+      }
+    }
+  ],
+  "approved_discounts": [],
+  "field_confidence": {
+    "all": 1.0
+  },
+  "source": "rule",
+  "prompt_version": null
+}

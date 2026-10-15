@@ -1,0 +1,65 @@
+{
+  "contract_id": "C-2022",
+  "customer_name": "Pinecrest Hydraulics LLC",
+  "customer_id": null,
+  "currency": "USD",
+  "effective_date": "2023-11-01",
+  "end_date": "2026-10-31",
+  "prices": [
+    {
+      "sku": "MFG-1004",
+      "description": "Industrial gasket kit",
+      "unit_price": "32.00",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "MFG-1004 - Industrial gasket kit: USD 32.00 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "MFG-1002",
+      "description": "Hydraulic valve block",
+      "unit_price": "391.50",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 3,
+        "quote": "MFG-1002 - Hydraulic valve block: USD 391.50 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "MFG-1001",
+      "description": "Precision bearing assembly",
+      "unit_price": "58.50",
+      "citation": {
+        "clause_id": "A.3",
+        "page": 3,
+        "quote": "MFG-1001 - Precision bearing assembly: USD 58.50 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "3",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2024-11-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "A.99",
+      "page": 3,
+      "quote": "Annual Adjustment: the Unit Prices above increase by 3% compounding, first applied on 1 November 2024 and on each anniversary thereafter.",
+      "verified": null
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [],
+  "field_confidence": {
+    "all": 1.0
+  },
+  "source": "rule",
+  "prompt_version": null
+}

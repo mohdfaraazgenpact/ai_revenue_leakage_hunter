@@ -1,0 +1,96 @@
+{
+  "lines": 1578,
+  "tp": 308,
+  "fp": 0,
+  "fn": 0,
+  "line_precision": 1.0,
+  "line_recall": 1.0,
+  "detected_usd": "746689.51",
+  "seeded_usd": "746689.51",
+  "dollar_error_pct": 0.0,
+  "trap_false_positive_lines": 0,
+  "review_lines": 0,
+  "overbilling_detected_usd": "1649.16",
+  "overbilling_seeded_usd": "1649.16",
+  "contract_precision": 1.0,
+  "contract_recall": 1.0,
+  "root_cause_accuracy": 1.0,
+  "findings": 21,
+  "per_scenario": [
+    {
+      "scenario": "amendment_not_applied",
+      "lines": 134,
+      "seeded_lines": 30,
+      "flagged_lines": 30,
+      "seeded_usd": 104413.59,
+      "detected_usd": 104413.59
+    },
+    {
+      "scenario": "control",
+      "lines": 444,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "control_no_escalation",
+      "lines": 190,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "missed_escalation",
+      "lines": 240,
+      "seeded_lines": 157,
+      "flagged_lines": 157,
+      "seeded_usd": 278456.42,
+      "detected_usd": 278456.42
+    },
+    {
+      "scenario": "overbilling",
+      "lines": 72,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "partial_escalation",
+      "lines": 120,
+      "seeded_lines": 52,
+      "flagged_lines": 52,
+      "seeded_usd": 80129.62,
+      "detected_usd": 80129.62
+    },
+    {
+      "scenario": "price_below_contract",
+      "lines": 141,
+      "seeded_lines": 69,
+      "flagged_lines": 69,
+      "seeded_usd": 283689.88,
+      "detected_usd": 283689.88
+    },
+    {
+      "scenario": "trap_approved_discount",
+      "lines": 141,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "trap_billing_adjustment",
+      "lines": 96,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    }
+  ],
+  "label": "gold",
+  "terms_source": "C:\\Users\\703227747\\.claude\\projects\\AI Revenue Hunter\\ai_revenue_leakage_hunter_poc\\data\\eval\\gold",
+  "gate_failures": []
+}

@@ -1,0 +1,43 @@
+{
+  "contract_id": "C-2025",
+  "customer_name": "Granite Bay Fasteners Inc",
+  "customer_id": null,
+  "currency": "USD",
+  "effective_date": "2023-05-01",
+  "end_date": "2026-04-30",
+  "prices": [
+    {
+      "sku": "MFG-1001",
+      "description": "Precision bearing assembly",
+      "unit_price": "89.75",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "MFG-1001 - Precision bearing assembly: USD 89.75 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "3",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2024-05-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "13.4",
+      "page": 2,
+      "quote": "Notwithstanding Section 4.2, the Unit Prices in Schedule A will escalate at three percent (3%) per annum, with the first such escalation on May 1, 2024 and subsequent escalations on each anniversary thereof. Signed for and on behalf of Orion Global Solutions Inc. and the Customer by their authorised signatories.",
+      "verified": null
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [],
+  "field_confidence": {
+    "all": 1.0
+  },
+  "source": "rule",
+  "prompt_version": null
+}

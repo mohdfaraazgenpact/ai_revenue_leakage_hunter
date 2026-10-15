@@ -1,0 +1,16 @@
+# ruff hook pinned to the same version as requirements' ruff so hooks and local runs agree.
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+  - repo: local
+    hooks:
+      - id: block-secrets
+        name: Block .env and key files
+        entry: Do not commit secrets (.env / *key* files)
+        language: fail
+        files: '(^|/)\.env$|key'
+        exclude: '^\.env\.example$'

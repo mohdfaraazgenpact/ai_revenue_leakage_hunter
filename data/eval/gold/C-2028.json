@@ -1,0 +1,63 @@
+{
+  "contract_id": "C-2028",
+  "customer_name": "Silverline Pumps Ltd",
+  "customer_id": "CU-128",
+  "currency": "USD",
+  "effective_date": "2023-05-01",
+  "end_date": "2026-04-30",
+  "prices": [
+    {
+      "sku": "MFG-1005",
+      "description": "Servo motor unit",
+      "unit_price": "593.00",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 1,
+        "quote": "MFG-1005 - Servo motor unit: USD 593.00 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "MFG-1003",
+      "description": "Machined steel housing",
+      "unit_price": "111.00",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 1,
+        "quote": "MFG-1003 - Machined steel housing: USD 111.00 per unit.",
+        "verified": null
+      }
+    },
+    {
+      "sku": "MFG-1002",
+      "description": "Hydraulic valve block",
+      "unit_price": "396.25",
+      "citation": {
+        "clause_id": "A.3",
+        "page": 1,
+        "quote": "MFG-1002 - Hydraulic valve block: USD 396.25 per unit.",
+        "verified": null
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "2.5",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2024-05-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "Commencing on the first anniversary of the Effective Date and on each anniversary thereafter, all Unit Prices in Schedule A shall be adjusted upward by two and one-half percent (2.5%), compounding.",
+      "verified": null
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [],
+  "field_confidence": {},
+  "source": "gold",
+  "prompt_version": null
+}
