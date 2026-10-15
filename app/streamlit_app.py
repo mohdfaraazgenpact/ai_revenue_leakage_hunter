@@ -33,8 +33,10 @@ CAUSE_LABEL = {
     "PARTIAL_ESCALATION": "Partial escalation",
     "AMENDMENT_NOT_APPLIED": "Amendment not applied",
     "PRICE_BELOW_CONTRACT": "Price below contract",
+    "UNSUPPORTED_CREDIT": "Unsupported credit note",
     "OVERBILLING": "Overbilling",
 }
+ORACLE_SOURCE = "Answer key - engine-only evaluation (not a detector run)"
 
 st.set_page_config(page_title="AI Revenue Leakage Hunter", page_icon=":mag:", layout="wide")
 st.markdown(
@@ -61,7 +63,7 @@ def available_sources() -> dict[str, Path]:
         d = DATA / "extracted" / name
         if d.exists() and any(d.glob("*.json")):
             src[label] = d
-    src["Gold terms (answer key)"] = DATA / "eval" / "gold"
+    src[ORACLE_SOURCE] = DATA / "eval" / "gold"
     return src
 
 
@@ -76,7 +78,7 @@ def run_cached(terms_dir: str, use_llm: bool, offline: bool, _stamp: float):
         except Exception:
             llm = None
     res = run_pipeline(Path(terms_dir), explain=use_llm, llm=llm)
-    return res["summary"], res["lines"], res["findings"]
+    return res["summary"], res["lines"], res["findings"], res["issues"]
 
 
 def gemini_available() -> bool:
@@ -118,15 +120,20 @@ with st.sidebar:
         "review, not validated recoveries. The LLM never computes amounts."
     )
 
-summary, lines, findings = run_cached(str(terms_dir), use_llm, offline, 0.0)
+summary, lines, findings, issues = run_cached(str(terms_dir), use_llm, offline, 0.0)
 under = [f for f in findings if f.root_cause != "OVERBILLING"]
 fdf = findings_frame(findings)
 terms = load_terms(terms_dir)
 
 st.title("AI Revenue Leakage Hunter")
 st.caption(
-    "Contract says → transactions show → AI finds the gap → $ quantified → evidence → human-approved recovery"
+    "Contract says → transactions show → AI finds the gap → $ quantified → evidence → human review"
 )
+if summary["run_mode"] != "detector":
+    st.warning(
+        "Oracle mode: these results use the answer-key contract terms. They measure the reconciliation "
+        "engine only and are not what the detector finds. Choose an extraction source for a detector run."
+    )
 
 tabs = st.tabs(
     [
@@ -135,7 +142,7 @@ tabs = st.tabs(
         "Contract reader",
         "Jury test",
         "AI vs rules",
-        "Value calculator",
+        "Value calculator (simulated)",
         "Scorecard",
     ]
 )
@@ -145,14 +152,25 @@ with tabs[0]:
     billed = Decimal(summary["billed_total"])
     pot = Decimal(summary["potential_underbilling"])
     c = st.columns(5)
-    c[0].metric("Unbilled revenue found", usd(pot))
-    c[1].metric("Estimated recoverable", usd(summary["recoverable_estimate"]))
+    c[0].metric("Potential underbilling (unvalidated)", usd(pot))
+    c[1].metric(
+        "Illustrative recoverable estimate",
+        usd(summary["recoverable_estimate"]),
+        help=summary["recoverability_basis"],
+    )
     c[2].metric("Findings", summary["findings"])
-    c[3].metric("Leakage rate vs billed", f"{(pot / billed * 100):.2f}%" if billed else "-")
-    c[4].metric("Analysis time", f"{summary['runtime_seconds']} s")
+    c[3].metric("Potential leakage vs billed", f"{(pot / billed * 100):.2f}%" if billed else "-")
+    c[4].metric(
+        "Lines needing review",
+        summary["lines_needing_review"],
+        help="Not reconciled: invalid input, currency mismatch, possible duplicate, invoice arithmetic, "
+        "adjustment problem or contract terms that could not be determined. See the review queue.",
+    )
     st.caption(
         f"{summary['contracts']} contracts · {summary['invoice_lines']:,} invoice lines · "
-        f"{usd(billed)} billed · terms source: {source_label}"
+        f"{usd(billed)} billed · terms source: {source_label} · analysis time "
+        f"{summary['runtime_seconds']} s · {summary['duplicate_rows_excluded']} exact duplicate row(s) "
+        "excluded. Candidates for human review, not validated recoveries."
     )
     if not fdf.empty:
         u = fdf[fdf["root_cause"] != "OVERBILLING"].copy()
@@ -217,7 +235,7 @@ with tabs[1]:
             column_config={
                 "amount": st.column_config.NumberColumn("Amount (USD)", format="$%.2f"),
                 "recoverable_estimate": st.column_config.NumberColumn(
-                    "Recoverable (USD)", format="$%.2f"
+                    "Illustrative recoverable (USD)", format="$%.2f"
                 ),
                 "extraction_confidence": st.column_config.ProgressColumn(
                     "Term confidence", min_value=0, max_value=1
@@ -335,6 +353,53 @@ with tabs[1]:
             row.to_csv(log, mode="a", header=not log.exists(), index=False)
             st.success(
                 f"Recorded: {decision} for {f.finding_id}. Audit log: data/output/review_decisions.csv"
+            )
+
+    st.divider()
+    st.markdown("**Export** (same run and terms source as shown above)")
+    d1, d2, d3 = st.columns(3)
+    d1.download_button(
+        "Download findings (CSV)",
+        fdf.to_csv(index=False).encode("utf-8"),
+        file_name="findings.csv",
+        mime="text/csv",
+        disabled=fdf.empty,
+    )
+    d2.download_button(
+        "Download line results (CSV)",
+        lines.to_csv(index=False).encode("utf-8"),
+        file_name="line_results.csv",
+        mime="text/csv",
+    )
+    d3.download_button(
+        "Download input issues (CSV)",
+        issues.to_csv(index=False).encode("utf-8"),
+        file_name="input_issues.csv",
+        mime="text/csv",
+    )
+    review = lines[lines["status"].isin(["REVIEW", "DUPLICATE"])]
+    with st.expander(f"Review queue: {len(review)} line(s) not reconciled", expanded=False):
+        st.caption(
+            "These lines are never counted as matches or leakage. Each needs a person to fix the input "
+            "or confirm the contract terms."
+        )
+        if not review.empty:
+            st.dataframe(
+                review[
+                    [
+                        "invoice_line_id",
+                        "source_row",
+                        "contract_id",
+                        "sku",
+                        "invoice_date",
+                        "status",
+                        "issue_type",
+                        "reason",
+                    ]
+                ],
+                hide_index=True,
+                width="stretch",
+                height=260,
             )
 
 # ---------------------------------------------------------------- Contract reader
@@ -560,11 +625,11 @@ with tabs[5]:
     rec = leak * recovery / 100
     k = st.columns(3)
     k[0].metric("Annual leakage", f"${leak / 1e6:,.1f}M")
-    k[1].metric("Recovered for client", f"${rec / 1e6:,.1f}M")
-    k[2].metric("Outcome-based fee", f"${rec * fee / 100 / 1e6:,.1f}M")
-    st.caption(
-        "Illustrative. The real leakage rate is established in a client diagnostic, not assumed. "
-        "Every 1% of USD 1B revenue is USD 10M."
+    k[1].metric("Illustrative recovery (simulated)", f"${rec / 1e6:,.1f}M")
+    k[2].metric("Illustrative fee (simulated)", f"${rec * fee / 100 / 1e6:,.1f}M")
+    st.info(
+        "Simulation from your inputs, not a result of this PoC. Nothing has been recovered. The real "
+        "leakage rate is established in a client diagnostic. Every 1% of USD 1B revenue is USD 10M."
     )
 
 # ---------------------------------------------------------------- Scorecard
@@ -575,7 +640,7 @@ with tabs[6]:
     for p in sorted(REPORTS.glob("evaluation_*.json")):
         ev = json.loads(p.read_text())
         with st.expander(
-            f"{ev['label']} · gate {'PASS' if not ev['gate_failures'] else 'FAIL'}",
+            f"{ev['label']}{' (answer key, engine-only)' if ev['label'] == 'gold' else ''} · gate {'PASS' if not ev['gate_failures'] else 'FAIL'}",
             expanded=ev["label"] != "gold",
         ):
             m = st.columns(5)

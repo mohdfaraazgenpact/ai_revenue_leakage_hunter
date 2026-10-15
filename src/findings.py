@@ -5,7 +5,12 @@ Root causes (classified by testing which wrong price the billed price reproduces
     PARTIAL_ESCALATION     billed with some but not all due escalations
     AMENDMENT_NOT_APPLIED  billed at the price that would apply without the amendment
     PRICE_BELOW_CONTRACT   billed below the contract price for any other reason
+    UNSUPPORTED_CREDIT     billed at the contract price, but credit notes pulled the net below it
     OVERBILLING            billed above contract (reported separately, never netted)
+
+Recoverability is an ILLUSTRATIVE estimate: generic age weights (100% / 60% / 20% for invoices up to
+12 / 24 / older months before the analysis date). Claim windows and recoverability rules have not
+been validated with finance or legal reviewers.
 """
 
 from __future__ import annotations
@@ -16,10 +21,13 @@ from decimal import Decimal
 
 import pandas as pd
 
-from src.price_schedule import expected_price, money
+from src.price_schedule import escalate, expected_price, money
 from src.schema import ContractTerms
 
-AS_OF = date(2026, 1, 31)  # analysis date for recoverability ageing
+RECOVERABILITY_BASIS = (
+    "Illustrative only: age weights 100% / 60% / 20% for invoices <=12 / <=24 / >24 months before "
+    "{as_of}. Not validated against contractual claim periods or by finance/legal."
+)
 
 OWNERS = {
     "MISSED_ESCALATION": (
@@ -42,6 +50,11 @@ OWNERS = {
         "Correct the Unit Price in the price master; check with the account owner that no "
         "undocumented concession exists before preparing a rebill.",
     ),
+    "UNSUPPORTED_CREDIT": (
+        "Billing Operations & Credit Control",
+        "Match the credit note(s) on these lines to an approved credit request; if no approval "
+        "exists, reverse the credit or document the approval before closing.",
+    ),
     "OVERBILLING": (
         "Billing Operations",
         "Verify and issue a credit note to the customer for the over-billed amount.",
@@ -55,27 +68,27 @@ def classify_line(terms: ContractTerms, row: dict, cpi) -> str:
     billed = money(row["invoiced_unit_price"])
     d = date.fromisoformat(row["invoice_date"])
     px = expected_price(terms, row["sku"], d, cpi)
+    if billed == px.unit_price and Decimal(str(row.get("adjustments_amount") or "0")) < 0:
+        return "UNSUPPORTED_CREDIT"
     if px.escalations and billed == money(px.anchor_price):
         return "MISSED_ESCALATION"
     if px.anchor_source != "base price":
         no_am = terms.model_copy(update={"amendments": []})
         if billed == expected_price(no_am, row["sku"], d, cpi).unit_price:
             return "AMENDMENT_NOT_APPLIED"
-    if len(px.escalations) >= 2:
-        exact = px.anchor_price
-        for _, r in px.escalations[:-1]:
-            exact *= 1 + r / 100
-            if billed == money(exact):
-                return "PARTIAL_ESCALATION"
+    rates = [r for _, r in px.escalations]
+    for n in range(1, len(rates)):
+        if billed == money(escalate(px.anchor_price, rates[:n], px.compounding)):
+            return "PARTIAL_ESCALATION"
     return "PRICE_BELOW_CONTRACT"
 
 
-def _recoverability(dates: list[date], amounts: list[Decimal]) -> Decimal:
-    """Share of value still comfortably inside a typical 24-month claim window."""
+def _recoverability(dates: list[date], amounts: list[Decimal], as_of: date) -> Decimal:
+    """Illustrative share of value inside a generic 24-month claim window (see module docstring)."""
     total = sum(amounts) or Decimal("1")
     w = Decimal("0")
     for d, a in zip(dates, amounts, strict=True):
-        age_m = (AS_OF.year - d.year) * 12 + AS_OF.month - d.month
+        age_m = (as_of.year - d.year) * 12 + as_of.month - d.month
         w += a * (
             Decimal("1") if age_m <= 12 else Decimal("0.6") if age_m <= 24 else Decimal("0.2")
         )
@@ -121,13 +134,18 @@ def build_findings(
     terms: dict[str, ContractTerms],
     cpi,
     customers: dict[str, str] | None = None,
+    as_of: date | None = None,
 ) -> list[Finding]:
+    """``as_of`` defaults to the latest invoice date among the flagged lines (end of data period)."""
     customers = customers or {}
+    if lines.empty or "status" not in lines:
+        return []
     flagged = lines[
         lines["status"].isin(["POTENTIAL_UNDERBILLING", "POTENTIAL_OVERBILLING"])
     ].copy()
     if flagged.empty:
         return []
+    as_of = as_of or max(date.fromisoformat(x) for x in flagged["invoice_date"])
     flagged["root_cause"] = [
         classify_line(terms[r["contract_id"]], r, cpi) for r in flagged.to_dict(orient="records")
     ]
@@ -138,7 +156,7 @@ def build_findings(
         amounts = [Decimal(x) for x in g[col]]
         dates = [date.fromisoformat(x) for x in g["invoice_date"]]
         amount = sum(amounts)
-        rec = _recoverability(dates, amounts)
+        rec = _recoverability(dates, amounts, as_of)
         conf = float(g["extraction_confidence"].astype(float).min())
         last = g.iloc[-1]
         owner, action = OWNERS[cause]

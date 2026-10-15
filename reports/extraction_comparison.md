@@ -1,4 +1,4 @@
-# Extraction Accuracy vs Gold (2026-10-15 10:50)
+# Extraction Accuracy vs Gold (2026-10-15 15:05)
 
 _Synthetic contracts only._
 

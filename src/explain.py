@@ -24,6 +24,7 @@ CAUSE_TEXT = {
     "PARTIAL_ESCALATION": "only some of the contractual anniversary escalations were applied in billing",
     "AMENDMENT_NOT_APPLIED": "a signed amendment changed the Unit Price but billing kept the old price",
     "PRICE_BELOW_CONTRACT": "the billed Unit Price is below the contracted price",
+    "UNSUPPORTED_CREDIT": "the Unit Price was billed correctly, but credit notes without a matching approval reduced the net amount below the contract value",
     "OVERBILLING": "the billed Unit Price is above the contracted price",
 }
 
@@ -85,7 +86,7 @@ def template(f: Finding) -> Explanation:
         f"{f.customer_name} ({f.contract_id}) was billed USD {f.billed_unit_price_latest} per unit for {f.sku} "
         f"on {f.line_count} invoice lines from {f.first_date} to {f.last_date}, while the contract requires "
         f"USD {f.expected_unit_price_latest} ({f.calculation_latest}). Likely cause: {CAUSE_TEXT[f.root_cause]}. "
-        f"Potential amount: USD {fx['amount_usd']}; estimated recoverable: USD {fx['estimated_recoverable_usd']}. "
+        f"Potential amount: USD {fx['amount_usd']}; illustrative recoverable estimate: USD {fx['estimated_recoverable_usd']}. "
         f"Evidence: {clauses}."
     )
     body = (

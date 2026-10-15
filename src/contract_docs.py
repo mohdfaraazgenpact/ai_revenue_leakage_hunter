@@ -9,12 +9,17 @@ Distractor percentages (late-payment interest, liability caps) are included on p
 
 from __future__ import annotations
 
+import io
+import zipfile
 from dataclasses import dataclass, field
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal
 from pathlib import Path
 
 SUPPLIER = "Orion Global Solutions Inc."
+FIXED_TIMESTAMP = datetime(
+    2026, 1, 1, tzinfo=timezone.utc
+)  # document metadata date (reproducible builds)
 
 _WORDS = {
     "1": "one",
@@ -380,6 +385,7 @@ def render_pdf(doc: ContractDoc, path: Path) -> None:
     from fpdf import FPDF
 
     pdf = FPDF(format="Letter")
+    pdf.set_creation_date(FIXED_TIMESTAMP)  # byte-identical rebuilds
     pdf.set_auto_page_break(auto=True, margin=20)
     pdf.set_margins(22, 20, 22)
     pdf.add_page()
@@ -438,5 +444,18 @@ def render_docx(doc: ContractDoc, path: Path) -> None:
         d.add_heading(s.heading, level=2)
         for c in s.clauses:
             d.add_paragraph(f"{c.clause_id}  {c.text}")
+    props = d.core_properties
+    props.created = props.modified = FIXED_TIMESTAMP.replace(tzinfo=None)
+    props.last_modified_by = props.author = "Synthetic data factory"
     path.parent.mkdir(parents=True, exist_ok=True)
-    d.save(str(path))
+    buf = io.BytesIO()
+    d.save(buf)
+    # rewrite the zip with fixed member timestamps so rebuilds are byte-identical
+    with (
+        zipfile.ZipFile(io.BytesIO(buf.getvalue())) as src,
+        zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as dst,
+    ):
+        for item in src.infolist():
+            info = zipfile.ZipInfo(item.filename, date_time=FIXED_TIMESTAMP.timetuple()[:6])
+            info.compress_type = zipfile.ZIP_DEFLATED
+            dst.writestr(info, src.read(item.filename))

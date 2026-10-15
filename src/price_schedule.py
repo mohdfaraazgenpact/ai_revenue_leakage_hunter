@@ -6,8 +6,12 @@ Rules (see docs/decisions.md):
   date and on/before the invoice date (an amended price is inclusive of a same-day adjustment).
 - Fixed escalation uses ``rate_pct``. CPI escalation uses CPI of the prior calendar year,
   clamped to [floor, cap].
-- Compounding is exact, and the unit price is rounded half-up to cents once. An approved discount
-  is then applied and rounded again.
+- ``Escalation.compounding`` selects the convention: compounding multiplies each step onto the
+  previous price; simple escalation applies the sum of the step rates to the anchor price.
+- The exact result is rounded half-up to cents once. An approved discount is then applied and
+  rounded again.
+- An escalation clause whose first date or rate is unresolved raises ValueError, so the line goes to
+  REVIEW instead of being priced as if the clause did not exist.
 """
 
 from __future__ import annotations
@@ -49,14 +53,31 @@ class PriceExplanation:
     escalations: list[tuple[date, Decimal]] = field(default_factory=list)
     discount_pct: Decimal | None = None
     citations: dict[str, Citation] = field(default_factory=dict)
+    compounding: bool = True
+    currency: str = "USD"
 
     def formula(self) -> str:
-        parts = [f"USD {self.anchor_price:,.2f} ({self.anchor_source})"]
-        parts += [f"x (1 + {r}%) [{d.isoformat()}]" for d, r in self.escalations]
-        s = " ".join(parts) + f" = USD {self.undiscounted_price:,.2f}"
+        cur = self.currency
+        parts = [f"{cur} {self.anchor_price:,.2f} ({self.anchor_source})"]
+        if self.compounding or len(self.escalations) < 2:
+            parts += [f"x (1 + {r}%) [{d.isoformat()}]" for d, r in self.escalations]
+        else:
+            steps = " + ".join(f"{r}% [{d.isoformat()}]" for d, r in self.escalations)
+            parts.append(f"x (1 + {steps}) (simple, non-compounding)")
+        s = " ".join(parts) + f" = {cur} {self.undiscounted_price:,.2f}"
         if self.discount_pct is not None:
-            s += f"; less approved discount {self.discount_pct}% = USD {self.unit_price:,.2f}"
+            s += f"; less approved discount {self.discount_pct}% = {cur} {self.unit_price:,.2f}"
         return s
+
+
+def escalate(anchor: Decimal, rates: list[Decimal], compounding: bool = True) -> Decimal:
+    """Exact (unrounded) price after applying ``rates`` (percent) to ``anchor``."""
+    anchor = Decimal(anchor)
+    if not compounding:
+        return anchor * (1 + sum(rates, Decimal("0")) / 100)
+    for r in rates:
+        anchor *= 1 + r / 100
+    return anchor
 
 
 def _rate(
@@ -65,7 +86,11 @@ def _rate(
     if override is not None:
         return override
     if esc.type == "fixed_pct":
-        return esc.rate_pct or Decimal("0")
+        if esc.rate_pct is None:
+            raise ValueError(
+                "Fixed escalation clause has no resolved rate; contract terms need review"
+            )
+        return esc.rate_pct
     if esc.type == "cpi":
         value = cpi.get(anniversary.year - 1)
         if value is None:
@@ -112,7 +137,12 @@ def expected_price(
 
     esc = terms.escalation
     steps: list[tuple[date, Decimal]] = []
-    if esc.type != "none" and esc.first_escalation_date:
+    if esc.type != "none" and esc.first_escalation_date is None:
+        raise ValueError(
+            "Escalation clause found but its first escalation date was not resolved; "
+            "contract terms need review"
+        )
+    if esc.type != "none":
         if esc.citation:
             cites["escalation"] = esc.citation
         k = 0
@@ -129,10 +159,7 @@ def expected_price(
                 steps.append((ann, _rate(esc, ann, cpi, override)))
             k += 1
 
-    exact = Decimal(anchor_price)
-    for _, r in steps:
-        exact *= 1 + r / 100
-    undiscounted = money(exact)
+    undiscounted = money(escalate(anchor_price, [r for _, r in steps], esc.compounding))
     final, disc_pct = undiscounted, None
     for disc in terms.approved_discounts:
         if disc.sku in (None, sku) and disc.start_date <= d <= disc.end_date:
@@ -149,4 +176,6 @@ def expected_price(
         steps,
         disc_pct,
         cites,
+        esc.compounding,
+        terms.currency,
     )

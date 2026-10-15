@@ -53,7 +53,8 @@
   "amendments": [],
   "approved_discounts": [],
   "field_confidence": {
-    "all": 1.0
+    "all": 1.0,
+    "escalation": 1.0
   },
   "source": "rule",
   "prompt_version": null

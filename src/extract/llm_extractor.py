@@ -20,7 +20,7 @@ from src.extract.document_loader import Page, full_text, load_document, verify_q
 from src.llm.client import LLMClient
 from src.schema import Amendment, ApprovedDiscount, Citation, ContractTerms, Escalation, SkuPrice
 
-PROMPT_PATH = Path(__file__).resolve().parents[2] / "prompts" / "extract_terms.v1.md"
+PROMPT_PATH = Path(__file__).resolve().parents[2] / "prompts" / "extract_terms.v2.md"
 PROMPT_VERSION = PROMPT_PATH.stem
 
 
@@ -44,6 +44,9 @@ class LLMEscalation(BaseModel):
     floor_pct: float | None = None
     cap_pct: float | None = None
     first_escalation_date: str | None = Field(default=None, description="YYYY-MM-DD")
+    compounding: bool | None = Field(
+        default=None, description="true compounding, false simple, null if not stated"
+    )
     derivation: str = Field(description="One sentence: how the rate and first date were determined")
     citation: LLMCitation | None = None
 
@@ -193,6 +196,7 @@ def extract(
         floor_pct=_dec(e.floor_pct),
         cap_pct=_dec(e.cap_pct),
         first_escalation_date=_date(e.first_escalation_date),
+        compounding=True if e.compounding is None else e.compounding,  # D-004 default
         citation=v.cite(
             e.citation, "escalation", _dec(e.rate_pct) if etype == "fixed_pct" else None
         ),

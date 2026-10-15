@@ -17,7 +17,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from src import evaluate, evaluate_extraction, generate_synthetic_data, pipeline
+from src import evaluate, evaluate_extraction, generate_synthetic_data, pipeline, results_report
 from src.extract import run_extraction
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -71,6 +71,7 @@ def main() -> int:
             "gate": evaluate.check(res) or "PASS",
         }
     print(json.dumps(results, indent=2))
+    print(f"== README results block -> {results_report.update_readme()}")
     if a.check:
         if "llm" not in results:
             print("Eval gate: AI path not run (no Gemini key) - nothing to gate.")
