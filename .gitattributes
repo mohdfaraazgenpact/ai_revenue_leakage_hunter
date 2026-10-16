@@ -1,0 +1,2 @@
+# Frozen baselines are checksummed: keep their bytes exactly as committed.
+baselines/** -text
