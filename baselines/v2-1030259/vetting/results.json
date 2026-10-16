@@ -1,0 +1,217 @@
+{
+  "FIN-01": {
+    "status": "Pass",
+    "actual": "status=MATCH; expected=1000.00; net billed=1000.00; under=0.00; over=0.00",
+    "notes": ""
+  },
+  "FIN-02": {
+    "status": "Pass",
+    "actual": "status=POTENTIAL_UNDERBILLING; expected=1000.00; actual=950.00; underbilling=50.00",
+    "notes": ""
+  },
+  "FIN-03": {
+    "status": "Pass",
+    "actual": "status=POTENTIAL_OVERBILLING; over=50.00; under=0.00; finding root_cause=OVERBILLING; portfolio underbilling=0; overbilling_findings=1",
+    "notes": "Overbilling is reported as a separate finding with a credit-note action and is excluded from the underbilling total and recoverable estimate."
+  },
+  "FIN-04": {
+    "status": "Pass",
+    "actual": "2024-12-31 -> 100.00; 2025-01-01 -> 105.00",
+    "notes": ""
+  },
+  "FIN-05": {
+    "status": "Pass",
+    "actual": "compounding=True -> 110.25; compounding=False -> 110.00 (expected 110.25 / 110.00). Escalation with no resolved first date -> raises (line goes to REVIEW): ValueError: Escalation clause found but its first escalation date was ",
+    "notes": "Fixed in v2: expected_price() honours Escalation.compounding (simple = anchor x (1 + sum of rates)). Rules extractor sets compounding=False for 'non-compounding'/'simple'/'of the original price' wording; Gemini schema has a compounding field (null -> D-004 default, compounding)."
+  },
+  "FIN-06": {
+    "status": "Pass",
+    "actual": "2025-06-30 -> 100.00; 2025-07-01 -> 105.00",
+    "notes": ""
+  },
+  "FIN-07": {
+    "status": "Pass",
+    "actual": "qty 0/1/10/100 -> expected ['0.00', '100.00', '1000.00', '10000.00']; statuses ['MATCH', 'MATCH', 'MATCH', 'MATCH']",
+    "notes": "Qty 0 is reconciled as an ordinary MATCH line; there is no documented zero-quantity policy (see EXT-04)."
+  },
+  "FIN-08": {
+    "status": "Pass",
+    "actual": "81.50 x 1.035 = 84.3525 -> 84.35; 10.125 -> 10.13 (half-up); 1,000 lines x 7 x 84.35 total = 590450.00 (exact Decimal, no float drift); all MATCH = True",
+    "notes": "Rule (D-004/D-008): compounding exact, unit price rounded half-up to cents once, then x qty. Per-step vs once rounding still open with Mentor 1 (B-003)."
+  },
+  "FIN-09": {
+    "status": "Pass",
+    "actual": "Contract USD, invoice EUR -> status=REVIEW (CURRENCY_MISMATCH: Invoice currency EUR differs from contract currency USD; no FX conversion policy is configured); portfolio underbilling 0",
+    "notes": "Fixed in v2: currency mismatches go to REVIEW until an auditable FX conversion policy exists."
+  },
+  "FIN-10": {
+    "status": "Pass",
+    "actual": "day before start -> REVIEW ('2023-12-31 is outside the contract term 2024-01-01..2027-12-31'); day after expiry -> REVIEW ('2028-01-01 is outside the contract term 2024-01-01..2027-12-31')",
+    "notes": ""
+  },
+  "FIN-11": {
+    "status": "Pass",
+    "actual": "Pipeline re-run on a copy of data/ with data/eval removed: line_results identical=True, findings identical=True, underbilling 499409.14 vs 499409.14. Detector modules referencing ground-truth files: none",
+    "notes": "Fixed in v2: no fallback to data/eval/gold. A detector run without extracted terms fails with a clear message; answer-key runs need --oracle and are labelled ORACLE in summary.json and the app."
+  },
+  "FIN-12": {
+    "status": "Pass",
+    "actual": "315 flagged lines (rules-baseline run). Missing invoice line/ID/date: 0. Missing price citation: 0. Escalated lines without escalation citation: 0. 565 quotes checked verbatim against the contract file: 0 not found. Base-price quotes not containing the SKU and price: 0. Sample: IL-00029/INV-2001-202503/2025-03-15 C-2001 MFG-1003 price cl.A.1 p3 esc cl.4.2; IL-00153/INV-2003-202410/2024-10-25 C-2003 LOG-3003 price cl.A.1 p3 esc cl.4.2; IL-00313/INV-2007-202501/2025-01-05 C-2007 MFG-1005 price cl.A.1 p3 esc cl.4.2; IL-00314/INV-2007-202501/2025-01-05 C-2007 MFG-1004 price cl.A.2 p3 esc cl.4.2; IL-00315/INV-2007-202501/2025-01-05 C-2007 MFG-1003 price cl.A.3 p3 esc cl.4.2",
+    "notes": "Automated check only. The checklist also asks a human to read 5 findings and confirm the clause supports the price - do this during UX-01."
+  },
+  "FIN-13": {
+    "status": "Pass",
+    "actual": "Synthetic: $50 + $30 + match + $20 overbilling -> underbilling total 80.00 (lines 80.00, findings 80.00), overbilling kept separate. Real run: line sum 499409.14 = findings sum 499409.14 = summary 499409.14",
+    "notes": ""
+  },
+  "FIN-14": {
+    "status": "Pass",
+    "actual": "Exact duplicate row -> statuses ['POTENTIAL_UNDERBILLING', 'DUPLICATE'], underbilling 50.00. Same business key, new ID -> ['', 'POSSIBLE_DUPLICATE'], underbilling 50.00. Same ID, different content -> ['DUPLICATE_ID_CONFLICT', 'DUPLICATE_ID_CONFLICT'].",
+    "notes": "Fixed in v2: exact copies are kept once (status DUPLICATE, excluded from totals); conflicting rows and possible duplicates go to REVIEW. Nothing is deleted; every case is in input_issues.csv."
+  },
+  "FIN-15": {
+    "status": "Pass",
+    "actual": "qty 10 x $95 but line amount $960 -> status=REVIEW (ARITHMETIC_MISMATCH: quantity 10 x unit price 95 = 950.00 but line amount is 960.00)",
+    "notes": "Fixed in v2: |qty x unit price - line amount| > $0.01 is an invoice-integrity REVIEW, kept separate from price findings, so the unit price and the $ amount can no longer disagree inside a finding."
+  },
+  "EXT-01": {
+    "status": "Pass",
+    "actual": "unknown contract -> status=REVIEW ('No extracted terms for contract'); findings=0",
+    "notes": ""
+  },
+  "EXT-02": {
+    "status": "Pass",
+    "actual": "invoiced_unit_price blank -> REVIEW (INVALID_INPUT) | invoiced_line_amount blank -> REVIEW (INVALID_INPUT) | invoice_date blank -> REVIEW (INVALID_INPUT) | quantity blank -> REVIEW (INVALID_INPUT) | currency blank -> REVIEW (INVALID_INPUT) | contract_id blank -> REVIEW (INVALID_INPUT)",
+    "notes": "Fixed in v2: every row is validated before arithmetic; bad rows go to REVIEW / INVALID_INPUT with the field, value, file and row number, and the other rows still reconcile."
+  },
+  "EXT-03": {
+    "status": "Pass",
+    "actual": "'2024-06-15' -> MATCH | '15/06/2024' -> REVIEW | '06/15/2024' -> REVIEW | '20240615' -> REVIEW | '' -> REVIEW | '2024-13-45' -> REVIEW",
+    "notes": "Policy (D-011): invoice dates must be ISO YYYY-MM-DD. Ambiguous formats (15/06 vs 06/15) are never guessed; they are quarantined per row instead of crashing the run."
+  },
+  "EXT-04": {
+    "status": "Pass",
+    "actual": "qty -5 @100 -> REVIEW (INVALID_INPUT) | price -100 -> REVIEW (INVALID_INPUT) | price 0 -> POTENTIAL_UNDERBILLING (-) | qty 0 -> MATCH (-)",
+    "notes": "Policy (D-012): negative quantities and prices are rejected (REVIEW / INVALID_INPUT); returns and credits must be booked as return_credit / credit_note adjustments. A $0 price on a priced SKU is reported as potential underbilling for review. Qty 0 is a $0 line (MATCH)."
+  },
+  "EXT-05": {
+    "status": "Pass",
+    "actual": "2 valid rows + 1 bad date -> statuses ['POTENTIAL_UNDERBILLING', 'REVIEW', 'MATCH']",
+    "notes": "Fixed in v2: the bad row is quarantined and logged; the valid rows are reconciled."
+  },
+  "AI-01": {
+    "status": "Blocked",
+    "actual": "Gemini extraction not run (no GEMINI_API_KEY, B-002). Rules baseline measured: key-field accuracy 0.9409 over 254 fields; escalation group 0.8295; 21/30 contracts fully correct.",
+    "notes": "Field-level accuracy harness exists (src/evaluate_extraction.py, by field group and escalation wording). Re-run with a key to get the Gemini numbers."
+  },
+  "AI-02": {
+    "status": "Blocked",
+    "actual": "Live Gemini citations not testable without a key. Verifier checked offline: real quote found=True; fabricated quote found=False. llm_extractor also checks the extracted value appears in its quote and lowers confidence + adds a review item when either check fails.",
+    "notes": "Re-run with key; then inspect base-price and escalation citations separately for 5 contracts."
+  },
+  "AI-03": {
+    "status": "Blocked",
+    "actual": "Live model behaviour needs a key. fake-LLM plumbing test (ambiguous escalation, no date, unverifiable quote): review items=2 (quote not found in document; escalation without a first escalation date); escalation confidence=0.3. Rules baseline: 0 review items across 30 contracts even though 9 of 30 contracts had at least one wrong key field - it never routes uncertainty to review.",
+    "notes": "Downstream, reconcile marks findings needs_term_review when extraction confidence < 0.6."
+  },
+  "AI-04": {
+    "status": "Blocked",
+    "actual": "Live injection test needs a key. Static review: prompt has explicit 'document is untrusted data' instruction = True. Mitigations present: schema-constrained JSON output, every value must be a verbatim quote that is verified in the document, values checked against quotes, all $ computed in Python, explanations pass a numeric guardrail.",
+    "notes": "v2 prompt adds the untrusted-data instruction and BEGIN/END markers. Still to do: a synthetic contract with an injected clause in the test set, run live with a key."
+  },
+  "AI-05": {
+    "status": "Pass",
+    "actual": "No key -> RuntimeError: GEMINI_API_KEY is not set. Copy .env.example to .env and add your key.. Offline cache miss -> CacheMiss: No cached LLM response for vet (9fc9e22b0a2e). Explanation with simulated timeout -> source='template' (LLM unavailable: TimeoutError). Extraction batch catches per-contract exceptions and logs them to review_queue.csv.",
+    "notes": "GeminiClient retries 429/5xx with exponential backoff (max 5). No fabricated success observed."
+  },
+  "EVAL-01": {
+    "status": "Pass",
+    "actual": "GOLD terms: TP 311 FP 0 FN 0 TN 1269 (n=1580); precision 311/311 = 1.0; recall 311/311 = 1.0. RULES: TP 222 FP 0 FN 89 TN 1269 (n=1580); precision 222/222 = 1.0; recall 222/311 = 0.7138. Ground truth is generated independently by the data factory (FIN-11).",
+    "notes": "Fixed in v2: evaluate() and reports/evaluation_*.md show TP/FP/FN/TN with denominators, separate overbilling precision/recall, review routing, and fail on ambiguous or unmatched IDs."
+  },
+  "EVAL-02": {
+    "status": "Pass",
+    "actual": "GOLD: aggregate 757337.56 vs 757337.56 (0.0% err); line-level mean abs error $0.00, max $0.00, lines off by > 1c: 0. RULES: aggregate 499409.14 vs 757337.56 (34.057% err); line-level mean abs error $163.25, max $5656.92, sum abs $257928.42, lines wrong: 95.",
+    "notes": "Fixed in v2: evaluate() reports line-level mean/max absolute error, lines off by > 1c, and flagged leakage lines with the wrong amount, alongside the aggregate."
+  },
+  "EVAL-03": {
+    "status": "Pass",
+    "actual": "Per-scenario table is in reports/evaluation_*.md. Recall by scenario (rules): amendment_not_applied: 30/30 found, 0 FP; control: 0/0 found, 0 FP; control_no_escalation: 0/0 found, 0 FP; currency_mismatch: 0/0 found, 0 FP; duplicate_billing: 0/0 found, 0 FP; invalid_input: 0/0 found, 0 FP; missed_escalation: 97/157 found, 0 FP; overbilling: 0/0 found, 0 FP; partial_escalation: 44/52 found, 0 FP; price_below_contract: 48/69 found, 0 FP; return_credit_control: 0/0 found, 0 FP; trap_approved_discount: 0/0 found, 0 FP; trap_billing_adjustment: 0/0 found, 0 FP; trap_credit_note: 0/0 found, 0 FP; unsupported_credit: 3/3 found, 0 FP",
+    "notes": "Per-scenario precision/recall are given as counts, not rates - acceptable."
+  },
+  "EVAL-04": {
+    "status": "Fail",
+    "actual": "No holdout set. data/blind/ does not exist; blind contracts in Mentor 1's own wording are still open (B-005). All metrics come from the same generator the rules were written against.",
+    "notes": "Required before the jury: 3-5 blind contracts + invoices, metrics reported separately."
+  },
+  "EVAL-05": {
+    "status": "Pass",
+    "actual": "Tolerance TOLERANCE=$0.01 (src/reconcile.py:24, strict >): $0.01 short -> MATCH; $0.02 short -> POTENTIAL_UNDERBILLING (0.02); $1 short -> POTENTIAL_UNDERBILLING. No business materiality filter - every finding > 1c is reported.",
+    "notes": "Explicit in code but not in docs/decisions.md, README or the UI. Recommend logging it as a decision and showing it in the app; agree a business materiality threshold for prioritisation with Mentor 1."
+  },
+  "SEC-01": {
+    "status": "Pass",
+    "actual": "Working-tree secret-pattern hits: none; git history hits: 0; .env tracked by git: False; .env in .gitignore: True; .env key currently empty; .env.example has empty key. LLM cache files store model/prompt/response only (no key).",
+    "notes": "When a real key is added, re-run this test; keep the key out of screenshots of the sidebar/terminal."
+  },
+  "SEC-02": {
+    "status": "Pass",
+    "actual": "All 30 customers, 30 contracts and invoice data are produced by src/generate_synthetic_data.py (seeded, fictitious names e.g. Northwind Fabrication Ltd, Bluepeak Systems Inc, Meridian Freightways Inc). Email addresses found in data/reports: 0. Generator uses a fixed seed: True.",
+    "notes": "Scope: project folder only. The parent folder also holds 'AI Revenue hunter.xlsx' - not inspected by this harness; confirm it holds no client data before sharing the folder."
+  },
+  "SEC-03": {
+    "status": "N/A",
+    "actual": "No file-upload feature: st.file_uploader present = False. Contracts are read from data/contracts only; document_loader rejects other extensions with a clear ValueError.",
+    "notes": "Out of scope for the MVP."
+  },
+  "SEC-04": {
+    "status": "Pass",
+    "actual": "highlight() output for script/img payload: Acme &lt;script&gt;alert(&#x27;x&#x27;)&lt;/script&gt; &lt;img src=x onerror=alert(1)&gt; <mark>Unit Price</mark>. 3 unsafe_allow_html uses: CSS block (static), evidence quote (html.escape) and contract text (html.escape inside highlight()). Customer/product fields are shown via st.dataframe/st.markdown without HTML enabled.",
+    "notes": "Streamlit markdown still renders Markdown syntax (links, bold) in st.markdown(f'...') strings - low risk with synthetic data."
+  },
+  "SEC-05": {
+    "status": "Pass",
+    "actual": "No email/ERP/API write paths found (network/send patterns in app+src: 0). The only external call is Gemini (read-only generation). 'Record decision' appends to local data/output/review_decisions.csv; the rebill note is a draft text box.",
+    "notes": "Human approval is required for every action by design."
+  },
+  "UX-01": {
+    "status": "Blocked",
+    "actual": "Needs a finance reviewer. Prepared: Findings tab shows expected vs billed unit price chart, invoice line IDs/dates, qty, expected and net billed amounts, delta, calculation formula, cited clause text with page, owner and action.",
+    "notes": "Gap: unflagged (MATCH) lines cannot be inspected in the app - the reviewer needs data/output/line_results.csv for the 5 unflagged lines."
+  },
+  "UX-02": {
+    "status": "Pass",
+    "actual": "Claim-style labels left in app/streamlit_app.py: none. Headline is 'Potential underbilling (unvalidated)'; recoverability is an 'Illustrative recoverable estimate' with its basis; the value calculator tab is '(simulated)'; oracle runs show a warning banner.",
+    "notes": "Needs a human look during UX-01/UX-04 to confirm the wording reads as intended."
+  },
+  "UX-03": {
+    "status": "Pass",
+    "actual": "download_button uses: 4; exports in the Findings tab: ['findings.csv', 'line_results.csv', 'input_issues.csv']. A review queue lists every line that was not reconciled, with issue type and source row.",
+    "notes": "Exports are the full run (not a filtered view); the run's terms source is shown on screen."
+  },
+  "UX-04": {
+    "status": "Blocked",
+    "actual": "Needs an unfamiliar user walkthrough.",
+    "notes": "Known friction: `tasks.ps1 app` stops at Streamlit's first-run email prompt (see OPS-01)."
+  },
+  "OPS-01": {
+    "status": "Pass",
+    "actual": "2026-10-15, commit 63785e9 (branch ai_revenue_leakage_hunter_v2): fresh git clone -> new venv -> pip install -r requirements.txt (381 s, Python 3.12.4) -> pytest 64/64 passed -> src.build_all completed -> Streamlit app served HTTP 200 headless with no first-run email prompt.",
+    "notes": "Manual run (not generated by run_vetting.py). Fixed since the last run: .streamlit/config.toml sets headless mode, so `tasks.ps1 app` no longer blocks on the email prompt. Still true: pip fails with WinError 206 when the project path is deeply nested (reproduced from a long temp path); the README now says to use a short path or enable Windows long paths."
+  },
+  "OPS-02": {
+    "status": "Pass",
+    "actual": "Pipeline run twice on the same data: identical outputs {'line_results.csv': True, 'findings.csv': True, 'findings.json': True}; summary fields that differ: ['runtime_seconds']. After regenerating data, git shows 0 changed files under data/, of which CSV: none.",
+    "notes": "v2 pins PDF creation dates and DOCX zip/core-property timestamps, so regenerating the same seed should leave contract files unchanged in git."
+  },
+  "OPS-03": {
+    "status": "Pass",
+    "actual": "Malformed row -> {'source_file': 'invoice_lines.csv', 'source_row': 2, 'record_id': 'BAD', 'issue_type': 'INVALID_INPUT', 'detail': \"invoice_date '31/12/2024' is not YYYY-MM-DD\"}",
+    "notes": "Fixed in v2: data/output/input_issues.csv records file, row number, record ID, issue type and detail for every quarantined invoice line or adjustment; the run completes. No secrets appear in errors."
+  },
+  "OPS-04": {
+    "status": "Pass",
+    "actual": "Engine (rules terms, no LLM) - 1,582 lines: 2.7s; 15,820 lines: 14.2s; 79,100 lines: 17.1s. Machine: 13th Gen Intel(R) Core(TM) i5-1345U, 16 GB RAM, Python 3.12.4, Windows-11-10.0.26200-SP0.",
+    "notes": "Threshold not yet agreed with mentors. Extraction: rules ~0.1s/contract; Gemini time not measured (no key)."
+  }
+}

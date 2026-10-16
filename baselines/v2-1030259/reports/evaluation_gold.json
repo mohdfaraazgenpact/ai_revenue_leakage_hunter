@@ -1,0 +1,183 @@
+{
+  "lines": 1580,
+  "tp": 311,
+  "fp": 0,
+  "fn": 0,
+  "tn": 1269,
+  "line_precision": 1.0,
+  "line_recall": 1.0,
+  "detected_usd": "757337.56",
+  "seeded_usd": "757337.56",
+  "dollar_error_pct": 0.0,
+  "line_abs_error_mean_usd": "0.00",
+  "line_abs_error_max_usd": "0.00",
+  "lines_with_amount_error": 0,
+  "flagged_leakage_lines_with_wrong_amount": 0,
+  "trap_false_positive_lines": 0,
+  "review_lines": 5,
+  "review_lines_on_seeded_leakage": 0,
+  "review_by_issue": {
+    "CURRENCY_MISMATCH": 1,
+    "INVALID_INPUT": 2,
+    "POSSIBLE_DUPLICATE": 2
+  },
+  "expected_review_lines": 5,
+  "expected_review_routed": 5,
+  "outcome_accuracy": 1.0,
+  "overbilling_tp": 4,
+  "overbilling_fp": 0,
+  "overbilling_fn": 0,
+  "overbilling_precision": 1.0,
+  "overbilling_recall": 1.0,
+  "overbilling_detected_usd": "1649.16",
+  "overbilling_seeded_usd": "1649.16",
+  "false_overbilling_usd": "0.00",
+  "exact_duplicate_rows_excluded": 2,
+  "unmatched_truth_lines": 0,
+  "unmatched_prediction_lines": 0,
+  "unmatched_records": 0,
+  "contract_precision": 1.0,
+  "contract_recall": 1.0,
+  "root_cause_accuracy": 1.0,
+  "findings": 23,
+  "per_scenario": [
+    {
+      "scenario": "amendment_not_applied",
+      "lines": 134,
+      "seeded_lines": 30,
+      "flagged_lines": 30,
+      "review_lines": 0,
+      "seeded_usd": 104413.59,
+      "detected_usd": 104413.59
+    },
+    {
+      "scenario": "control",
+      "lines": 432,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "review_lines": 0,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "control_no_escalation",
+      "lines": 190,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "review_lines": 0,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "currency_mismatch",
+      "lines": 1,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "review_lines": 1,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "duplicate_billing",
+      "lines": 2,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "review_lines": 2,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "invalid_input",
+      "lines": 2,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "review_lines": 2,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "missed_escalation",
+      "lines": 240,
+      "seeded_lines": 157,
+      "flagged_lines": 157,
+      "review_lines": 0,
+      "seeded_usd": 278456.42,
+      "detected_usd": 278456.42
+    },
+    {
+      "scenario": "overbilling",
+      "lines": 72,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "review_lines": 0,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "partial_escalation",
+      "lines": 120,
+      "seeded_lines": 52,
+      "flagged_lines": 52,
+      "review_lines": 0,
+      "seeded_usd": 80129.62,
+      "detected_usd": 80129.62
+    },
+    {
+      "scenario": "price_below_contract",
+      "lines": 141,
+      "seeded_lines": 69,
+      "flagged_lines": 69,
+      "review_lines": 0,
+      "seeded_usd": 283689.88,
+      "detected_usd": 283689.88
+    },
+    {
+      "scenario": "return_credit_control",
+      "lines": 3,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "review_lines": 0,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "trap_approved_discount",
+      "lines": 141,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "review_lines": 0,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "trap_billing_adjustment",
+      "lines": 96,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "review_lines": 0,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "trap_credit_note",
+      "lines": 3,
+      "seeded_lines": 0,
+      "flagged_lines": 0,
+      "review_lines": 0,
+      "seeded_usd": 0.0,
+      "detected_usd": 0.0
+    },
+    {
+      "scenario": "unsupported_credit",
+      "lines": 3,
+      "seeded_lines": 3,
+      "flagged_lines": 3,
+      "review_lines": 0,
+      "seeded_usd": 10648.05,
+      "detected_usd": 10648.05
+    }
+  ],
+  "label": "gold",
+  "terms_source": "C:\\Users\\703227747\\.claude\\projects\\AI Revenue Hunter\\ai_revenue_leakage_hunter_poc\\data\\eval\\gold",
+  "gate_failures": []
+}
