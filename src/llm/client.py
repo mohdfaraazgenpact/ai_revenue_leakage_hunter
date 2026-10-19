@@ -366,8 +366,11 @@ def get_client(cache_mode: str | None = None) -> LLMClient:
     model = configured_model(provider)
     if mode == "readonly":
         # Offline demo: serve purely from cache; no key or CLI needed. The model name must
-        # match the one that filled the cache, because it is part of the cache key.
-        return _OfflineClient(model=model, cache_mode="readonly")
+        # match the one that filled the cache, because it is part of the cache key. The cached
+        # responses came from the configured provider, so the client reports that provider.
+        offline = _OfflineClient(model=model, cache_mode="readonly")
+        offline.provider = provider
+        return offline
     if provider == "claude_code":
         return ClaudeCodeClient(model=model, cache_mode=mode)
     key = os.getenv("GEMINI_API_KEY", "").strip()

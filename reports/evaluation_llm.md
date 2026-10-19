@@ -1,6 +1,6 @@
 # Detection Evaluation - llm
 
-_Generated 2026-10-19 12:02. Terms source: `C:\Users\703227747\.claude\projects\AI Revenue Hunter\ai_revenue_leakage_hunter_poc\data\extracted\llm`. Synthetic data only._
+_Generated 2026-10-19 13:00. Terms source: `C:\Users\703227747\.claude\projects\AI Revenue Hunter\ai_revenue_leakage_hunter_poc\data\extracted\llm`. Synthetic data only._
 
 **Gate: PASS**
 

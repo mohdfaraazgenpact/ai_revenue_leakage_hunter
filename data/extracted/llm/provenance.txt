@@ -1,9 +1,9 @@
 {
   "extractor": "llm",
-  "created_utc": "2026-10-19T06:32:33+00:00",
+  "created_utc": "2026-10-19T07:30:51+00:00",
   "contracts_ok": 30,
   "contracts_failed": 0,
-  "provider": "offline",
+  "provider": "claude_code",
   "model": "claude-sonnet-5-5",
   "prompt_version": "extract_terms.v2",
   "cache_mode": "readonly"

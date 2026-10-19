@@ -152,7 +152,9 @@ def test_get_client_selects_claude_code(monkeypatch, tmp_path):
     monkeypatch.setenv("CLAUDE_CODE_CLI", str(fake_cli))
     llm = get_client(cache_mode="off")
     assert isinstance(llm, ClaudeCodeClient) and llm.model == "claude-test"
-    assert get_client(cache_mode="readonly").model == "claude-test"  # same cache keys offline
+    offline = get_client(cache_mode="readonly")
+    assert offline.model == "claude-test"  # same cache keys offline
+    assert offline.provider == "claude_code"  # replays are labelled with the real provider
 
 
 def test_get_client_claude_code_without_cli_raises(monkeypatch, tmp_path):
