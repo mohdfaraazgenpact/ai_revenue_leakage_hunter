@@ -1,4 +1,4 @@
-"""Gemini contract-term extraction with verified citations and a review queue.
+"""LLM contract-term extraction (Claude via Claude Code, or Gemini) with verified citations and a review queue.
 
 The LLM returns values plus verbatim quotes. Code then:
   1. validates types/dates via the canonical schema,
@@ -24,7 +24,7 @@ PROMPT_PATH = Path(__file__).resolve().parents[2] / "prompts" / "extract_terms.v
 PROMPT_VERSION = PROMPT_PATH.stem
 
 
-# ---- LLM-facing schema (simple types that Gemini structured output supports) ----
+# ---- LLM-facing schema (simple types every provider's structured output supports) ----
 class LLMCitation(BaseModel):
     clause_id: str
     page: int

@@ -1,0 +1,69 @@
+{
+  "contract_id": "C-2018",
+  "customer_name": "Northstar Intermodal LLC",
+  "customer_id": null,
+  "currency": "USD",
+  "effective_date": "2023-08-01",
+  "end_date": "2026-07-31",
+  "prices": [
+    {
+      "sku": "LOG-3002",
+      "description": "Pallet storage per pallet-month",
+      "unit_price": "38.50",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "LOG-3002 - Pallet storage per pallet-month: USD 38.50 per unit.",
+        "verified": true
+      }
+    },
+    {
+      "sku": "LOG-3003",
+      "description": "Last-mile parcel delivery",
+      "unit_price": "13.00",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 3,
+        "quote": "LOG-3003 - Last-mile parcel delivery: USD 13.00 per unit.",
+        "verified": true
+      }
+    },
+    {
+      "sku": "LOG-3001",
+      "description": "Full truckload lane per load",
+      "unit_price": "1799.00",
+      "citation": {
+        "clause_id": "A.3",
+        "page": 3,
+        "quote": "LOG-3001 - Full truckload lane per load: USD 1,799.00 per unit.",
+        "verified": true
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "2",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2024-08-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "The parties agree to an annual price uplift of 2% which shall take effect on 1 August 2024 and annually thereafter.",
+      "verified": true
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [],
+  "field_confidence": {
+    "customer_and_dates": 0.98,
+    "prices": 0.98,
+    "escalation": 0.9,
+    "amendments": 0.95,
+    "discounts": 0.95
+  },
+  "source": "llm",
+  "prompt_version": "extract_terms.v2"
+}

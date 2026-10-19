@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:24:23.916459+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6141,
+    "session_id": "7da37e94-ddc6-458c-a73e-c48304c3e703"
+  },
+  "response": "{\"headline\": \"Potential underbilling on Northstar LOG-3001: billed price below contract\", \"narrative\": \"Northstar Intermodal LLC (contract C-2018) shows potential underbilling on SKU LOG-3001, where the billed Unit Price is below the contracted price. Clause A.3 sets the base price at USD 1,799.00 per unit, and clause 4.2 provides a 2% annual uplift from 1 August 2024 and annually thereafter. This gives a latest expected unit price of USD 1,871.68, against a latest billed unit price of USD 1,815.53. The finding covers 24 invoice lines from 2024-01-25 to 2025-12-25, totalling USD 95,968.20, of which an estimated USD 78,597.96 may be recoverable.\", \"rebill_note_subject\": \"INTERNAL review: F-002 potential underbilling, Northstar Intermodal LLC (C-2018, LOG-3001)\", \"rebill_note_body\": \"Finding F-002 - internal review only; not for the customer.\\n\\nCustomer: Northstar Intermodal LLC. Contract: C-2018. SKU: LOG-3001.\\n\\nIssue: Potential underbilling. The billed Unit Price is below the contracted price on 24 invoice lines (2024-01-25 to 2025-12-25).\\n\\nContract basis:\\n- Clause A.3 (page 3): USD 1,799.00 per unit.\\n- Clause 4.2 (page 1): 2% annual uplift from 1 August 2024 and annually thereafter.\\n- Calculation: USD 1,799.00 x (1 + 2%) [2024-08-01] x (1 + 2%) [2025-08-01] = USD 1,871.68.\\n\\nLatest billed unit price: USD 1,815.53.\\nAmount identified: USD 95,968.20. Estimated recoverable: USD 78,597.96.\\n\\nRequested actions (owner: Billing Operations & Sales Operations):\\n1. Correct the Unit Price in the price master.\\n2. Confirm with the account owner that no undocumented concession exists.\\n3. Only then prepare a rebill for human approval.\"}"
+}

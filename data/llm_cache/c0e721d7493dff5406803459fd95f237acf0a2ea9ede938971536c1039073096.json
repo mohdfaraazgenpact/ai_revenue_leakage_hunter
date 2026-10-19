@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:25:47.125584+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5936,
+    "session_id": "0c767bbd-f769-4149-be64-4f1ba240eb5a"
+  },
+  "response": "{\"headline\": \"Potential underbilling: missed price escalation on Silverline Pumps servo motors\", \"narrative\": \"Contract C-2028 sets the price of MFG-1005 (Servo motor unit) at USD 593.00 per unit (Clause A.1). Clause 4.2 requires Schedule A Unit Prices to rise by 2.5%, compounding, on each anniversary of the Effective Date. That escalation was never applied in billing, so 20 invoice lines from 2024-05-15 to 2025-12-15 show a potential underbilling of USD 22,246.10. The latest expected unit price is USD 623.02 against USD 593.00 billed, and the estimated recoverable amount is USD 19,954.75.\", \"rebill_note_subject\": \"F-012 \\u2013 Silverline Pumps Ltd (C-2028) \\u2013 potential underbilling, MFG-1005 escalation not applied\", \"rebill_note_body\": \"INTERNAL \\u2013 for review and approval. Not for customer distribution.\\n\\nFinding F-012: Silverline Pumps Ltd, contract C-2028, SKU MFG-1005.\\n\\nIssue: The contractual annual price escalation was never applied in billing. Clause A.1 sets the base price at USD 593.00 per unit. Clause 4.2 requires a 2.5% compounding increase on each anniversary of the Effective Date.\\n\\nCalculation: USD 593.00 x (1 + 2.5%) [2024-05-01] x (1 + 2.5%) [2025-05-01] = USD 623.02 (latest expected). Latest billed: USD 593.00.\\n\\nImpact: 20 invoice lines, 2024-05-15 to 2025-12-15. Potential underbilling is USD 22,246.10. Estimated recoverable amount is USD 19,954.75.\\n\\nRecommended action (owner: Pricing & Billing Master Data): Load the escalated Unit Price into the billing price master from 2024-05-15. Prepare a supplementary invoice for the under-billed lines for approval.\\n\\nNo invoice is to be issued until the billing manager and finance controller approve.\"}"
+}

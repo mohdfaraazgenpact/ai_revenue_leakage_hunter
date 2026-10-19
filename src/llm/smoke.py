@@ -1,7 +1,7 @@
-"""Day 1 smoke test: one schema-constrained Gemini call.
+"""Day 1 smoke test: one schema-constrained call to the configured LLM (LLM_PROVIDER).
 
 python -m src.llm.smoke                # extract terms from a sample clause
-python -m src.llm.smoke --list-models  # show models available to your key
+python -m src.llm.smoke --list-models  # Gemini only: show models available to your key
 """
 
 from __future__ import annotations
@@ -13,9 +13,11 @@ from pydantic import BaseModel
 
 from src.llm.client import GeminiClient, get_client
 
+# v2: the v1 sample put "(1 March 2025)" right after "the Effective Date", so the first
+# escalation could be read as 2025-03-01 or 2026-03-01. This wording has one reading.
 SAMPLE = (
-    "7.2 Price Adjustment. Commencing on the first anniversary of the Effective Date "
-    "(1 March 2025) and on each anniversary thereafter, the Unit Prices set out in "
+    "7.2 Price Adjustment. Commencing on 1 March 2025, being the first anniversary of the "
+    "Effective Date, and on each anniversary thereafter, the Unit Prices set out in "
     "Schedule A shall increase by three and one-half percent (3.5%)."
 )
 
@@ -37,9 +39,9 @@ def main() -> int:
         "Extract the price escalation from this contract clause. Dates as YYYY-MM-DD. "
         "quote must be copied verbatim from the clause.\n\n" + SAMPLE
     )
-    data = llm.generate_json(prompt, schema=SmokeEscalation, prompt_version="smoke.v1")
+    data = llm.generate_json(prompt, schema=SmokeEscalation, prompt_version="smoke.v2")
     parsed = SmokeEscalation.model_validate(data)
-    print(f"Model: {llm.model}")
+    print(f"Provider: {llm.provider}  Model: {llm.model}")
     print(parsed.model_dump_json(indent=2))
     ok = (
         Decimal(str(parsed.rate_pct)) == Decimal("3.5")

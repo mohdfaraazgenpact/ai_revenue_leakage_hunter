@@ -18,13 +18,14 @@
 - A working synthetic-data prototype.
 - A money engine that matches the answer key exactly when the contract terms are right.
 - A rules baseline measured on the same documents.
-- 64 automated tests and a 43-case vetting checklist.
+- 100 automated tests and a 43-case vetting checklist.
+- On the development set, Claude reads every key contract field correctly, where the rules baseline reads 94.1%, so the engine finds all seeded leakage with no false overbilling. Every quote it cites is verified in the document.
 
 Figures: README "Current results", which is generated from the run.
 
 **What is not proven yet.**
-- Whether Gemini beats the rules baseline. The integration is built but not benchmarked, because there is no API key or policy sign-off yet.
-- Performance on contracts the system has never seen. The blind holdout is not built yet.
+- Performance on contracts the system has never seen. The development-set AI result comes from the same generator as the test documents; the blind holdout (B-005) is not built yet.
+- Behaviour on deliberately ambiguous or manipulated contract text (AI-03, AI-04).
 - Real-world recovery. The recoverability figure and the value calculator are illustrative.
 
 **What comes next.**

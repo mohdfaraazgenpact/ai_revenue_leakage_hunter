@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:27:14.466905+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 7604,
+    "session_id": "8d267ac2-5c76-417b-83c6-1842e6e7be9e"
+  },
+  "response": "{\"headline\": \"Unapproved credit notes cause potential underbilling on Redfield Castings MFG-1001\", \"narrative\": \"For Redfield Castings LLC (contract C-2010, SKU MFG-1001), the unit price was billed correctly at USD 116.00, matching the contract price in Clause A.2 (USD 116.00 per unit). However, credit notes without a matching approval reduced the net amount below the contract value on 2 invoice lines between 2024-03-20 and 2024-07-20. This is a potential underbilling of USD 9,048.00, of which an estimated USD 5,428.80 may be recoverable. The annual price increase in Clause 4.2 does not explain the gap, because the latest billed and expected unit prices are both USD 116.00.\", \"rebill_note_subject\": \"F-022 Internal review: unsupported credits, Redfield Castings LLC (C-2010)\", \"rebill_note_body\": \"Internal note, not for customer distribution. Human approval is required before any action.\\n\\nFinding F-022: Customer Redfield Castings LLC, contract C-2010, SKU MFG-1001. Period 2024-03-20 to 2024-07-20, 2 invoice lines affected.\\n\\nIssue: The unit price was billed at USD 116.00, in line with Clause A.2 (USD 116.00 per unit). Credit notes with no matching approval reduced the net amount below the contract value. Clause 4.2 (annual escalation) was reviewed, and the latest expected and billed unit prices are both USD 116.00.\\n\\nPotential underbilling: USD 9,048.00. Estimated recoverable: USD 5,428.80.\\n\\nRequested action (Billing Operations & Credit Control): Match the credit note(s) on these lines to an approved credit request. If no approval exists, reverse the credit or document the approval before closing. Please confirm the outcome to the billing manager and finance controller.\"}"
+}

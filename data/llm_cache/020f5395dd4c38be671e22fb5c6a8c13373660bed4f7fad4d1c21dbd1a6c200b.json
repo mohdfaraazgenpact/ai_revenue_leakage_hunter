@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:23:56.703900+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6690,
+    "session_id": "eaf607b6-c923-479f-b54a-de8ca68db981"
+  },
+  "response": "{\"customer_name\": \"Evergreen Cargo Systems Ltd\", \"effective_date\": \"2023-12-15\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means December 15, 2023.\"}, \"end_date\": \"2026-12-14\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until December 14, 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"LOG-3002\", \"description\": \"Pallet storage per pallet-month\", \"unit_price\": 33.25, \"citation\": {\"clause_id\": \"A.1\", \"page\": 3, \"quote\": \"LOG-3002 - Pallet storage per pallet-month: USD 33.25 per unit.\"}}, {\"sku\": \"LOG-3005\", \"description\": \"Cross-dock handling per pallet\", \"unit_price\": 20.25, \"citation\": {\"clause_id\": \"A.2\", \"page\": 3, \"quote\": \"LOG-3005 - Cross-dock handling per pallet: USD 20.25 per unit.\"}}, {\"sku\": \"LOG-3003\", \"description\": \"Last-mile parcel delivery\", \"unit_price\": 12.25, \"citation\": {\"clause_id\": \"A.3\", \"page\": 3, \"quote\": \"LOG-3003 - Last-mile parcel delivery: USD 12.25 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 3.5, \"first_escalation_date\": \"2024-12-15\", \"compounding\": true, \"cap_pct\": null, \"floor_pct\": null, \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"Commencing on the first anniversary of the Effective Date and on each anniversary thereafter, all Unit Prices in Schedule A shall be adjusted upward by three and one-half percent (3.5%), compounding.\"}, \"derivation\": \"Rate stated in words and figures as 3.5% compounding in clause 4.2; first escalation is the first anniversary of the Effective Date (2023-12-15), i.e. 2024-12-15.\"}, \"amendments\": [], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.98, \"escalation\": 0.97, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}

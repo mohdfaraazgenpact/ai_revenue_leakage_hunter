@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:21:32.032979+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6247,
+    "session_id": "180f2196-9a6c-40c5-a73e-21884f097c73"
+  },
+  "response": "{\"customer_name\": \"Summit Gearworks Ltd\", \"effective_date\": \"2023-03-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means 1 March 2023.\"}, \"end_date\": \"2026-02-28\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until 28 February 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"MFG-1002\", \"description\": \"Hydraulic valve block\", \"unit_price\": 277, \"citation\": {\"clause_id\": \"A.1\", \"page\": 1, \"quote\": \"MFG-1002 - Hydraulic valve block: USD 277.00 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 4, \"first_escalation_date\": \"2024-03-01\", \"compounding\": null, \"cap_pct\": null, \"floor_pct\": null, \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"Following the end of the first Contract Year, the Unit Prices shall increase at the start of each subsequent Contract Year by four percent.\"}, \"derivation\": \"Rate of four percent stated in clause 4.2; first increase at start of the second Contract Year, i.e. first anniversary of the Effective Date (1 March 2023), so 2024-03-01; contract does not state whether compounding.\"}, \"amendments\": [], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.98, \"escalation\": 0.85, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}

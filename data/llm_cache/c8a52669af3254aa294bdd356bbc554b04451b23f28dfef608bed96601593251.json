@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:18:13.231028+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6107,
+    "session_id": "50822309-1acd-4f9b-8d50-8424067f5d3e"
+  },
+  "response": "{\"customer_name\": \"Northwind Fabrication Ltd\", \"effective_date\": \"2024-01-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means 1 January 2024.\"}, \"end_date\": \"2026-12-31\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until 31 December 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"MFG-1003\", \"description\": \"Machined steel housing\", \"unit_price\": 81.5, \"citation\": {\"clause_id\": \"A.1\", \"page\": 3, \"quote\": \"MFG-1003 - Machined steel housing: USD 81.50 per unit.\"}}, {\"sku\": \"MFG-1002\", \"description\": \"Hydraulic valve block\", \"unit_price\": 260.75, \"citation\": {\"clause_id\": \"A.2\", \"page\": 3, \"quote\": \"MFG-1002 - Hydraulic valve block: USD 260.75 per unit.\"}}], \"escalation\": {\"type\": \"cpi\", \"rate_pct\": null, \"floor_pct\": 1.5, \"cap_pct\": 4, \"compounding\": null, \"first_escalation_date\": \"2025-01-01\", \"derivation\": \"Clause 4.2 states escalation commences 1 January 2025 and annually thereafter, indexed to CPI-U with a 1.5% minimum and 4% maximum; no fixed rate is stated and the contract does not say whether increases compound.\", \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"Commencing 1 January 2025 and annually thereafter, Unit Prices shall be revised in line with the annual CPI-U inflation rate published for the prior calendar year, subject to a minimum increase of one and one-half percent (1.5%) and a maximum increase of four percent (4%).\"}}, \"amendments\": [{\"amendment_id\": \"AM1\", \"effective_date\": \"2025-02-01\", \"sku\": \"MFG-1002\", \"new_unit_price\": 295.5, \"new_escalation_rate_pct\": null, \"citation\": {\"clause_id\": \"AM1.1\", \"page\": 4, \"quote\": \"With effect from 1 February 2025, the Unit Price for MFG-1002 (Hydraulic valve block) in Schedule A shall be USD 295.50 per unit.\"}}], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.97, \"escalation\": 0.85, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}

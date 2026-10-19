@@ -1,10 +1,11 @@
-"""Daily build: generate -> extract (rule + Gemini) -> evaluate extraction -> pipeline -> evaluate -> gate.
+"""Daily build: generate -> extract (rule + AI) -> evaluate extraction -> pipeline -> evaluate -> gate.
 
     python -m src.build_all                  # full build
     python -m src.build_all --skip-generate  # keep current synthetic data
     python -m src.build_all --check          # exit 1 if the AI path misses the acceptance thresholds
 
-Gemini extraction runs when GEMINI_API_KEY is set, or from cache when LLM_CACHE_MODE=readonly.
+AI extraction runs when the configured LLM_PROVIDER is available (Claude Code CLI found, or
+GEMINI_API_KEY set), or from cache when LLM_CACHE_MODE=readonly.
 """
 
 from __future__ import annotations
@@ -19,6 +20,7 @@ from dotenv import load_dotenv
 
 from src import evaluate, evaluate_extraction, generate_synthetic_data, pipeline, results_report
 from src.extract import run_extraction
+from src.llm.client import describe_llm, llm_available
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -26,7 +28,7 @@ DATA = ROOT / "data"
 
 def _llm_possible() -> bool:
     load_dotenv(ROOT / ".env")
-    if os.getenv("GEMINI_API_KEY", "").strip():
+    if llm_available():
         return True
     cache = DATA / "llm_cache"
     return (
@@ -47,11 +49,11 @@ def main() -> int:
     print(run_extraction.run("rule"))
     sources = ["gold", "rule"]
     if _llm_possible():
-        print("== extract: Gemini")
+        print(f"== extract: {describe_llm()}")
         print(run_extraction.run("llm"))
         sources.append("llm")
     else:
-        print("== extract: Gemini SKIPPED (no GEMINI_API_KEY in .env)")
+        print(f"== extract: AI SKIPPED ({describe_llm()} not available - see .env)")
     print("== evaluate extraction")
     evaluate_extraction.main()
 
@@ -74,7 +76,7 @@ def main() -> int:
     print(f"== README results block -> {results_report.update_readme()}")
     if a.check:
         if "llm" not in results:
-            print("Eval gate: AI path not run (no Gemini key) - nothing to gate.")
+            print("Eval gate: AI path not run - nothing to gate.")
             return 0
         if results["llm"]["gate"] != "PASS":
             print(f"EVAL GATE FAILED (llm): {results['llm']['gate']}")

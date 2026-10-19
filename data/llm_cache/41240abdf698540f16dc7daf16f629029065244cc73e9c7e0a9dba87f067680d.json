@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:27:38.717735+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 13341,
+    "session_id": "c0bd7c7c-7452-4977-a430-e4e47c797019"
+  },
+  "response": "{\"headline\": \"Harborview Plastics: potential overbilling on MFG-1002 under contract C-2013\", \"narrative\": \"Harborview Plastics Inc was billed a Unit Price above the contracted price on SKU MFG-1002 across 4 invoice lines, covering 2024-02-05 to 2025-12-05. Clause A.1 sets the base price at USD 240.00 per unit, and clause 4.2 increases Unit Prices by 2.5% on 15 April 2024 and on each anniversary thereafter. Applying those terms gives a latest expected unit price of USD 252.15, but the latest billed unit price was USD 257.19. The affected amount is USD 1,649.16, with an estimated recoverable amount of USD 1,504.03, so this is a potential overbilling that Billing Operations should verify.\", \"rebill_note_subject\": \"F-024 \\u2013 Harborview Plastics Inc (C-2013, MFG-1002): potential overbilling, credit note review\", \"rebill_note_body\": \"Internal review note \\u2013 not for customer distribution.\\n\\nFinding F-024: potential overbilling on SKU MFG-1002, contract C-2013, customer Harborview Plastics Inc.\\n\\nFacts: 4 invoice lines, period 2024-02-05 to 2025-12-05, affected amount USD 1,649.16, estimated recoverable USD 1,504.03. The latest billed unit price was USD 257.19 against an expected USD 252.15.\\n\\nContract basis: Clause A.1 (page 3) sets MFG-1002 at USD 240.00 per unit. Clause 4.2 (page 1) applies a 2.5% increase on 15 April 2024 and each anniversary. Calculation: USD 240.00 (base price) x (1 + 2.5%) [2024-04-15] x (1 + 2.5%) [2025-04-15] = USD 252.15.\\n\\nRequested action (Owner: Billing Operations): verify the four invoice lines against clauses A.1 and 4.2, and if confirmed, prepare a credit note for the over-billed amount for approval. No action is to be taken until a human approver signs off.\"}"
+}

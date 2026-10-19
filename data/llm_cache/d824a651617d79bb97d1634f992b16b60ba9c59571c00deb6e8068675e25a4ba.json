@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:22:13.784758+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5543,
+    "session_id": "45f15379-cec4-4d7e-bc03-36af02aaf1b4"
+  },
+  "response": "{\"customer_name\": \"Helix Arc Robotics LLC\", \"effective_date\": \"2024-01-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means 1 January 2024.\"}, \"end_date\": \"2026-12-31\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until 31 December 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"HTC-2003\", \"description\": \"Software subscription per seat\", \"unit_price\": 201.25, \"citation\": {\"clause_id\": \"A.1\", \"page\": 1, \"quote\": \"HTC-2003 - Software subscription per seat: USD 201.25 per unit.\"}}, {\"sku\": \"HTC-2002\", \"description\": \"Network switch 48-port\", \"unit_price\": 2788, \"citation\": {\"clause_id\": \"A.2\", \"page\": 1, \"quote\": \"HTC-2002 - Network switch 48-port: USD 2,788.00 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 3, \"first_escalation_date\": \"2025-01-01\", \"compounding\": null, \"cap_pct\": null, \"floor_pct\": null, \"derivation\": \"Clause 4.2 explicitly states a 3% increase on 1 January 2025 and each anniversary thereafter; the contract does not say whether increases compound.\", \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"On 1 January 2025 and on each anniversary of that date thereafter, the Unit Prices shall increase by 3%.\"}}, \"amendments\": [], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.98, \"escalation\": 0.9, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}

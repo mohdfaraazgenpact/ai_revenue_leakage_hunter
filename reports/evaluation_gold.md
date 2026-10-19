@@ -1,6 +1,6 @@
 # Detection Evaluation - gold
 
-_Generated 2026-10-15 15:16. Terms source: `C:\Users\703227747\.claude\projects\AI Revenue Hunter\ai_revenue_leakage_hunter_poc\data\eval\gold`. Synthetic data only._
+_Generated 2026-10-19 12:02. Terms source: `C:\Users\703227747\.claude\projects\AI Revenue Hunter\ai_revenue_leakage_hunter_poc\data\eval\gold`. Synthetic data only._
 
 **Gate: PASS**
 

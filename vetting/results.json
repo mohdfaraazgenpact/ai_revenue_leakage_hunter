@@ -56,12 +56,12 @@
   },
   "FIN-12": {
     "status": "Pass",
-    "actual": "315 flagged lines (rules-baseline run). Missing invoice line/ID/date: 0. Missing price citation: 0. Escalated lines without escalation citation: 0. 565 quotes checked verbatim against the contract file: 0 not found. Base-price quotes not containing the SKU and price: 0. Sample: IL-00029/INV-2001-202503/2025-03-15 C-2001 MFG-1003 price cl.A.1 p3 esc cl.4.2; IL-00153/INV-2003-202410/2024-10-25 C-2003 LOG-3003 price cl.A.1 p3 esc cl.4.2; IL-00313/INV-2007-202501/2025-01-05 C-2007 MFG-1005 price cl.A.1 p3 esc cl.4.2; IL-00314/INV-2007-202501/2025-01-05 C-2007 MFG-1004 price cl.A.2 p3 esc cl.4.2; IL-00315/INV-2007-202501/2025-01-05 C-2007 MFG-1003 price cl.A.3 p3 esc cl.4.2",
+    "actual": "315 flagged lines (rules-baseline run). Missing invoice line/ID/date: 0. Missing price citation: 0. Escalated lines without escalation citation: 0. 660 quotes checked verbatim against the contract file: 0 not found. Base-price quotes not containing the SKU and price: 0. Sample: IL-00029/INV-2001-202503/2025-03-15 C-2001 MFG-1003 price cl.A.1 p3 esc cl.4.2; IL-00153/INV-2003-202410/2024-10-25 C-2003 LOG-3003 price cl.A.1 p3 esc cl.4.2; IL-00269/INV-2006-202505/2025-05-25 C-2006 LOG-3001 price cl.A.1 p3 esc cl.4.2; IL-00313/INV-2007-202501/2025-01-05 C-2007 MFG-1005 price cl.A.1 p3 esc cl.4.2; IL-00314/INV-2007-202501/2025-01-05 C-2007 MFG-1004 price cl.A.2 p3 esc cl.4.2",
     "notes": "Automated check only. The checklist also asks a human to read 5 findings and confirm the clause supports the price - do this during UX-01."
   },
   "FIN-13": {
     "status": "Pass",
-    "actual": "Synthetic: $50 + $30 + match + $20 overbilling -> underbilling total 80.00 (lines 80.00, findings 80.00), overbilling kept separate. Real run: line sum 499409.14 = findings sum 499409.14 = summary 499409.14",
+    "actual": "Synthetic: $50 + $30 + match + $20 overbilling -> underbilling total 80.00 (lines 80.00, findings 80.00), overbilling kept separate. Real run: line sum 757337.56 = findings sum 757337.56 = summary 757337.56",
     "notes": ""
   },
   "FIN-14": {
@@ -100,29 +100,29 @@
     "notes": "Fixed in v2: the bad row is quarantined and logged; the valid rows are reconciled."
   },
   "AI-01": {
-    "status": "Blocked",
-    "actual": "Gemini extraction not run (no GEMINI_API_KEY, B-002). Rules baseline measured: key-field accuracy 0.9409 over 254 fields; escalation group 0.8295; 21/30 contracts fully correct.",
-    "notes": "Field-level accuracy harness exists (src/evaluate_extraction.py, by field group and escalation wording). Re-run with a key to get the Gemini numbers."
+    "status": "Pass",
+    "actual": "AI extraction (claude_code, claude-sonnet-5-5, extract_terms.v2): key-field accuracy 1.0 over 254 fields; escalation group 1.0; 30/30 contracts fully correct; 0 failed. Rules baseline: key-field accuracy 0.9409 over 254 fields; escalation group 0.8295; 21/30 contracts fully correct.",
+    "notes": "Development set only (same generator the rules were built against). Independent validation needs the blind holdout (EVAL-04, B-005)."
   },
   "AI-02": {
-    "status": "Blocked",
-    "actual": "Live Gemini citations not testable without a key. Verifier checked offline: real quote found=True; fabricated quote found=False. llm_extractor also checks the extracted value appears in its quote and lowers confidence + adds a review item when either check fails.",
-    "notes": "Re-run with key; then inspect base-price and escalation citations separately for 5 contracts."
+    "status": "Pass",
+    "actual": "Live AI citations: 106/106 quotes verified verbatim in the source document. Verifier checked offline: real quote found=True; fabricated quote found=False. llm_extractor also checks the extracted value appears in its quote.",
+    "notes": "Automated check only. Still to do: a human spot check of base-price and escalation citations for 5 contracts."
   },
   "AI-03": {
     "status": "Blocked",
-    "actual": "Live model behaviour needs a key. fake-LLM plumbing test (ambiguous escalation, no date, unverifiable quote): review items=2 (quote not found in document; escalation without a first escalation date); escalation confidence=0.3. Rules baseline: 0 review items across 30 contracts even though 9 of 30 contracts had at least one wrong key field - it never routes uncertainty to review.",
+    "actual": "Live behaviour on an ambiguous clause needs a purpose-built synthetic contract (none in the development set). fake-LLM plumbing test (ambiguous escalation, no date, unverifiable quote): review items=2 (quote not found in document; escalation without a first escalation date); escalation confidence=0.3. Rules baseline: 0 review items across 30 contracts even though 9 of 30 contracts had at least one wrong key field - it never routes uncertainty to review.",
     "notes": "Downstream, reconcile marks findings needs_term_review when extraction confidence < 0.6."
   },
   "AI-04": {
     "status": "Blocked",
-    "actual": "Live injection test needs a key. Static review: prompt has explicit 'document is untrusted data' instruction = True. Mitigations present: schema-constrained JSON output, every value must be a verbatim quote that is verified in the document, values checked against quotes, all $ computed in Python, explanations pass a numeric guardrail.",
-    "notes": "v2 prompt adds the untrusted-data instruction and BEGIN/END markers. Still to do: a synthetic contract with an injected clause in the test set, run live with a key."
+    "actual": "Live injection test needs a synthetic contract with an injected clause. Static review: prompt has explicit 'document is untrusted data' instruction = True. Mitigations present: schema-constrained JSON output, every value must be a verbatim quote that is verified in the document, values checked against quotes, all $ computed in Python, explanations pass a numeric guardrail.",
+    "notes": "v2 prompt adds the untrusted-data instruction and BEGIN/END markers. Still to do: a synthetic contract with an injected clause in the test set, run live (now possible with Claude Code)."
   },
   "AI-05": {
     "status": "Pass",
-    "actual": "No key -> RuntimeError: GEMINI_API_KEY is not set. Copy .env.example to .env and add your key.. Offline cache miss -> CacheMiss: No cached LLM response for vet (9fc9e22b0a2e). Explanation with simulated timeout -> source='template' (LLM unavailable: TimeoutError). Extraction batch catches per-contract exceptions and logs them to review_queue.csv.",
-    "notes": "GeminiClient retries 429/5xx with exponential backoff (max 5). No fabricated success observed."
+    "actual": "Gemini, no key -> RuntimeError: GEMINI_API_KEY is not set. Copy .env.example to .env and add your key.. Claude Code, CLI missing -> RuntimeError: Claude Code CLI not found. Install Claude Code or set CLAUDE_CODE_CLI in .en. Offline cache miss -> CacheMiss: No cached LLM response for vet (221b5fd4bcb7). Explanation with simulated timeout -> source='template' (LLM unavailable: TimeoutError). Extraction batch catches per-contract exceptions and logs them to review_queue.csv.",
+    "notes": "GeminiClient retries 429/5xx (max 5) and ClaudeCodeClient retries overload/rate-limit/timeouts (max 3) with exponential backoff. No fabricated success observed."
   },
   "EVAL-01": {
     "status": "Pass",
@@ -201,7 +201,7 @@
   },
   "OPS-02": {
     "status": "Pass",
-    "actual": "Pipeline run twice on the same data: identical outputs {'line_results.csv': True, 'findings.csv': True, 'findings.json': True}; summary fields that differ: ['runtime_seconds']. After regenerating data, git shows 0 changed files under data/, of which CSV: none.",
+    "actual": "Pipeline run twice on the same data: identical outputs {'line_results.csv': True, 'findings.csv': True, 'findings.json': True}; summary fields that differ: ['runtime_seconds']. After regenerating data, git shows 3 changed files under data/, of which CSV: none.",
     "notes": "v2 pins PDF creation dates and DOCX zip/core-property timestamps, so regenerating the same seed should leave contract files unchanged in git."
   },
   "OPS-03": {
@@ -211,7 +211,7 @@
   },
   "OPS-04": {
     "status": "Pass",
-    "actual": "Engine (rules terms, no LLM) - 1,582 lines: 2.7s; 15,820 lines: 14.2s; 79,100 lines: 17.1s. Machine: 13th Gen Intel(R) Core(TM) i5-1345U, 16 GB RAM, Python 3.12.4, Windows-11-10.0.26200-SP0.",
+    "actual": "Engine (rules terms, no LLM) - 1,582 lines: 1.1s; 15,820 lines: 7.3s; 79,100 lines: 24.0s. Machine: 13th Gen Intel(R) Core(TM) i5-1345U, 16 GB RAM, Python 3.12.4, Windows-11-10.0.26200-SP0.",
     "notes": "Threshold not yet agreed with mentors. Extraction: rules ~0.1s/contract; Gemini time not measured (no key)."
   }
 }

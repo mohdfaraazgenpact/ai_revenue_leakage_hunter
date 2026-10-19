@@ -553,32 +553,74 @@ def ext():
 
 
 # ----------------------------------------------------------------- AI
+def _walk_citations(node, out: list) -> None:
+    """Collect every citation dict (has a 'quote' and 'verified') from extracted terms."""
+    if isinstance(node, dict):
+        if "quote" in node and "verified" in node:
+            out.append(node)
+        for v in node.values():
+            _walk_citations(v, out)
+    elif isinstance(node, list):
+        for v in node:
+            _walk_citations(v, out)
+
+
 def ai():
     ex = json.loads((ROOT / "reports" / "extraction_summary.json").read_text())
     rule = next(e for e in ex if e["extractor"] == "rule")
-    record(
-        "AI-01",
-        "Blocked",
-        f"Gemini extraction not run (no GEMINI_API_KEY, B-002). Rules baseline measured: key-field accuracy "
-        f"{rule.get('key_field_accuracy')} over {rule.get('fields')} fields; escalation group "
-        f"{rule.get('by_group', {}).get('escalation')}; {rule.get('contracts_all_correct')}/30 contracts fully correct.",
-        "Field-level accuracy harness exists (src/evaluate_extraction.py, by field group and escalation wording). "
-        "Re-run with a key to get the Gemini numbers.",
+    llm = next((e for e in ex if e["extractor"] == "llm"), None)
+    from src.extract.run_extraction import read_provenance
+
+    prov = read_provenance("llm")
+    rule_txt = (
+        f"Rules baseline: key-field accuracy {rule.get('key_field_accuracy')} over {rule.get('fields')} "
+        f"fields; escalation group {rule.get('by_group', {}).get('escalation')}; "
+        f"{rule.get('contracts_all_correct')}/30 contracts fully correct."
     )
+    if llm is None:
+        record(
+            "AI-01",
+            "Blocked",
+            f"AI extraction not run (LLM provider not available). {rule_txt}",
+            "Field-level accuracy harness exists (src/evaluate_extraction.py). Run tasks.ps1 all.",
+        )
+    else:
+        better = llm["key_field_accuracy"] >= rule["key_field_accuracy"]
+        record(
+            "AI-01",
+            "Pass" if better and prov.get("contracts_failed") == 0 else "Fail",
+            f"AI extraction ({prov.get('provider')}, {prov.get('model')}, {prov.get('prompt_version')}): "
+            f"key-field accuracy {llm['key_field_accuracy']} over {llm['fields']} fields; escalation group "
+            f"{llm['by_group'].get('escalation')}; {llm['contracts_all_correct']}/30 contracts fully correct; "
+            f"{prov.get('contracts_failed')} failed. {rule_txt}",
+            "Development set only (same generator the rules were built against). Independent validation "
+            "needs the blind holdout (EVAL-04, B-005).",
+        )
 
     # citation verifier behaviour, offline
     pages = load_document(next((DATA / "contracts").glob("C-2001.*")))
     real_q = pages[0].text.split("\n")[5][:60]
     ok_real, _ = verify_quote(real_q, pages)
     ok_fake, _ = verify_quote("The Unit Price shall be USD 1.00 for all SKUs forever.", pages)
-    record(
-        "AI-02",
-        "Blocked",
-        f"Live Gemini citations not testable without a key. Verifier checked offline: real quote found={ok_real}; "
-        f"fabricated quote found={ok_fake}. llm_extractor also checks the extracted value appears in its quote "
-        "and lowers confidence + adds a review item when either check fails.",
-        "Re-run with key; then inspect base-price and escalation citations separately for 5 contracts.",
+    cites = []
+    for tp in sorted((DATA / "extracted" / "llm").glob("*.json")):
+        _walk_citations(json.loads(tp.read_text(encoding="utf-8")), cites)
+    verified = sum(1 for c in cites if c.get("verified"))
+    offline = (
+        f"Verifier checked offline: real quote found={ok_real}; fabricated quote found={ok_fake}. "
+        "llm_extractor also checks the extracted value appears in its quote."
     )
+    if not cites:
+        record("AI-02", "Blocked", f"No AI extraction to inspect. {offline}", "Run tasks.ps1 all.")
+    else:
+        record(
+            "AI-02",
+            "Pass" if verified == len(cites) and ok_real and not ok_fake else "Fail",
+            f"Live AI citations: {verified}/{len(cites)} quotes verified verbatim in the source document. "
+            + offline,
+            "Automated check only. Still to do: a human spot check of base-price and escalation citations "
+            "for 5 contracts.",
+        )
 
     # ambiguous clause routing - plumbing check with a fake LLM
     from src.extract import llm_extractor
@@ -628,7 +670,8 @@ def ai():
     record(
         "AI-03",
         "Blocked",
-        f"Live model behaviour needs a key. {detail}. Rules baseline: 0 review items across 30 contracts even "
+        f"Live behaviour on an ambiguous clause needs a purpose-built synthetic contract (none in the "
+        f"development set). {detail}. Rules baseline: 0 review items across 30 contracts even "
         "though 9 of 30 contracts had at least one wrong key field - it never routes uncertainty to review.",
         "Downstream, reconcile marks findings needs_term_review when extraction confidence < 0.6.",
     )
@@ -638,25 +681,35 @@ def ai():
     record(
         "AI-04",
         "Blocked",
-        f"Live injection test needs a key. Static review: prompt has explicit 'document is untrusted data' "
+        f"Live injection test needs a synthetic contract with an injected clause. Static review: prompt has explicit 'document is untrusted data' "
         f"instruction = {has_guard}. Mitigations present: schema-constrained JSON output, every value must be "
         "a verbatim quote that is verified in the document, values checked against quotes, all $ computed in "
         "Python, explanations pass a numeric guardrail.",
         "v2 prompt adds the untrusted-data instruction and BEGIN/END markers. Still to do: a synthetic "
-        "contract with an injected clause in the test set, run live with a key.",
+        "contract with an injected clause in the test set, run live (now possible with Claude Code).",
     )
 
     # LLM unavailable
     import os
 
-    saved = os.environ.pop("GEMINI_API_KEY", None)
+    # Both providers unavailable: Gemini without a key, Claude Code with a missing CLI.
+    names = ("LLM_PROVIDER", "GEMINI_API_KEY", "CLAUDE_CODE_CLI")
+    saved = {k: os.environ.get(k) for k in names}
     try:
+        os.environ.pop("GEMINI_API_KEY", None)
+        os.environ["LLM_PROVIDER"] = "gemini"
         _, e1 = crash(lambda: get_client(cache_mode="readwrite"))
+        os.environ["LLM_PROVIDER"] = "claude_code"
+        os.environ["CLAUDE_CODE_CLI"] = str(ROOT / "no_such_claude.exe")
+        _, e1c = crash(lambda: get_client(cache_mode="readwrite"))
         off = get_client(cache_mode="readonly")
         _, e2 = crash(lambda: off.generate_json("never cached", prompt_version="vet"))
     finally:
-        if saved is not None:
-            os.environ["GEMINI_API_KEY"] = saved
+        for k, v in saved.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
 
     class Boom(FakeLLMClient):
         def _call(self, *a, **k):
@@ -667,13 +720,14 @@ def ai():
     from src.explain import explain as _explain
 
     _, src_, note = _explain(f, llm=Boom())
-    ok = bool(e1) and e2 and "CacheMiss" in e2 and src_ != "llm"
+    ok = bool(e1) and bool(e1c) and e2 and "CacheMiss" in e2 and src_ != "llm"
     record(
         "AI-05",
         "Pass" if ok else "Fail",
-        f"No key -> {e1}. Offline cache miss -> {e2}. Explanation with simulated timeout -> source='{src_}' "
+        f"Gemini, no key -> {e1}. Claude Code, CLI missing -> {(e1c or 'no error')[:90]}. Offline cache miss -> {e2}. Explanation with simulated timeout -> source='{src_}' "
         f"({note[:80]}). Extraction batch catches per-contract exceptions and logs them to review_queue.csv.",
-        "GeminiClient retries 429/5xx with exponential backoff (max 5). No fabricated success observed.",
+        "GeminiClient retries 429/5xx (max 5) and ClaudeCodeClient retries overload/rate-limit/timeouts "
+        "(max 3) with exponential backoff. No fabricated success observed.",
     )
 
 

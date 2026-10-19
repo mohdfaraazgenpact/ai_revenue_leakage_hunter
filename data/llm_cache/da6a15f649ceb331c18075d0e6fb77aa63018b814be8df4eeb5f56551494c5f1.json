@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:21:09.182055+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5189,
+    "session_id": "b4c11464-9a39-454f-b327-542bbbab6ba9"
+  },
+  "response": "{\"customer_name\": \"Brightwave Semiconductors Inc\", \"effective_date\": \"2023-03-15\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means March 15, 2023.\"}, \"end_date\": \"2026-03-14\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until March 14, 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"HTC-2004\", \"description\": \"Premium support per device\", \"unit_price\": 103.25, \"citation\": {\"clause_id\": \"A.1\", \"page\": 3, \"quote\": \"HTC-2004 - Premium support per device: USD 103.25 per unit.\"}}, {\"sku\": \"HTC-2002\", \"description\": \"Network switch 48-port\", \"unit_price\": 2330.5, \"citation\": {\"clause_id\": \"A.2\", \"page\": 3, \"quote\": \"HTC-2002 - Network switch 48-port: USD 2,330.50 per unit.\"}}, {\"sku\": \"HTC-2005\", \"description\": \"Sensor module\", \"unit_price\": 37, \"citation\": {\"clause_id\": \"A.3\", \"page\": 3, \"quote\": \"HTC-2005 - Sensor module: USD 37.00 per unit.\"}}], \"escalation\": {\"type\": \"none\", \"derivation\": \"Clause 4.2 states Unit Prices remain firm and fixed for the duration of the Agreement; no escalation clause found elsewhere.\", \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"Unit Prices shall remain firm and fixed for the duration of this Agreement.\"}, \"rate_pct\": null, \"first_escalation_date\": null, \"compounding\": null, \"cap_pct\": null, \"floor_pct\": null}, \"amendments\": [], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.98, \"escalation\": 0.97, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}

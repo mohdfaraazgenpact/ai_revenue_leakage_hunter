@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:22:23.481654+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5941,
+    "session_id": "1965fd48-d666-4b35-a4ad-ef3d54e567d3"
+  },
+  "response": "{\"customer_name\": \"Riverbend Warehousing Inc\", \"effective_date\": \"2023-09-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means September 1, 2023.\"}, \"end_date\": \"2026-08-31\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until August 31, 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"LOG-3005\", \"description\": \"Cross-dock handling per pallet\", \"unit_price\": 14.5, \"citation\": {\"clause_id\": \"A.1\", \"page\": 3, \"quote\": \"LOG-3005 - Cross-dock handling per pallet: USD 14.50 per unit.\"}}, {\"sku\": \"LOG-3002\", \"description\": \"Pallet storage per pallet-month\", \"unit_price\": 24.75, \"citation\": {\"clause_id\": \"A.2\", \"page\": 3, \"quote\": \"LOG-3002 - Pallet storage per pallet-month: USD 24.75 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 5, \"first_escalation_date\": \"2024-09-01\", \"compounding\": null, \"cap_pct\": null, \"floor_pct\": null, \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"On September 1, 2024 and on each anniversary of that date thereafter, the Unit Prices shall increase by 5%.\"}, \"derivation\": \"Clause 4.2 explicitly states a 5% increase on September 1, 2024 and each anniversary; the contract does not say whether increases compound.\"}, \"amendments\": [], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.98, \"escalation\": 0.9, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}

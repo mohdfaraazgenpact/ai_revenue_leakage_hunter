@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:22:32.826482+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5454,
+    "session_id": "eeb64dcc-1535-4716-8f3a-e31cc410e2ef"
+  },
+  "response": "{\"customer_name\": \"Pinecrest Hydraulics LLC\", \"effective_date\": \"2023-11-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means 1 November 2023.\"}, \"end_date\": \"2026-10-31\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until 31 October 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"MFG-1004\", \"description\": \"Industrial gasket kit\", \"unit_price\": 32, \"citation\": {\"clause_id\": \"A.1\", \"page\": 3, \"quote\": \"MFG-1004 - Industrial gasket kit: USD 32.00 per unit.\"}}, {\"sku\": \"MFG-1002\", \"description\": \"Hydraulic valve block\", \"unit_price\": 391.5, \"citation\": {\"clause_id\": \"A.2\", \"page\": 3, \"quote\": \"MFG-1002 - Hydraulic valve block: USD 391.50 per unit.\"}}, {\"sku\": \"MFG-1001\", \"description\": \"Precision bearing assembly\", \"unit_price\": 58.5, \"citation\": {\"clause_id\": \"A.3\", \"page\": 3, \"quote\": \"MFG-1001 - Precision bearing assembly: USD 58.50 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 3, \"first_escalation_date\": \"2024-11-01\", \"compounding\": true, \"cap_pct\": null, \"floor_pct\": null, \"derivation\": \"Schedule A.99 states a 3% compounding increase first applied on 1 November 2024 and on each anniversary thereafter.\", \"citation\": {\"clause_id\": \"A.99\", \"page\": 3, \"quote\": \"Annual Adjustment: the Unit Prices above increase by 3% compounding, first applied on 1 November 2024 and on each anniversary thereafter.\"}}, \"amendments\": [], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.99, \"prices\": 0.99, \"escalation\": 0.98, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}

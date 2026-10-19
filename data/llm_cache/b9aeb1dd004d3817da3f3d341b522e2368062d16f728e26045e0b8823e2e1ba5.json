@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:20:47.847159+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6277,
+    "session_id": "1c2431fb-0546-4306-a827-ffca1428fca5"
+  },
+  "response": "{\"customer_name\": \"Bayfront Cold Chain Inc\", \"effective_date\": \"2024-02-15\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means 15 February 2024.\"}, \"end_date\": \"2027-02-14\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until 14 February 2027, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"LOG-3002\", \"description\": \"Pallet storage per pallet-month\", \"unit_price\": 32.5, \"citation\": {\"clause_id\": \"A.1\", \"page\": 1, \"quote\": \"LOG-3002 - Pallet storage per pallet-month: USD 32.50 per unit.\"}}, {\"sku\": \"LOG-3001\", \"description\": \"Full truckload lane per load\", \"unit_price\": 1993, \"citation\": {\"clause_id\": \"A.2\", \"page\": 1, \"quote\": \"LOG-3001 - Full truckload lane per load: USD 1,993.00 per unit.\"}}, {\"sku\": \"LOG-3004\", \"description\": \"Cold-chain handling per pallet\", \"unit_price\": 119.75, \"citation\": {\"clause_id\": \"A.3\", \"page\": 1, \"quote\": \"LOG-3004 - Cold-chain handling per pallet: USD 119.75 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 5, \"first_escalation_date\": \"2025-02-15\", \"compounding\": null, \"floor_pct\": null, \"cap_pct\": null, \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"Unit Prices are subject to an annual increase of five percent (5%) effective each February 15, commencing 15 February 2025.\"}, \"derivation\": \"Clause 4.2 states a 5% annual increase effective each February 15, commencing 15 February 2025; the contract does not say whether it compounds.\"}, \"amendments\": [], \"approved_discounts\": [{\"sku\": \"LOG-3004\", \"discount_pct\": 5, \"start_date\": \"2025-07-01\", \"end_date\": \"2025-08-31\", \"citation\": {\"clause_id\": \"SL1.1\", \"page\": 1, \"quote\": \"For the period from 1 July 2025 to 31 August 2025 (inclusive), Supplier grants Customer a promotional discount of five percent (5%) on the Unit Price of LOG-3004 (Cold-chain handling per pallet).\"}}], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.98, \"escalation\": 0.9, \"amendments\": 0.95, \"discounts\": 0.97}}"
+}

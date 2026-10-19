@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:26:38.832892+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6105,
+    "session_id": "ae23b081-b098-4e35-b9e4-f026aa021c1d"
+  },
+  "response": "{\"headline\": \"Potential underbilling on Crestline Tooling MFG-1003: partial price escalation applied\", \"narrative\": \"Contract C-2007 sets MFG-1003 (machined steel housing) at USD 128.00 per unit (Clause A.3) and provides for an annual 3.5% uplift effective January 1, 2024 and annually thereafter (Clause 4.2). Only some of these anniversary escalations were applied in billing, so the latest billed unit price is USD 132.48 against an expected USD 137.12. This results in potential underbilling of USD 11,743.84 across 12 invoice lines for 2025-01-05 to 2025-12-05, all of which is estimated to be recoverable (USD 11,743.84). The suggested owner is Pricing & Billing Master Data, who would correct the price master and prepare a supplementary invoice for approval.\", \"rebill_note_subject\": \"F-018 Internal rebilling review: Crestline Tooling Co, contract C-2007, MFG-1003\", \"rebill_note_body\": \"INTERNAL - not for customer distribution. Human approval required.\\n\\nFinding F-018: potential underbilling on contract C-2007, SKU MFG-1003 (Crestline Tooling Co). Only some contractual anniversary escalations were applied in billing (PARTIAL_ESCALATION).\\n\\nContract basis: Clause A.3 (page 3) sets the base price at USD 128.00 per unit. Clause 4.2 (page 1) provides an annual 3.5% uplift effective January 1, 2024 and annually thereafter. Expected calculation: USD 128.00 x (1 + 3.5%) x (1 + 3.5%) = USD 137.12. Latest billed unit price: USD 132.48.\\n\\nImpact: 12 invoice lines, 2025-01-05 to 2025-12-05. Potential underbilling USD 11,743.84; estimated recoverable USD 11,743.84.\\n\\nProposed actions (owner: Pricing & Billing Master Data):\\n1. Apply the missing anniversary escalation in the price master from 2025-01-05.\\n2. Prepare a supplementary invoice for the under-billed lines for approval.\\n\\nPlease review and approve or decline before any invoice is issued.\"}"
+}

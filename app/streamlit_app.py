@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import html
 import json
-import os
 import re
 import sys
 from datetime import datetime
@@ -23,6 +22,7 @@ sys.path.insert(0, str(ROOT))
 
 from src.extract import llm_extractor, rule_extractor  # noqa: E402
 from src.extract.document_loader import Page, load_document, segment_clauses  # noqa: E402
+from src.extract.run_extraction import read_provenance  # noqa: E402
 from src.findings import findings_frame  # noqa: E402
 from src.pipeline import run as run_pipeline  # noqa: E402
 from src.reconcile import load_terms  # noqa: E402
@@ -59,7 +59,10 @@ def usd(x) -> str:
 
 def available_sources() -> dict[str, Path]:
     src = {}
-    for name, label in (("llm", "Gemini extraction (AI)"), ("rule", "Rules baseline (regex)")):
+    for name, label in (
+        ("llm", f"{ai_reader()} extraction (AI)"),
+        ("rule", "Rules baseline (regex)"),
+    ):
         d = DATA / "extracted" / name
         if d.exists() and any(d.glob("*.json")):
             src[label] = d
@@ -81,11 +84,21 @@ def run_cached(terms_dir: str, use_llm: bool, offline: bool, _stamp: float):
     return res["summary"], res["lines"], res["findings"], res["issues"]
 
 
-def gemini_available() -> bool:
-    from dotenv import load_dotenv
+def llm_status() -> tuple[bool, str]:
+    """(live AI call possible, label of the configured model)."""
+    from src.llm.client import describe_llm, llm_available
 
-    load_dotenv(ROOT / ".env")
-    return bool(os.getenv("GEMINI_API_KEY", "").strip())
+    try:
+        return llm_available(), describe_llm()
+    except RuntimeError as exc:
+        return False, str(exc)
+
+
+def ai_reader() -> str:
+    """Model that produced data/extracted/llm, e.g. 'Claude (claude-sonnet-5-5)'."""
+    prov = read_provenance("llm")
+    name = {"claude_code": "Claude", "gemini": "Gemini"}.get(prov.get("provider"), "AI")
+    return f"{name} ({prov['model']})" if prov.get("model") else name
 
 
 def contract_path(cid: str) -> Path | None:
@@ -108,12 +121,12 @@ with st.sidebar:
     st.header("Run settings")
     source_label = st.selectbox("Contract terms from", list(sources), index=0)
     terms_dir = sources[source_label]
-    has_key = gemini_available()
+    has_key, llm_label = llm_status()
     offline = st.toggle("Offline demo mode (cached AI only)", value=not has_key)
-    use_llm = st.toggle("Gemini narratives", value=has_key or offline)
+    use_llm = st.toggle("AI narratives", value=has_key or offline)
     if st.button("Re-run hunt", width="stretch"):
         st.cache_data.clear()
-    st.caption(f"Gemini key: {'configured' if has_key else 'not set'}")
+    st.caption(f"AI model: {llm_label} - {'available' if has_key else 'not available'}")
     st.divider()
     st.caption(
         "Synthetic contracts and transactions for demonstration only. Findings are candidates for human "
@@ -494,9 +507,9 @@ with tabs[3]:
     st.caption(
         "Reader: "
         + (
-            "Gemini (live call)"
+            f"{llm_label} (live call)"
             if live
-            else "rules baseline - set GEMINI_API_KEY and turn off offline mode for AI"
+            else "rules baseline - configure LLM_PROVIDER in .env and turn off offline mode for AI"
         )
     )
     if st.button("Re-read contract and re-run hunt", type="primary"):
@@ -569,7 +582,7 @@ with tabs[4]:
             ev = json.loads(ev_path.read_text()) if ev_path.exists() else {}
             rows.append(
                 {
-                    "Reader": {"llm": "Gemini (AI)", "rule": "Rules (regex)"}.get(
+                    "Reader": {"llm": f"{ai_reader()} (AI)", "rule": "Rules (regex)"}.get(
                         s["extractor"], s["extractor"]
                     ),
                     "Field accuracy": f"{s['key_field_accuracy']:.1%}",

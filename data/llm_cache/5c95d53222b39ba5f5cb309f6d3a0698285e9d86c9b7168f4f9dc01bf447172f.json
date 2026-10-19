@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:26:21.105661+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5973,
+    "session_id": "029a6248-3273-4714-b988-c6e37812b354"
+  },
+  "response": "{\"headline\": \"Potential underbilling on Granite Bay MFG-1001: missed price escalation\", \"narrative\": \"Contract C-2025 sets the price of MFG-1001 at USD 89.75 per unit (Schedule A, clause A.1). Clause 13.4 requires a 3% annual escalation, first on May 1, 2024 and then on each anniversary. Billing applied only some of these escalations, so the latest billed unit price is USD 92.44 against an expected USD 95.22. This affects 8 invoice lines from 2025-05-25 to 2025-12-25, a potential underbilling of USD 13,977.84, all of which is estimated as recoverable.\", \"rebill_note_subject\": \"F-016 Granite Bay Fasteners Inc (C-2025, MFG-1001): potential underbilling, rebill review\", \"rebill_note_body\": \"Finding F-016 | Customer: Granite Bay Fasteners Inc | Contract: C-2025 | SKU: MFG-1001\\n\\nIssue: Potential underbilling caused by partial escalation. Only some of the contractual anniversary escalations were applied in billing.\\n\\nContract support: Clause A.1 (page 3) sets the base price at USD 89.75 per unit. Clause 13.4 (page 2) provides for 3% annual escalation, first on May 1, 2024 and on each anniversary thereafter.\\n\\nCalculation: USD 89.75 x (1 + 3%) [2024-05-01] x (1 + 3%) [2025-05-01] = USD 95.22 expected. Latest billed price: USD 92.44.\\n\\nImpact: 8 invoice lines, 2025-05-25 to 2025-12-25. Potential underbilling USD 13,977.84. Estimated recoverable: USD 13,977.84.\\n\\nProposed actions (pending approval):\\n1. Pricing & Billing Master Data to apply the missing anniversary escalation in the price master from 2025-05-25.\\n2. Prepare a supplementary invoice for the under-billed lines for manager and controller approval.\\n\\nNo customer communication until approved.\"}"
+}

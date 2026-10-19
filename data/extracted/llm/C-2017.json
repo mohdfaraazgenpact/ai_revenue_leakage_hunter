@@ -1,0 +1,58 @@
+{
+  "contract_id": "C-2017",
+  "customer_name": "Coralstone Data Inc",
+  "customer_id": null,
+  "currency": "USD",
+  "effective_date": "2023-07-01",
+  "end_date": "2026-06-30",
+  "prices": [
+    {
+      "sku": "HTC-2003",
+      "description": "Software subscription per seat",
+      "unit_price": "129.75",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "HTC-2003 - Software subscription per seat: USD 129.75 per unit.",
+        "verified": true
+      }
+    },
+    {
+      "sku": "HTC-2002",
+      "description": "Network switch 48-port",
+      "unit_price": "2740.25",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 3,
+        "quote": "HTC-2002 - Network switch 48-port: USD 2,740.25 per unit.",
+        "verified": true
+      }
+    }
+  ],
+  "escalation": {
+    "type": "cpi",
+    "rate_pct": null,
+    "cap_pct": "4",
+    "floor_pct": "1.5",
+    "first_escalation_date": "2024-07-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "Commencing July 1, 2024 and annually thereafter, Unit Prices shall be revised in line with the annual CPI-U inflation rate published for the prior calendar year, subject to a minimum increase of one and one-half percent (1.5%) and a maximum increase of four percent (4%).",
+      "verified": true
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [],
+  "field_confidence": {
+    "customer_and_dates": 0.98,
+    "prices": 0.98,
+    "escalation": 0.9,
+    "amendments": 0.95,
+    "discounts": 0.95
+  },
+  "source": "llm",
+  "prompt_version": "extract_terms.v2"
+}

@@ -1,0 +1,47 @@
+{
+  "contract_id": "C-2008",
+  "customer_name": "Nimbus Edge Devices Inc",
+  "customer_id": null,
+  "currency": "USD",
+  "effective_date": "2024-04-01",
+  "end_date": "2027-03-31",
+  "prices": [
+    {
+      "sku": "HTC-2003",
+      "description": "Software subscription per seat",
+      "unit_price": "235.75",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 1,
+        "quote": "HTC-2003 - Software subscription per seat: USD 235.75 per unit.",
+        "verified": true
+      }
+    }
+  ],
+  "escalation": {
+    "type": "fixed_pct",
+    "rate_pct": "3.5",
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": "2025-04-01",
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "Commencing on the first anniversary of the Effective Date and on each anniversary thereafter, all Unit Prices in Schedule A shall be adjusted upward by three and one-half percent (3.5%), compounding.",
+      "verified": true
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [],
+  "field_confidence": {
+    "customer_and_dates": 0.98,
+    "prices": 0.98,
+    "escalation": 0.97,
+    "amendments": 0.95,
+    "discounts": 0.95
+  },
+  "source": "llm",
+  "prompt_version": "extract_terms.v2"
+}

@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:26:46.794182+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5622,
+    "session_id": "dd20090e-464a-41b9-b702-5b91090bcd63"
+  },
+  "response": "{\"headline\": \"Potential underbilling on HTC-2004: signed amendment price not applied\", \"narrative\": \"For Stratos Grid Technologies Ltd (contract C-2026, SKU HTC-2004), billing appears to have kept the old Unit Price after a signed amendment changed it. Amendment clause AM1.1 sets the Unit Price at USD 44.00 per unit, and escalation clause 4.2 adds three percent at the start of each subsequent Contract Year, giving an expected latest price of USD 45.32 against USD 42.44 billed. This affects 7 invoice lines from 2025-06-20 to 2025-12-20, a potential underbilling of USD 11,844.64, all of which is estimated as recoverable. The original Schedule A price (clause A.1) was USD 40.00 per unit, so the amended price must be confirmed as countersigned before any rebill.\", \"rebill_note_subject\": \"F-019 \\u2013 Internal rebill review: Stratos Grid Technologies Ltd, C-2026, HTC-2004\", \"rebill_note_body\": \"Internal review only \\u2013 not for customer. Human approval required before any action.\\n\\nFinding F-019: potential underbilling on contract C-2026, SKU HTC-2004. Root cause: a signed amendment changed the Unit Price but billing kept the old price.\\n\\nBasis: Clause A.1 (original price USD 40.00 per unit); clause AM1.1 (amended price USD 44.00 per unit); clause 4.2 (three percent annual escalation). Expected latest price USD 45.32 vs billed USD 42.44.\\n\\nScope: 7 invoice lines, 2025-06-20 to 2025-12-20. Potential underbilling USD 11,844.64; estimated recoverable USD 11,844.64.\\n\\nSuggested owner: Contract Administration.\\n\\nRequested steps: (1) Confirm the amendment is countersigned. (2) Load the amended Unit Price into the price master effective 2025-06-20. (3) Prepare a rebill for approval by the billing manager and finance controller.\"}"
+}

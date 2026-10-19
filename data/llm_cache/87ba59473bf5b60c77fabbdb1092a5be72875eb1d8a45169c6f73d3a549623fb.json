@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:25:05.656058+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5860,
+    "session_id": "7ad223bc-3254-41f5-b84c-afc179d8aa34"
+  },
+  "response": "{\"headline\": \"Potential underbilling on Coralstone HTC-2002: escalation never applied\", \"narrative\": \"Contract C-2017 sets the HTC-2002 Network switch 48-port price at USD 2,740.25 per unit (Clause A.2) and requires annual CPI-based price increases from July 1, 2024 (Clause 4.2), within a 1.5% minimum and 4% maximum. Billing never applied these escalations, so 18 invoice lines from 2024-07-05 to 2025-12-05 were billed at USD 2,740.25 instead of the expected USD 2,915.59 per unit. This is a potential underbilling of USD 30,474.29, of which USD 28,097.30 is estimated as recoverable. The expected price follows the contract calculation of USD 2,740.25 x (1 + 3.4%) [2024-07-01] x (1 + 2.9%) [2025-07-01].\", \"rebill_note_subject\": \"F-007 \\u2013 Internal rebilling review: Coralstone Data Inc (C-2017), HTC-2002\", \"rebill_note_body\": \"Internal review note \\u2013 not for customer distribution. Human approval required before any action.\\n\\nFinding F-007: potential underbilling on contract C-2017, SKU HTC-2002 (Coralstone Data Inc). Root cause: the contractual annual price escalation was never applied in billing.\\n\\nBasis: Clause A.2 (page 3) sets the base price at USD 2,740.25 per unit. Clause 4.2 (page 1) provides for annual CPI-U-based revisions from July 1, 2024, with a 1.5% minimum and 4% maximum.\\n\\nImpact: 18 invoice lines, 2024-07-05 to 2025-12-05. Potential underbilling is USD 30,474.29; estimated recoverable amount is USD 28,097.30. Latest billed unit price is USD 2,740.25 versus expected USD 2,915.59.\\n\\nRequested actions (owner: Pricing & Billing Master Data): load the escalated Unit Price into the billing price master from 2024-07-05, and prepare a supplementary invoice for the under-billed lines for approval.\"}"
+}

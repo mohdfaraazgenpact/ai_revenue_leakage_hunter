@@ -22,7 +22,7 @@ START, END = "<!-- results:start -->", "<!-- results:end -->"
 LABELS = {
     "gold": "Answer key (engine-only check, not a detector run)",
     "rule": "Rules baseline (regex)",
-    "llm": "Gemini extraction",
+    "llm": "AI extraction",
 }
 
 
@@ -49,6 +49,20 @@ def _usd(x) -> str:
     return f"${Decimal(str(x)):,.0f}"
 
 
+def llm_label() -> str:
+    """'AI extraction: Claude (claude-sonnet-5-5, Claude Code), prompt extract_terms.v2'."""
+    from src.extract.run_extraction import read_provenance
+
+    prov = read_provenance("llm")
+    if not prov.get("model"):
+        return LABELS["llm"]
+    name = {"claude_code": "Claude", "gemini": "Gemini"}.get(
+        prov.get("provider"), prov.get("provider")
+    )
+    via = ", Claude Code" if prov.get("provider") == "claude_code" else ""
+    return f"{LABELS['llm']}: {name} ({prov['model']}{via}), prompt {prov.get('prompt_version')}"
+
+
 def build_block() -> str:
     from src.generate_synthetic_data import SEED
 
@@ -65,11 +79,12 @@ def build_block() -> str:
         "False overbilling | Lines to review | Gate |",
         "|---|---|---|---|---|---|---|---|",
     ]
+    labels = {**LABELS, "llm": llm_label()}
     for key in ("gold", "rule", "llm"):
         ev = evals.get(key)
         if ev is None:
             if key == "llm":
-                rows.append(f"| {LABELS[key]} | not run (no API key) | | | | | | |")
+                rows.append(f"| {labels[key]} | not run | | | | | | |")
             continue
         acc = "100% (by definition)" if key == "gold" else None
         if acc is None:
@@ -77,7 +92,7 @@ def build_block() -> str:
             acc = f"{fa:.1%}" if fa is not None else "-"
         gate = "PASS" if not ev["gate_failures"] else "FAIL"
         rows.append(
-            f"| {LABELS[key]} | {acc} | {ev['line_recall']:.1%} ({ev['tp']}/{ev['tp'] + ev['fn']}) | "
+            f"| {labels[key]} | {acc} | {ev['line_recall']:.1%} ({ev['tp']}/{ev['tp'] + ev['fn']}) | "
             f"{ev['line_precision']:.1%} | {_usd(ev['detected_usd'])} / {_usd(ev['seeded_usd'])} "
             f"({ev['dollar_error_pct']}% error) | {_usd(ev['false_overbilling_usd'])} | "
             f"{ev['review_lines']} | {gate} |"

@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:24:57.220759+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5183,
+    "session_id": "0d76e9ec-4ed1-4cc0-bfed-98d9de26c86e"
+  },
+  "response": "{\"headline\": \"Potential underbilling: missed price escalation on Silverline Pumps MFG-1003\", \"narrative\": \"Contract C-2028 sets the price of MFG-1003 at USD 111.00 per unit (Clause A.2). Clause 4.2 requires Unit Prices to rise by 2.5%, compounding, on each anniversary of the Effective Date. Billing never applied this escalation, so the latest expected unit price is USD 116.62 while the latest billed price is USD 111.00. This affects 20 invoice lines from 2024-05-15 to 2025-12-15, a potential underbilling of USD 44,106.02, of which an estimated USD 39,607.21 is recoverable.\", \"rebill_note_subject\": \"F-006 Internal rebilling review \\u2013 Silverline Pumps Ltd (C-2028, MFG-1003)\", \"rebill_note_body\": \"Internal \\u2013 for approval only; not for customer.\\n\\nFinding F-006: potential underbilling on contract C-2028, SKU MFG-1003, customer Silverline Pumps Ltd.\\n\\nRoot cause: the contractual annual price escalation was never applied in billing (Clauses A.2 and 4.2).\\n\\nCalculation: USD 111.00 (base price) x (1 + 2.5%) [2024-05-01] x (1 + 2.5%) [2025-05-01] = USD 116.62. Billed price: USD 111.00.\\n\\nScope: 20 invoice lines, 2024-05-15 to 2025-12-15. Potential underbilling: USD 44,106.02. Estimated recoverable: USD 39,607.21.\\n\\nRecommended actions:\\n1. Pricing & Billing Master Data to load the escalated Unit Price into the billing price master from 2024-05-15.\\n2. Prepare a supplementary invoice for the under-billed lines.\\n\\nPlease review and approve before any action is taken.\"}"
+}
