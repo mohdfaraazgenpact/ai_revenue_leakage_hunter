@@ -234,7 +234,9 @@ class="chip">Human-validated recovery</span>
         1.0,
         step=0.1,
         format="%.1f",
-        help="An assumption for illustration, not a rate measured on client data.",
+        help="A deliberately conservative assumption, not a rate measured on client data. Published "
+        "estimates are higher: MGI Research (2025) puts revenue leakage at 3-5% of revenue; WorldCC (2025) "
+        "puts value lost through poor contract management at almost 9% of annual revenue.",
     )
     eq.markdown("### =")
     opportunity = billings * 1e9 * rate / 100
@@ -246,6 +248,15 @@ class="chip">Human-validated recovery</span>
     st.caption(
         "This is a sizing illustration, not a prediction of recoveries. The actual opportunity depends on "
         "verified leakage, contractual enforceability, customer disputes, recoverability and collection outcomes."
+    )
+    st.caption(
+        "Why 1%: a conservative assumption, below published benchmarks. "
+        "[MGI Research, *Revenue Leakage Series Part 1* (Dec 2025)](https://mgiresearch.com/research/revenue-leakage/): "
+        "at least 3-5% of revenue. "
+        "[WorldCC, *Contract Management: An Overlooked Driver of Business Agility and Financial Performance* "
+        "(Aug 2025)](https://www.cfo.com/press-release/20250819-the-multi-million-dollar-leak-in-your-contracts-and-how-to-stop-it/): "
+        "almost 9% of annual revenue lost through poor contract management (a broader measure than billing "
+        "leakage). The PoC covers price-related leakage only, so it sits at the low end."
     )
 
     st.subheader("Potential business value")
