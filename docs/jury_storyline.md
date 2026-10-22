@@ -4,6 +4,8 @@
 
 **The problem.** Contract pricing, escalation clauses and amendments can drift away from what is actually billed. The resulting exceptions are hard to detect consistently at scale.
 
+**Opportunity sizing.** To size the opportunity, we use a deliberately conservative 1% assumption against addressable annual billings. Published estimates are higher: MGI Research reports revenue leakage of at least 3–5%, while WorldCC reports losses associated with poor contract management of around 9%. These studies use broader definitions and different measurement bases, so we do not treat them as direct benchmarks for our solution. Our 1% is a planning assumption for a price-leakage use case, which we will validate through a controlled pilot. (Sources and caveats: app Home page, "Sources and caveats".)
+
 **The innovation.** A hybrid system extracts contract terms and reconciles them against invoice records. It quantifies potential discrepancies and shows the source evidence for human review.
 
 **Why AI.** Contract language varies and depends on context. AI can interpret clauses that rules miss, such as relative dates and rates written in words. Deterministic calculation keeps every dollar traceable.

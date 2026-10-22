@@ -234,9 +234,8 @@ class="chip">Human-validated recovery</span>
         1.0,
         step=0.1,
         format="%.1f",
-        help="A deliberately conservative assumption, not a rate measured on client data. Published "
-        "estimates are higher: MGI Research (2025) puts revenue leakage at 3-5% of revenue; WorldCC (2025) "
-        "puts value lost through poor contract management at almost 9% of annual revenue.",
+        help="A conservative planning assumption for a price-leakage use case, not a measured industry "
+        "rate. See 'Sources and caveats' below.",
     )
     eq.markdown("### =")
     opportunity = billings * 1e9 * rate / 100
@@ -246,18 +245,28 @@ class="chip">Human-validated recovery</span>
         unsafe_allow_html=True,
     )
     st.caption(
-        "This is a sizing illustration, not a prediction of recoveries. The actual opportunity depends on "
-        "verified leakage, contractual enforceability, customer disputes, recoverability and collection outcomes."
+        "Illustrative opportunity: 1% of addressable annual billings. This is a conservative planning "
+        "assumption, not a measured industry rate or validated recovery forecast. Published leakage estimates "
+        "are higher but use broader scopes and different measurement bases."
     )
-    st.caption(
-        "Why 1%: a conservative assumption, below published benchmarks. "
-        "[MGI Research, *Revenue Leakage Series Part 1* (Dec 2025)](https://mgiresearch.com/research/revenue-leakage/): "
-        "at least 3-5% of revenue. "
-        "[WorldCC, *Contract Management: An Overlooked Driver of Business Agility and Financial Performance* "
-        "(Aug 2025)](https://www.cfo.com/press-release/20250819-the-multi-million-dollar-leak-in-your-contracts-and-how-to-stop-it/): "
-        "almost 9% of annual revenue lost through poor contract management (a broader measure than billing "
-        "leakage). The PoC covers price-related leakage only, so it sits at the low end."
-    )
+    with st.expander("Sources and caveats"):
+        st.markdown(
+            "- [MGI Research, *Revenue Leakage Series Part 1* (Dec 2025)]"
+            "(https://mgiresearch.com/research/revenue-leakage/): revenue leakage of at least 3-5% of revenue. "
+            "No sample size or method is published.\n"
+            "- [WorldCC, *Contract Management: An Overlooked Driver of Business Agility and Financial "
+            "Performance* (Aug 2025)](https://www.cfo.com/press-release/20250819-the-multi-million-dollar-leak-"
+            "in-your-contracts-and-how-to-stop-it/): almost 9% of annual revenue lost through poor contract "
+            "management, a broader measure than billing leakage.\n"
+            "- [WorldCC with Deloitte, *The ROI of Contracting Excellence* (2023)]"
+            "(https://news.worldcc.com/news-from-worldcc/are-organizations-unlocking-their-full-financial-"
+            "potential): average erosion of 8.6% of contract value, not revenue.\n\n"
+            "These studies use broader definitions and different measurement bases, so they are context, not "
+            "direct benchmarks for this price-leakage use case. A lower rate is not automatically conservative "
+            "for every client: the 1% must be tested against the client's addressable billings and validated "
+            "price leakage in a controlled pilot. The actual opportunity also depends on contractual "
+            "enforceability, customer disputes, recoverability and collection outcomes."
+        )
 
     st.subheader("Potential business value")
     st.caption(
