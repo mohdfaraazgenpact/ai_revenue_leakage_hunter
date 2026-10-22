@@ -1,12 +1,14 @@
 # AI Revenue Leakage Hunter — PoC
 
-> Contract says → transactions show → AI finds the gap → $ quantified → evidence shown → human review.
+> **Intelligent O2C revenue assurance.** Recover the revenue you've already earned: identify contract-to-invoice discrepancies, prioritise investigation, and help Finance teams turn missed billing into validated recovery actions.
+>
+> Contract says → transactions show → AI finds the gap → $ quantified → evidence shown → Finance validates.
 
 **MVP scope:** contracted unit price vs. invoiced unit price, including **missed annual escalations**, **partial escalations**, **amendments not applied**, **prices below contract** and **unsupported credit notes**.
 **Team:** 1 builder + 2 mentors (Business/O2C, AI/Engineering). **Data:** synthetic only. **LLM:** Claude (`claude-sonnet-5-5`) through Claude Code headless mode (`claude -p`) on the signed-in licence; the free Gemini API remains a switchable option (`LLM_PROVIDER`).
 **Design rule:** the LLM reads contracts and writes explanations; deterministic Python does all the money arithmetic.
 
-The plan is in `../plan_versions/` (v6 is current). The jury storyline is in [`docs/jury_storyline.md`](docs/jury_storyline.md) and the release gates in [`docs/release_gates.md`](docs/release_gates.md).
+The plan is in `../plan_versions/` (v8 is current). The technical architecture is in [`docs/technical_architecture.md`](docs/technical_architecture.md), the jury storyline in [`docs/jury_storyline.md`](docs/jury_storyline.md) and the release gates in [`docs/release_gates.md`](docs/release_gates.md).
 
 ## Quick start (Windows PowerShell)
 ```powershell
@@ -37,7 +39,7 @@ If `pip install` fails with *WinError 206 (path too long)*, move the project to 
 | Explanations | `src/explain.py`, `prompts/explain_finding.v1.md` | LLM narrative and rebilling review note. **Numeric guardrail** falls back to a template |
 | Orchestration | `src/pipeline.py`, `src/build_all.py` | One call end to end, plus the daily build, eval gate and README results |
 | Evaluation | `src/evaluate.py`, `src/evaluate_extraction.py`, `src/results_report.py` | Underbilling and overbilling metrics kept separate, line-level $ error, review routing, ambiguous/unmatched-key checks; field-level extraction accuracy by wording |
-| Demo | `app/streamlit_app.py` | Overview, Findings (price chart, evidence, rebill note, approve/reject, CSV exports, review queue), Contract reader, Jury test, AI vs rules, Value calculator (simulated), Scorecard |
+| Demo | `app/streamlit_app.py` | Business journey: **Home** (value proposition, illustrative opportunity model, audiences), **Leakage Analysis** (findings, price chart, evidence, rebill note, CSV exports, contract evidence, what-if contract edit), **Review Queue** (validate / unresolved / close with audit log, data exceptions), **Business Impact** (detected vs validated vs recovered, kept separate; scenario calculator). How it works: **End-to-End Flow** (built vs pilot steps), **Technical Architecture** (architecture doc, AI vs rules, evaluation scorecard) |
 
 ## Data integrity rules
 The engine never guesses and never drops a record silently. A line it cannot price safely goes to **REVIEW** with an issue type. It is listed in `data/output/input_issues.csv` with its source file and row, and it is never counted as a match or as leakage.
