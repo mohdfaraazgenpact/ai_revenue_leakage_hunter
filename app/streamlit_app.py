@@ -731,9 +731,17 @@ def whatif_tab() -> None:
                     Decimal("0"),
                 )
             e = new_terms.escalation
-            c1, c2, c3 = st.columns(3)
+            held = res["lines"]
+            held = held[(held["contract_id"] == cid) & (held["status"] == "REVIEW")]
+            c1, c2, c3, c4 = st.columns(4)
             c1.metric("Leakage before edit", usd(before))
             c2.metric("Leakage after edit", usd(after), delta=f"{usd(after - before)}")
+            c4.metric(
+                "Lines sent to review",
+                len(held),
+                help="Lines the engine could not price safely with the edited terms. They are held for a "
+                "person to check, not counted as matches or leakage.",
+            )
             c3.metric(
                 "Escalation now read as",
                 {"none": "none", "fixed_pct": f"{e.rate_pct}%", "cpi": "CPI"}[e.type],
