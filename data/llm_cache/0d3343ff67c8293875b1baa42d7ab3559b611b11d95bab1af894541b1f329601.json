@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:26:12.434421+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6226,
+    "session_id": "3f73e939-f615-458f-a06d-5555b42bfe39"
+  },
+  "response": "{\"headline\": \"Coralstone HTC-2003 potential underbilling: contract price escalation never applied\", \"narrative\": \"Contract C-2017 sets the HTC-2003 software subscription at USD 129.75 per unit (Clause A.1). Clause 4.2 requires annual Unit Price increases starting July 1, 2024, and the billing system never applied them. Billing still uses USD 129.75, while the contract calculation gives a latest expected price of USD 138.05 (USD 129.75 x (1 + 3.4%) x (1 + 2.9%)). This is a potential underbilling of USD 15,372.97 across 18 invoice lines (2024-07-05 to 2025-12-05), with estimated recoverable USD 14,004.78.\", \"rebill_note_subject\": \"F-015 Coralstone Data Inc (C-2017, HTC-2003): potential underbilling, missed escalation \\u2013 rebill review\", \"rebill_note_body\": \"Internal review note \\u2013 not for customer distribution.\\n\\nFinding F-015: Potential underbilling on contract C-2017, SKU HTC-2003, for Coralstone Data Inc.\\n\\nRoot cause: the contractual annual price escalation was never applied in billing.\\n\\nBasis: Clause A.1 (page 3) sets the price at USD 129.75 per unit. Clause 4.2 (page 1) provides for annual Unit Price revisions from July 1, 2024, subject to a 1.5% minimum and 4% maximum.\\n\\nCalculation: USD 129.75 (base price) x (1 + 3.4%) [2024-07-01] x (1 + 2.9%) [2025-07-01] = USD 138.05. The latest billed unit price is USD 129.75.\\n\\nImpact: 18 invoice lines, 2024-07-05 to 2025-12-05. Potential underbilling is USD 15,372.97. Estimated recoverable amount is USD 14,004.78.\\n\\nProposed actions (for approval):\\n1. Pricing & Billing Master Data to load the escalated Unit Price into the billing price master from 2024-07-05.\\n2. Prepare a supplementary invoice for the under-billed lines.\\n\\nNo action will be taken until a human approver confirms.\"}"
+}

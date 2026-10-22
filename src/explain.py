@@ -1,6 +1,6 @@
 """Finding explanations and rebilling review notes.
 
-Gemini writes the language. Every number in its output must already exist in the finding's
+The LLM writes the language. Every number in its output must already exist in the finding's
 facts (numeric guardrail); otherwise the deterministic template is used instead.
 """
 

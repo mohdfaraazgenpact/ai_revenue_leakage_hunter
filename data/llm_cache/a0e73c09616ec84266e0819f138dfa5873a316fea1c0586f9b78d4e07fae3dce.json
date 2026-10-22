@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:24:40.898519+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6036,
+    "session_id": "7c69d8f3-3bd1-4773-bf50-e3d685e073bb"
+  },
+  "response": "{\"headline\": \"Potential underbilling on Trailhead LOG-3001: billed price below contract\", \"narrative\": \"Contract C-2009 sets the price for LOG-3001 (full truckload lane per load) at USD 1,427.25 per unit (clause A.2), with an annual 5% uplift taking effect on 1 March 2024 and annually thereafter (clause 4.2). Applying both uplifts gives an expected unit price of USD 1,573.54, but the latest billed unit price is USD 1,510.60. This potential underbilling affects 24 invoice lines from 2024-01-05 to 2025-12-05, totalling USD 91,159.59, of which an estimated USD 74,659.70 may be recoverable. The cause is that the billed Unit Price is below the contracted price; any rebill should wait until the account owner confirms that no undocumented concession exists.\", \"rebill_note_subject\": \"F-004 Internal rebilling review: Trailhead Distribution Co, C-2009, LOG-3001\", \"rebill_note_body\": \"INTERNAL \\u2013 not for customer. Human approval required before any action.\\n\\nFinding F-004: potential underbilling, Trailhead Distribution Co, contract C-2009, SKU LOG-3001.\\n\\nBasis: Clause A.2 (page 3) sets USD 1,427.25 per unit. Clause 4.2 (page 1) provides a 5% annual uplift from 1 March 2024 and annually thereafter. Expected latest unit price: USD 1,573.54. Latest billed: USD 1,510.60.\\n\\nScope: 24 invoice lines, 2024-01-05 to 2025-12-05. Potential underbilled amount: USD 91,159.59. Estimated recoverable: USD 74,659.70.\\n\\nSuggested owners: Billing Operations & Sales Operations.\\n\\nNext steps:\\n1. Correct the Unit Price in the price master.\\n2. Confirm with the account owner that no undocumented concession exists.\\n3. Only then prepare a rebill draft for manager and controller review.\"}"
+}

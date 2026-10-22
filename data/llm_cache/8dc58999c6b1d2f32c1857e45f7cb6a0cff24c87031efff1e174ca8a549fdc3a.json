@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:20:15.421120+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5311,
+    "session_id": "66306677-df62-4cbe-898b-5b2ada2624ee"
+  },
+  "response": "{\"customer_name\": \"Trailhead Distribution Co\", \"effective_date\": \"2023-03-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means 1 March 2023.\"}, \"end_date\": \"2026-02-28\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until 28 February 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"LOG-3005\", \"description\": \"Cross-dock handling per pallet\", \"unit_price\": 16.75, \"citation\": {\"clause_id\": \"A.1\", \"page\": 3, \"quote\": \"LOG-3005 - Cross-dock handling per pallet: USD 16.75 per unit.\"}}, {\"sku\": \"LOG-3001\", \"description\": \"Full truckload lane per load\", \"unit_price\": 1427.25, \"citation\": {\"clause_id\": \"A.2\", \"page\": 3, \"quote\": \"LOG-3001 - Full truckload lane per load: USD 1,427.25 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 5, \"first_escalation_date\": \"2024-03-01\", \"compounding\": null, \"cap_pct\": null, \"floor_pct\": null, \"derivation\": \"Clause 4.2 states an annual 5% uplift taking effect on 1 March 2024 and annually thereafter; compounding is not stated.\", \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"The parties agree to an annual price uplift of 5% which shall take effect on 1 March 2024 and annually thereafter.\"}}, \"amendments\": [], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.97, \"prices\": 0.97, \"escalation\": 0.85, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}

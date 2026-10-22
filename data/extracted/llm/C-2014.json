@@ -1,0 +1,69 @@
+{
+  "contract_id": "C-2014",
+  "customer_name": "Brightwave Semiconductors Inc",
+  "customer_id": null,
+  "currency": "USD",
+  "effective_date": "2023-03-15",
+  "end_date": "2026-03-14",
+  "prices": [
+    {
+      "sku": "HTC-2004",
+      "description": "Premium support per device",
+      "unit_price": "103.25",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "HTC-2004 - Premium support per device: USD 103.25 per unit.",
+        "verified": true
+      }
+    },
+    {
+      "sku": "HTC-2002",
+      "description": "Network switch 48-port",
+      "unit_price": "2330.50",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 3,
+        "quote": "HTC-2002 - Network switch 48-port: USD 2,330.50 per unit.",
+        "verified": true
+      }
+    },
+    {
+      "sku": "HTC-2005",
+      "description": "Sensor module",
+      "unit_price": "37.00",
+      "citation": {
+        "clause_id": "A.3",
+        "page": 3,
+        "quote": "HTC-2005 - Sensor module: USD 37.00 per unit.",
+        "verified": true
+      }
+    }
+  ],
+  "escalation": {
+    "type": "none",
+    "rate_pct": null,
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": null,
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "Unit Prices shall remain firm and fixed for the duration of this Agreement.",
+      "verified": true
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [],
+  "field_confidence": {
+    "customer_and_dates": 0.98,
+    "prices": 0.98,
+    "escalation": 0.97,
+    "amendments": 0.95,
+    "discounts": 0.95
+  },
+  "source": "llm",
+  "prompt_version": "extract_terms.v2"
+}

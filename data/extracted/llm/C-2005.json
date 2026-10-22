@@ -1,0 +1,58 @@
+{
+  "contract_id": "C-2005",
+  "customer_name": "Quantum Harbor Networks LLC",
+  "customer_id": null,
+  "currency": "USD",
+  "effective_date": "2024-02-01",
+  "end_date": "2027-01-31",
+  "prices": [
+    {
+      "sku": "HTC-2002",
+      "description": "Network switch 48-port",
+      "unit_price": "2845.75",
+      "citation": {
+        "clause_id": "A.1",
+        "page": 3,
+        "quote": "HTC-2002 - Network switch 48-port: USD 2,845.75 per unit.",
+        "verified": true
+      }
+    },
+    {
+      "sku": "HTC-2003",
+      "description": "Software subscription per seat",
+      "unit_price": "224.75",
+      "citation": {
+        "clause_id": "A.2",
+        "page": 3,
+        "quote": "HTC-2003 - Software subscription per seat: USD 224.75 per unit.",
+        "verified": true
+      }
+    }
+  ],
+  "escalation": {
+    "type": "none",
+    "rate_pct": null,
+    "cap_pct": null,
+    "floor_pct": null,
+    "first_escalation_date": null,
+    "frequency": "annual",
+    "compounding": true,
+    "citation": {
+      "clause_id": "4.2",
+      "page": 1,
+      "quote": "Unit Prices shall remain firm and fixed for the duration of this Agreement.",
+      "verified": true
+    }
+  },
+  "amendments": [],
+  "approved_discounts": [],
+  "field_confidence": {
+    "customer_and_dates": 0.98,
+    "prices": 0.98,
+    "escalation": 0.97,
+    "amendments": 0.95,
+    "discounts": 0.95
+  },
+  "source": "llm",
+  "prompt_version": "extract_terms.v2"
+}

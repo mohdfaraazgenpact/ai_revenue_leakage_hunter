@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:23:35.109662+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5554,
+    "session_id": "01d003df-e444-42c9-9e57-d826c44d0896"
+  },
+  "response": "{\"customer_name\": \"Silverline Pumps Ltd\", \"effective_date\": \"2023-05-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means 1 May 2023.\"}, \"end_date\": \"2026-04-30\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until 30 April 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"MFG-1005\", \"description\": \"Servo motor unit\", \"unit_price\": 593, \"citation\": {\"clause_id\": \"A.1\", \"page\": 1, \"quote\": \"MFG-1005 - Servo motor unit: USD 593.00 per unit.\"}}, {\"sku\": \"MFG-1003\", \"description\": \"Machined steel housing\", \"unit_price\": 111, \"citation\": {\"clause_id\": \"A.2\", \"page\": 1, \"quote\": \"MFG-1003 - Machined steel housing: USD 111.00 per unit.\"}}, {\"sku\": \"MFG-1002\", \"description\": \"Hydraulic valve block\", \"unit_price\": 396.25, \"citation\": {\"clause_id\": \"A.3\", \"page\": 1, \"quote\": \"MFG-1002 - Hydraulic valve block: USD 396.25 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 2.5, \"first_escalation_date\": \"2024-05-01\", \"compounding\": true, \"floor_pct\": null, \"cap_pct\": null, \"derivation\": \"Clause 4.2 sets a 2.5% compounding annual increase starting on the first anniversary of the Effective Date (1 May 2023), giving 2024-05-01.\", \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"Commencing on the first anniversary of the Effective Date and on each anniversary thereafter, all Unit Prices in Schedule A shall be adjusted upward by two and one-half percent (2.5%), compounding.\"}}, \"amendments\": [], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.98, \"escalation\": 0.97, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}

@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:19:29.171506+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5063,
+    "session_id": "04900aa6-d201-4e7f-8a71-ad2d1da33239"
+  },
+  "response": "{\"customer_name\": \"Quantum Harbor Networks LLC\", \"effective_date\": \"2024-02-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means 1 February 2024.\"}, \"end_date\": \"2027-01-31\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until 31 January 2027, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"HTC-2002\", \"description\": \"Network switch 48-port\", \"unit_price\": 2845.75, \"citation\": {\"clause_id\": \"A.1\", \"page\": 3, \"quote\": \"HTC-2002 - Network switch 48-port: USD 2,845.75 per unit.\"}}, {\"sku\": \"HTC-2003\", \"description\": \"Software subscription per seat\", \"unit_price\": 224.75, \"citation\": {\"clause_id\": \"A.2\", \"page\": 3, \"quote\": \"HTC-2003 - Software subscription per seat: USD 224.75 per unit.\"}}], \"escalation\": {\"type\": \"none\", \"derivation\": \"Clause 4.2 states Unit Prices are firm and fixed for the duration of the Agreement; no escalation found elsewhere.\", \"rate_pct\": null, \"first_escalation_date\": null, \"compounding\": null, \"cap_pct\": null, \"floor_pct\": null, \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"Unit Prices shall remain firm and fixed for the duration of this Agreement.\"}}, \"amendments\": [], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.98, \"escalation\": 0.97, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}

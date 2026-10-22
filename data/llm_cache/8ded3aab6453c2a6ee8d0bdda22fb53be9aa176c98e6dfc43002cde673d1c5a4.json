@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:25:30.472484+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5426,
+    "session_id": "8e66f1b5-cfe5-45cd-84d8-3f7d7eb961cd"
+  },
+  "response": "{\"headline\": \"Potential underbilling: missed 3% escalation on Helix Arc Robotics switches\", \"narrative\": \"Contract C-2020 with Helix Arc Robotics LLC sets the price of HTC-2002 (Network switch 48-port) at USD 2,788.00 per unit (Clause A.2). Clause 4.2 raises Unit Prices by 3% on 1 January 2025 and on each anniversary thereafter, giving an expected unit price of USD 2,871.64. Billing never applied the escalation and still charges USD 2,788.00, so 12 invoice lines from 2025-01-05 to 2025-12-05 show potential underbilling of USD 22,582.80. The estimated recoverable amount is USD 22,582.80.\", \"rebill_note_subject\": \"F-010 \\u2013 Internal rebilling review: Helix Arc Robotics LLC, C-2020, HTC-2002\", \"rebill_note_body\": \"Finding: F-010 | Contract: C-2020 | SKU: HTC-2002\\nRoot cause: MISSED_ESCALATION \\u2013 the contractual annual price escalation was never applied in billing.\\n\\nFacts: Clause A.2 (p.1) sets the price at USD 2,788.00 per unit. Clause 4.2 (p.1) provides a 3% Unit Price increase on 1 January 2025 and each anniversary. Expected unit price is USD 2,871.64; billed unit price is USD 2,788.00. 12 invoice lines (2025-01-05 to 2025-12-05) are affected, with potential underbilling of USD 22,582.80 (estimated recoverable: USD 22,582.80).\\n\\nRecommended action (owner: Pricing & Billing Master Data): Load the escalated Unit Price into the billing price master from 2025-01-05, and prepare a supplementary invoice for the under-billed lines.\\n\\nApproval: Billing manager and finance controller to review before any invoice is issued. This note is internal and not for the customer.\"}"
+}

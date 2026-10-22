@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:27:04.264684+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6312,
+    "session_id": "ec29310d-c1a9-4cac-9b2f-095d0564a895"
+  },
+  "response": "{\"headline\": \"Potential underbilling: 2025 price escalation missed for Polaris Mesh Labs, HTC-2002\", \"narrative\": \"Contract C-2029 sets HTC-2002 (Network switch 48-port) at USD 2,006.25 per unit (Clause A.1) and provides for an annual increase of 4.5% effective each January 1, starting January 1, 2025 (Clause 4.2). Billing never applied this escalation, so the latest billed unit price is USD 2006.25 instead of the expected USD 2096.53. This affects 12 invoice lines for 2025-01-20 to 2025-12-20, a potential underbilling of USD 6,500.16, all of which is estimated as recoverable. The suggested owner is Pricing & Billing Master Data, and a human must approve any action.\", \"rebill_note_subject\": \"F-021 \\u2013 Internal review: potential underbilling, Polaris Mesh Labs Inc (C-2029, HTC-2002)\", \"rebill_note_body\": \"INTERNAL \\u2013 NOT FOR CUSTOMER. Approval required before any action.\\n\\nFinding F-021 | Customer: Polaris Mesh Labs Inc | Contract: C-2029 | SKU: HTC-2002\\n\\nIssue: The contractual annual price escalation was never applied in billing (MISSED_ESCALATION), creating potential underbilling on 12 invoice lines, 2025-01-20 to 2025-12-20.\\n\\nContract basis: Clause A.1 (page 3) sets the price at USD 2,006.25 per unit. Clause 4.2 (page 1) provides a 4.5% annual increase effective each January 1, commencing January 1, 2025.\\n\\nCalculation: USD 2,006.25 (base price) x (1 + 4.5%) [2025-01-01] = USD 2,096.53. Latest billed unit price: USD 2006.25.\\n\\nAmount: USD 6,500.16. Estimated recoverable: USD 6,500.16.\\n\\nProposed actions (owner: Pricing & Billing Master Data):\\n1. Load the escalated Unit Price into the billing price master from 2025-01-20.\\n2. Prepare a supplementary invoice for the under-billed lines for approval.\"}"
+}

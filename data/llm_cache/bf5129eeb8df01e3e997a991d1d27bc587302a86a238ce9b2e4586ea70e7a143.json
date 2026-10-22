@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:24:49.453354+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5847,
+    "session_id": "b5630001-da55-4106-83fe-e8317b655bad"
+  },
+  "response": "{\"headline\": \"Potential underbilling: annual price escalation never applied to Silverline Pumps\", \"narrative\": \"Contract C-2028 sets the price for MFG-1002 (Hydraulic valve block) at USD 396.25 per unit (clause A.3) and requires a compounding 2.5% increase on each anniversary of the Effective Date (clause 4.2). Billing never applied these escalations, so 20 invoice lines from 2024-05-15 to 2025-12-15 were billed at USD 396.25 instead of the latest expected USD 416.31. This is a potential underbilling of USD 69,164.22, of which an estimated USD 62,593.62 is recoverable. The suggested owner is Pricing & Billing Master Data.\", \"rebill_note_subject\": \"Internal review: F-005 potential underbilling, Silverline Pumps Ltd (C-2028)\", \"rebill_note_body\": \"Finding F-005 | Customer: Silverline Pumps Ltd | Contract: C-2028 | SKU: MFG-1002\\n\\nIssue: The contractual annual price escalation was not applied in billing (potential underbilling). 20 invoice lines are affected for 2024-05-15 to 2025-12-15.\\n\\nSupport: Clause A.3 (page 1) sets the price at USD 396.25 per unit. Clause 4.2 (page 1) requires a 2.5% compounding annual uplift. Calculation: USD 396.25 x (1 + 2.5%) x (1 + 2.5%) = USD 416.31. The latest billed price is USD 396.25.\\n\\nAmount: USD 69,164.22 potential underbilling; estimated recoverable USD 62,593.62.\\n\\nProposed action, subject to approval: Pricing & Billing Master Data to load the escalated Unit Price into the billing price master from 2024-05-15. Prepare a supplementary invoice for the under-billed lines for review.\\n\\nNo customer contact until approved.\"}"
+}

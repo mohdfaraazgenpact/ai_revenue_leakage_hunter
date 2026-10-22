@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "explain_finding.v1",
+  "created_utc": "2026-10-19T06:26:55.405895+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6418,
+    "session_id": "1e67e934-7253-40ee-8ce5-babb8ab94cb4"
+  },
+  "response": "{\"headline\": \"Potential underbilling on HTC-2005: amended price not applied for Vertex Lattice\", \"narrative\": \"For Vertex Lattice Software Ltd (contract C-2011, SKU HTC-2005), a signed amendment (clause AM1.1) set the Unit Price at USD 39.00 per unit with effect from 1 May 2025, but billing kept the old price. Across 8 invoice lines from 2025-05-25 to 2025-12-25, the latest billed unit price was USD 36.41 against an expected USD 39.00. This is a potential underbilling of USD 10,461.01, all of which is estimated to be recoverable. The original price in clause A.1 and the escalation terms in clause 13.4 are the baseline the amendment replaces, and the countersignature on the amendment still needs confirming before any rebill.\", \"rebill_note_subject\": \"Internal review: potential underbilling, C-2011 / HTC-2005 (F-020)\", \"rebill_note_body\": \"Finding F-020 \\u2013 Vertex Lattice Software Ltd, contract C-2011, SKU HTC-2005.\\n\\nIssue: Amendment AM1.1 (page 4) sets the HTC-2005 Unit Price at USD 39.00 per unit with effect from 1 May 2025. Billing kept the old price (latest billed USD 36.41). Related clauses: A.1 (original price) and 13.4 (escalation).\\n\\nScope: 8 invoice lines, 2025-05-25 to 2025-12-25.\\nPotential underbilling: USD 10,461.01. Estimated recoverable: USD 10,461.01.\\n\\nSuggested owner: Contract Administration.\\n\\nProposed steps:\\n1. Confirm the amendment is countersigned.\\n2. Load the amended Unit Price into the price master effective 2025-05-25.\\n3. Prepare a rebill for approval.\\n\\nNo customer communication or rebill is to be issued until a human reviewer approves.\"}"
+}

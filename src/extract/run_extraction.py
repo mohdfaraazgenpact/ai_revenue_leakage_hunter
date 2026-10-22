@@ -3,15 +3,18 @@
     python -m src.extract.run_extraction                 # EXTRACTOR from .env (rule | llm)
     python -m src.extract.run_extraction --extractor both
 
-Writes data/extracted/<extractor>/<contract>.json and review_queue.csv.
+Writes data/extracted/<extractor>/<contract>.json, review_queue.csv and provenance.txt
+(which reader, model and prompt version produced the files).
 """
 
 from __future__ import annotations
 
 import argparse
 import csv
+import json
 import os
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 
 from src.extract import llm_extractor, rule_extractor
@@ -21,6 +24,12 @@ ROOT = Path(__file__).resolve().parents[2]
 CONTRACTS = ROOT / "data" / "contracts"
 OUT = ROOT / "data" / "extracted"
 QUEUE_FIELDS = ["contract_id", "field", "issue", "quote"]
+PROVENANCE = "provenance.txt"
+
+
+def read_provenance(extractor: str, out_root: Path = OUT) -> dict:
+    p = out_root / extractor / PROVENANCE
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
 
 
 def contract_files(contracts_dir: Path = CONTRACTS) -> list[Path]:
@@ -71,6 +80,20 @@ def run(extractor: str, contracts_dir: Path = CONTRACTS, out_root: Path = OUT, l
         w = csv.DictWriter(f, fieldnames=QUEUE_FIELDS)
         w.writeheader()
         w.writerows(queue)
+    prov = {
+        "extractor": extractor,
+        "created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "contracts_ok": ok,
+        "contracts_failed": failed,
+    }
+    if extractor == "llm":
+        prov |= {
+            "provider": llm.provider,
+            "model": llm.model,
+            "prompt_version": llm_extractor.PROMPT_VERSION,
+            "cache_mode": llm.cache_mode,
+        }
+    (out / PROVENANCE).write_text(json.dumps(prov, indent=2), encoding="utf-8")
     return {"extractor": extractor, "ok": ok, "failed": failed, "review_items": len(queue)}
 
 

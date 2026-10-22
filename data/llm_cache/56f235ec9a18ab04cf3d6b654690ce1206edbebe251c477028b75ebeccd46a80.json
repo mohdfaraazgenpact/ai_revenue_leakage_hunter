@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:20:37.990650+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6289,
+    "session_id": "246248c9-6ceb-4cfd-8640-cf9345eee665"
+  },
+  "response": "{\"customer_name\": \"Vertex Lattice Software Ltd\", \"effective_date\": \"2023-02-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means 1 February 2023.\"}, \"end_date\": \"2026-01-31\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until 31 January 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"HTC-2005\", \"description\": \"Sensor module\", \"unit_price\": 35, \"citation\": {\"clause_id\": \"A.1\", \"page\": 3, \"quote\": \"HTC-2005 - Sensor module: USD 35.00 per unit.\"}}, {\"sku\": \"HTC-2002\", \"description\": \"Network switch 48-port\", \"unit_price\": 2791, \"citation\": {\"clause_id\": \"A.2\", \"page\": 3, \"quote\": \"HTC-2002 - Network switch 48-port: USD 2,791.00 per unit.\"}}, {\"sku\": \"HTC-2003\", \"description\": \"Software subscription per seat\", \"unit_price\": 124.25, \"citation\": {\"clause_id\": \"A.3\", \"page\": 3, \"quote\": \"HTC-2003 - Software subscription per seat: USD 124.25 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 2, \"first_escalation_date\": \"2024-02-01\", \"compounding\": null, \"cap_pct\": null, \"floor_pct\": null, \"citation\": {\"clause_id\": \"13.4\", \"page\": 2, \"quote\": \"Notwithstanding Section 4.2, the Unit Prices in Schedule A will escalate at two percent (2%) per annum, with the first such escalation on 1 February 2024 and subsequent escalations on each anniversary thereof.\"}, \"derivation\": \"Rate and first escalation date are stated explicitly in clause 13.4; the contract does not say whether escalation compounds.\"}, \"amendments\": [{\"amendment_id\": \"AM1\", \"effective_date\": \"2025-05-01\", \"sku\": \"HTC-2005\", \"new_unit_price\": 39, \"new_escalation_rate_pct\": null, \"citation\": {\"clause_id\": \"AM1.1\", \"page\": 4, \"quote\": \"With effect from 1 May 2025, the Unit Price for HTC-2005 (Sensor module) in Schedule A shall be USD 39.00 per unit.\"}}], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.97, \"escalation\": 0.9, \"amendments\": 0.93, \"discounts\": 0.9}}"
+}

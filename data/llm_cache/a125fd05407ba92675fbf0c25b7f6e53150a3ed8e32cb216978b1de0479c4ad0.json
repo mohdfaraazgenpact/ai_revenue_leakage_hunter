@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:19:19.115617+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6009,
+    "session_id": "6bd075bd-482e-499c-92a4-ef66d20c7b47"
+  },
+  "response": "{\"customer_name\": \"Ironvale Components Inc\", \"effective_date\": \"2023-11-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means November 1, 2023.\"}, \"end_date\": \"2026-10-31\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until October 31, 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"MFG-1002\", \"description\": \"Hydraulic valve block\", \"unit_price\": 377.25, \"citation\": {\"clause_id\": \"A.1\", \"page\": 1, \"quote\": \"MFG-1002 - Hydraulic valve block: USD 377.25 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 5, \"first_escalation_date\": \"2024-11-01\", \"compounding\": true, \"cap_pct\": null, \"floor_pct\": null, \"citation\": {\"clause_id\": \"A.99\", \"page\": 1, \"quote\": \"Annual Adjustment: the Unit Prices above increase by 5% compounding, first applied on November 1, 2024 and on each anniversary thereafter.\"}, \"derivation\": \"Rate (5%), compounding and first application date (November 1, 2024) are stated explicitly in Schedule A clause A.99.\"}, \"amendments\": [], \"approved_discounts\": [{\"sku\": \"MFG-1002\", \"discount_pct\": 7.5, \"start_date\": \"2025-02-01\", \"end_date\": \"2025-06-30\", \"citation\": {\"clause_id\": \"SL1.1\", \"page\": 1, \"quote\": \"For the period from February 1, 2025 to June 30, 2025 (inclusive), Supplier grants Customer a promotional discount of seven and one-half percent (7.5%) on the Unit Price of MFG-1002 (Hydraulic valve block).\"}}], \"confidence\": {\"customer_and_dates\": 0.99, \"prices\": 0.99, \"escalation\": 0.98, \"amendments\": 0.95, \"discounts\": 0.98}}"
+}

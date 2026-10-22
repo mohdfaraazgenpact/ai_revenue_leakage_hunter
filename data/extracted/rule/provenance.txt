@@ -1,0 +1,6 @@
+{
+  "extractor": "rule",
+  "created_utc": "2026-10-19T07:30:42+00:00",
+  "contracts_ok": 30,
+  "contracts_failed": 0
+}

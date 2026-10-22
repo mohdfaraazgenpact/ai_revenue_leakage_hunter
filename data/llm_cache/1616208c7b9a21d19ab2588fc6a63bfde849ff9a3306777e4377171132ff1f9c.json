@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:19:08.999129+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6231,
+    "session_id": "cce83593-0c99-406d-a318-96b16d4bd7d2"
+  },
+  "response": "{\"customer_name\": \"Meridian Freightways Inc\", \"effective_date\": \"2024-06-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means 1 June 2024.\"}, \"end_date\": \"2027-05-31\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until 31 May 2027, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"LOG-3003\", \"description\": \"Last-mile parcel delivery\", \"unit_price\": 11.25, \"citation\": {\"clause_id\": \"A.1\", \"page\": 3, \"quote\": \"LOG-3003 - Last-mile parcel delivery: USD 11.25 per unit.\"}}, {\"sku\": \"LOG-3002\", \"description\": \"Pallet storage per pallet-month\", \"unit_price\": 38.5, \"citation\": {\"clause_id\": \"A.2\", \"page\": 3, \"quote\": \"LOG-3002 - Pallet storage per pallet-month: USD 38.50 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 2.5, \"first_escalation_date\": \"2025-06-01\", \"compounding\": null, \"floor_pct\": null, \"cap_pct\": null, \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"Unit Prices are subject to an annual increase of two and one-half percent (2.5%) effective each June 1, commencing 1 June 2025.\"}, \"derivation\": \"Rate and first date stated explicitly in clause 4.2; the contract does not say whether increases compound, though AM1.1 says adjustments continue to apply to the amended Unit Price.\"}, \"amendments\": [{\"amendment_id\": \"AM1\", \"effective_date\": \"2024-09-29\", \"sku\": \"LOG-3003\", \"new_unit_price\": 12, \"new_escalation_rate_pct\": null, \"citation\": {\"clause_id\": \"AM1.1\", \"page\": 4, \"quote\": \"With effect from 29 September 2024, the Unit Price for LOG-3003 (Last-mile parcel delivery) in Schedule A shall be USD 12.00 per unit.\"}}], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.97, \"prices\": 0.97, \"escalation\": 0.9, \"amendments\": 0.95, \"discounts\": 0.9}}"
+}

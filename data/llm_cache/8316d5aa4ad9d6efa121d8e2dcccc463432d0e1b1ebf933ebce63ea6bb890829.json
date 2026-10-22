@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:23:03.477624+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5978,
+    "session_id": "b2ca3f19-c0a9-424b-93d7-e5e2699e5f21"
+  },
+  "response": "{\"customer_name\": \"Granite Bay Fasteners Inc\", \"effective_date\": \"2023-05-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means May 1, 2023.\"}, \"end_date\": \"2026-04-30\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until April 30, 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"MFG-1001\", \"description\": \"Precision bearing assembly\", \"unit_price\": 89.75, \"citation\": {\"clause_id\": \"A.1\", \"page\": 3, \"quote\": \"MFG-1001 - Precision bearing assembly: USD 89.75 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 3, \"first_escalation_date\": \"2024-05-01\", \"compounding\": null, \"cap_pct\": null, \"floor_pct\": null, \"derivation\": \"Clause 13.4 states a 3% per annum escalation with the first escalation on May 1, 2024 and subsequent ones on each anniversary; the contract does not say whether it compounds.\", \"citation\": {\"clause_id\": \"13.4\", \"page\": 2, \"quote\": \"Notwithstanding Section 4.2, the Unit Prices in Schedule A will escalate at three percent (3%) per annum, with the first such escalation on May 1, 2024 and subsequent escalations on each anniversary thereof.\"}}, \"amendments\": [], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.97, \"escalation\": 0.9, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}

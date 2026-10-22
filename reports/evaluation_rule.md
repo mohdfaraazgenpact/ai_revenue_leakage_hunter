@@ -1,6 +1,6 @@
 # Detection Evaluation - rule
 
-_Generated 2026-10-15 15:16. Terms source: `C:\Users\703227747\.claude\projects\AI Revenue Hunter\ai_revenue_leakage_hunter_poc\data\extracted\rule`. Synthetic data only._
+_Generated 2026-10-19 13:00. Terms source: `C:\Users\703227747\.claude\projects\AI Revenue Hunter\ai_revenue_leakage_hunter_poc\data\extracted\rule`. Synthetic data only._
 
 **Gate: FAIL - recall 0.7138 < 0.9; $ error 34.057% > 5.0%; USD 139,908.50 of false overbilling (contract terms misread)**
 

@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:23:44.803389+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 5364,
+    "session_id": "dc2f20cb-af3e-43d8-8839-448bc7989f4c"
+  },
+  "response": "{\"customer_name\": \"Polaris Mesh Labs Inc\", \"effective_date\": \"2024-01-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means January 1, 2024.\"}, \"end_date\": \"2026-12-31\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until December 31, 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"HTC-2002\", \"description\": \"Network switch 48-port\", \"unit_price\": 2006.25, \"citation\": {\"clause_id\": \"A.1\", \"page\": 3, \"quote\": \"HTC-2002 - Network switch 48-port: USD 2,006.25 per unit.\"}}, {\"sku\": \"HTC-2005\", \"description\": \"Sensor module\", \"unit_price\": 36, \"citation\": {\"clause_id\": \"A.2\", \"page\": 3, \"quote\": \"HTC-2005 - Sensor module: USD 36.00 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 4.5, \"first_escalation_date\": \"2025-01-01\", \"compounding\": null, \"cap_pct\": null, \"floor_pct\": null, \"derivation\": \"Clause 4.2 states an annual increase of 4.5% effective each January 1, commencing January 1, 2025; the contract does not say whether it compounds.\", \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"Unit Prices are subject to an annual increase of four and one-half percent (4.5%) effective each January 1, commencing January 1, 2025.\"}}, \"amendments\": [], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.98, \"escalation\": 0.9, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}

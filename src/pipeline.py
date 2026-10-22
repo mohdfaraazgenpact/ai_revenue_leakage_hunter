@@ -1,7 +1,7 @@
 """End-to-end run: terms -> reconciliation -> findings -> explanations.
 
 python -m src.pipeline                          # detector run: terms from EXTRACTOR (llm, else rule)
-python -m src.pipeline --explain                # add Gemini narratives (cached)
+python -m src.pipeline --explain                # add LLM narratives (cached)
 python -m src.pipeline --oracle                 # ENGINE-ONLY evaluation with the answer-key terms
 
 A detector run never falls back to the answer key (data/eval/gold). If no extracted terms exist it

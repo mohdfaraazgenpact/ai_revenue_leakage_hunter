@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:21:00.081190+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 8374,
+    "session_id": "b6b023a9-19a4-4d4f-a3d7-48992541712a"
+  },
+  "response": "{\"customer_name\": \"Harborview Plastics Inc\", \"effective_date\": \"2023-04-15\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means 15 April 2023.\"}, \"end_date\": \"2026-04-14\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until 14 April 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"MFG-1002\", \"description\": \"Hydraulic valve block\", \"unit_price\": 240, \"citation\": {\"clause_id\": \"A.1\", \"page\": 3, \"quote\": \"MFG-1002 - Hydraulic valve block: USD 240.00 per unit.\"}}, {\"sku\": \"MFG-1003\", \"description\": \"Machined steel housing\", \"unit_price\": 104.25, \"citation\": {\"clause_id\": \"A.2\", \"page\": 3, \"quote\": \"MFG-1003 - Machined steel housing: USD 104.25 per unit.\"}}, {\"sku\": \"MFG-1005\", \"description\": \"Servo motor unit\", \"unit_price\": 820.75, \"citation\": {\"clause_id\": \"A.3\", \"page\": 3, \"quote\": \"MFG-1005 - Servo motor unit: USD 820.75 per unit.\"}}], \"escalation\": {\"type\": \"fixed_pct\", \"rate_pct\": 2.5, \"first_escalation_date\": \"2024-04-15\", \"compounding\": null, \"cap_pct\": null, \"floor_pct\": null, \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"On 15 April 2024 and on each anniversary of that date thereafter, the Unit Prices shall increase by 2.5%.\"}, \"derivation\": \"Clause 4.2 explicitly states a 2.5% increase starting 15 April 2024 and annually thereafter; the contract does not say whether it compounds.\"}, \"amendments\": [], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.98, \"escalation\": 0.9, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}

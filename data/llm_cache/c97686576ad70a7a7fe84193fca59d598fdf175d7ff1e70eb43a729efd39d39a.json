@@ -1,0 +1,15 @@
+{
+  "provider": "claude_code",
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "extract_terms.v2",
+  "created_utc": "2026-10-19T06:21:43.297136+00:00",
+  "meta": {
+    "models_used": [
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5"
+    ],
+    "duration_ms": 6623,
+    "session_id": "5b3fb2f2-c1e4-4645-b2cf-39d467574ef0"
+  },
+  "response": "{\"customer_name\": \"Coralstone Data Inc\", \"effective_date\": \"2023-07-01\", \"effective_date_citation\": {\"clause_id\": \"1.2\", \"page\": 1, \"quote\": \"\\\"Effective Date\\\" means July 1, 2023.\"}, \"end_date\": \"2026-06-30\", \"end_date_citation\": {\"clause_id\": \"2.1\", \"page\": 1, \"quote\": \"This Agreement commences on the Effective Date and continues until June 30, 2026, unless terminated earlier in accordance with Section 10.\"}, \"currency\": \"USD\", \"prices\": [{\"sku\": \"HTC-2003\", \"description\": \"Software subscription per seat\", \"unit_price\": 129.75, \"citation\": {\"clause_id\": \"A.1\", \"page\": 3, \"quote\": \"HTC-2003 - Software subscription per seat: USD 129.75 per unit.\"}}, {\"sku\": \"HTC-2002\", \"description\": \"Network switch 48-port\", \"unit_price\": 2740.25, \"citation\": {\"clause_id\": \"A.2\", \"page\": 3, \"quote\": \"HTC-2002 - Network switch 48-port: USD 2,740.25 per unit.\"}}], \"escalation\": {\"type\": \"cpi\", \"rate_pct\": null, \"floor_pct\": 1.5, \"cap_pct\": 4, \"compounding\": null, \"first_escalation_date\": \"2024-07-01\", \"derivation\": \"Clause 4.2 states Unit Prices are revised from July 1, 2024 and annually thereafter in line with CPI-U, with a 1.5% minimum and 4% maximum; compounding is not stated.\", \"citation\": {\"clause_id\": \"4.2\", \"page\": 1, \"quote\": \"Commencing July 1, 2024 and annually thereafter, Unit Prices shall be revised in line with the annual CPI-U inflation rate published for the prior calendar year, subject to a minimum increase of one and one-half percent (1.5%) and a maximum increase of four percent (4%).\"}}, \"amendments\": [], \"approved_discounts\": [], \"confidence\": {\"customer_and_dates\": 0.98, \"prices\": 0.98, \"escalation\": 0.9, \"amendments\": 0.95, \"discounts\": 0.95}}"
+}
