@@ -2,6 +2,8 @@
 
 *Contract intelligence · Deterministic reconciliation · Evidence-backed investigation*
 
+**Opening.** The contract says one thing. The invoice says another. The cash never tells you why. The question isn't just "what did we invoice?" It's "what should we have invoiced, and what happened to the difference?"
+
 **The problem.** Contract pricing, escalation clauses and amendments can drift away from what is actually billed. The resulting exceptions are hard to detect consistently at scale.
 
 **Opportunity sizing.** To size the opportunity, we use a deliberately conservative 1% assumption against addressable annual billings. Published estimates are higher: MGI Research reports revenue leakage of at least 3–5%, while WorldCC reports losses associated with poor contract management of around 9%. These studies use broader definitions and different measurement bases, so we do not treat them as direct benchmarks for our solution. Our 1% is a planning assumption for a price-leakage use case, which we will validate through a controlled pilot. (Sources and caveats: app Home page, "Sources and caveats".)

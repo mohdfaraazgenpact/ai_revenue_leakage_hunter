@@ -60,18 +60,28 @@ div[data-testid="stMetricValue"] {font-size: 1.9rem;}
 .doc {font-family: Georgia, serif; font-size: .9rem; line-height: 1.5; white-space: pre-wrap; max-height: 420px;
       overflow-y: auto; border: 1px solid rgba(128,128,128,.3); padding: .8rem; border-radius: 6px;}
 mark {background: #ffe066; color: #111; padding: 0 2px;}
-.hero {background: #13304a; color: #fff; border-radius: 12px; padding: 1.4rem 1.6rem 1.5rem; margin-bottom: 1rem;}
-.hero .brand {font-weight: 700; font-size: 1.05rem;}
-.hero .kicker {font-size: .75rem; letter-spacing: .06em; opacity: .8; text-transform: uppercase;}
-.hero hr {border: 0; border-top: 1px solid rgba(255,255,255,.2); margin: .9rem 0;}
-.hero h1 {color: #fff; font-size: 2rem; margin: 0 0 .4rem; padding: 0;}
-.hero p {font-size: 1.05rem; opacity: .92; margin: 0 0 .9rem;}
-.chip {display: inline-block; background: #1f6f78; color: #fff; font-weight: 600; font-size: .85rem;
-       border-radius: 6px; padding: .35rem .7rem; margin: 0 .4rem .4rem 0;}
-.aud {display: inline-block; border: 1px solid rgba(128,128,128,.35); border-radius: 6px; padding: .3rem .7rem;
-      margin: 0 .4rem .4rem 0; font-size: .9rem;}
+.hero {background: #13304a; color: #fff; border-radius: 12px; padding: 1.4rem 1.6rem 1.3rem; margin-bottom: 1rem;}
+.hero .kicker {font-size: .75rem; letter-spacing: .08em; opacity: .8; text-transform: uppercase; margin-bottom: .4rem;}
+.hero h1 {color: #fff; font-size: 2.1rem; margin: 0 0 .4rem; padding: 0;}
+.hero p {font-size: 1.05rem; opacity: .92; margin: 0 0 .8rem;}
+.hero .strap {font-size: .9rem; opacity: .75; border-top: 1px solid rgba(255,255,255,.2); padding-top: .7rem;}
+.kpi {border: 1px solid rgba(128,128,128,.3); border-top: 4px solid; border-radius: 10px; padding: .8rem 1.1rem;}
+.kpi .tag, .opp .tag {font-size: .78rem; letter-spacing: .04em; opacity: .75; text-transform: uppercase;}
+.kpi .big {font-size: 1.9rem; font-weight: 700;}
+.kpi .note {font-size: .82rem; opacity: .7;}
+.kpi.det {border-top-color: #2f6fb3;} .kpi.det .big {color: #2f6fb3;}
+.kpi.val {border-top-color: #1e9e4a;} .kpi.val .big {color: #1e9e4a;}
+.kpi.rec {border-top: 4px dashed #9a9a9a;} .kpi.rec .big {color: #8a8a8a; font-size: 1.5rem; padding: .25rem 0;}
+.stages {display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; margin-bottom: 1rem;}
+.stage {display: flex; gap: .6rem; align-items: flex-start; border: 1px solid rgba(47,111,179,.45);
+        background: rgba(47,111,179,.07); border-radius: 10px; padding: .7rem .8rem; font-size: .9rem;}
+.stage span {font-size: .8rem; opacity: .75;}
+.stage .n {background: #2f6fb3; color: #fff; border-radius: 50%; min-width: 1.6rem; height: 1.6rem;
+           display: flex; align-items: center; justify-content: center; font-weight: 700;}
+.stage.pilot {border: 1px dashed rgba(128,128,128,.6); background: transparent;}
+.stage.pilot .n {background: #9a9a9a;}
+@media (max-width: 800px) {.stages {grid-template-columns: 1fr 1fr;}}
 .opp {border: 1px solid rgba(128,128,128,.3); border-radius: 10px; padding: 1rem 1.2rem;}
-.opp .tag {font-size: .78rem; letter-spacing: .04em; opacity: .75;}
 .opp .big {font-size: 2rem; font-weight: 700; color: #1e9e4a;}
 </style>""",
     unsafe_allow_html=True,
@@ -205,52 +215,175 @@ def oracle_banner() -> None:
 
 
 # ---------------------------------------------------------------- Home
+# The live-reveal case (docs/live_reveal.md): an amendment on page 4 that billing never loaded.
+FEATURED = finding_key("C-2003", "LOG-3003", "AMENDMENT_NOT_APPLIED")
+# The clause that creates the entitlement the invoice missed.
+ENTITLEMENT_CLAUSE = {
+    "AMENDMENT_NOT_APPLIED": "amendment",
+    "MISSED_ESCALATION": "escalation",
+    "PARTIAL_ESCALATION": "escalation",
+}
+
+
+def open_finding(f, page: str) -> None:
+    st.session_state["analysis_pick" if page == "analysis" else "review_pick"] = finding_label(f)
+    st.switch_page(PAGES[page])
+
+
 def page_home() -> None:
     st.markdown(
         """<div class="hero">
-<div class="brand">🏛️ AI Revenue Leakage Hunter</div>
-<div class="kicker">Intelligent O2C revenue assurance</div>
-<hr/>
-<h1>Recover the revenue you've already earned.</h1>
-<p>Identify contract-to-invoice discrepancies, prioritise investigation, and help Finance teams turn missed
-billing opportunities into validated recovery actions.</p>
-<span class="chip">Contract-to-cash visibility</span><span class="chip">Evidence-backed findings</span><span
-class="chip">Human-validated recovery</span>
+<div class="kicker">Revenue assurance | O2C</div>
+<h1>Find the revenue you earned but didn't bill.</h1>
+<p>Connect contractual entitlements to invoice-level evidence and prioritise recovery opportunities.</p>
+<div class="strap">The contract says one thing. The invoice says another. The question isn't just what we
+invoiced, but what we should have invoiced, and what happened to the difference.</div>
 </div>""",
         unsafe_allow_html=True,
     )
+    oracle_banner()
 
-    # Illustrative opportunity model directly under the headline.
-    st.markdown("##### Illustrative opportunity model — not a validated result")
-    a, x, b, eq, r = st.columns([3, 0.4, 3, 0.4, 4], vertical_alignment="center")
-    billings = a.number_input(
-        "Addressable annual billings (USD billion)", 0.1, 100.0, 1.0, step=0.1, format="%.1f"
+    decisions = latest_decisions()
+    detected = sum((f.amount for f in under), Decimal("0"))
+    validated = [f for f in under if review_status(f, decisions) == VALIDATED]
+    validated_usd = sum((f.amount for f in validated), Decimal("0"))
+    k = st.columns(3)
+    for col, cls, tag, value, note in (
+        (k[0], "det", "Potential leakage", usd(detected), f"Detected · {len(under)} findings"),
+        (
+            k[1],
+            "val",
+            "Finance validated",
+            usd(validated_usd),
+            f"Validated · {len(validated)} of {len(under)} findings",
+        ),
+        (k[2], "rec", "Cash recovered", "Not yet tracked", "Recovered · needs pilot integration"),
+    ):
+        col.markdown(
+            f"""<div class="kpi {cls}"><div class="tag">{tag}</div><div class="big">{value}</div>
+<div class="note">{note}</div></div>""",
+            unsafe_allow_html=True,
+        )
+    st.caption(
+        "Synthetic PoC data. Detected is not validated, and validated is not cash: the three are never added."
     )
-    x.markdown("### ×")
-    rate = b.number_input(
-        "Assumed leakage rate (%)",
-        0.1,
-        5.0,
-        1.0,
-        step=0.1,
-        format="%.1f",
-        help="A conservative planning assumption for a price-leakage use case, not a measured industry "
-        "rate. See 'Sources and caveats' below.",
-    )
-    eq.markdown("### =")
-    opportunity = billings * 1e9 * rate / 100
-    r.markdown(
-        f"""<div class="opp"><div class="tag">POTENTIAL GROSS LEAKAGE OPPORTUNITY</div>
-<div class="big">{money_short(opportunity)}</div></div>""",
+
+    st.markdown("##### From contract to cash")
+    stages = [
+        (
+            "Contract",
+            f"{summary['contracts']} contracts read, every term quoted from its clause",
+            "built",
+        ),
+        ("Detect", f"{usd(detected)} potential underbilling, calculated, not estimated", "built"),
+        ("Validate", f"{len(validated)} validated by Finance, each decision audit-logged", "built"),
+        ("Recover", "Rebill, receivable and cash receipt: target operating model", "pilot"),
+    ]
+    st.markdown(
+        '<div class="stages">'
+        + "".join(
+            f'<div class="stage {state}"><div class="n">{i}</div><div><b>{name}</b><br/>'
+            f"<span>{html.escape(text)}</span></div></div>"
+            for i, (name, text, state) in enumerate(stages, 1)
+        )
+        + "</div>",
         unsafe_allow_html=True,
     )
-    st.caption(
-        "Illustrative opportunity: 1% of addressable annual billings. This is a conservative planning "
-        "assumption, not a measured industry rate or validated recovery forecast. Published leakage estimates "
-        "are higher but use broader scopes and different measurement bases."
-    )
-    with st.expander("Sources and caveats"):
+
+    if findings:
+        f = next(
+            (x for x in under if finding_key(x.contract_id, x.sku, x.root_cause) == FEATURED),
+            max(under or findings, key=lambda x: x.priority_score),
+        )
+        ev = f.evidence.get(ENTITLEMENT_CLAUSE.get(f.root_cause, "price")) or next(
+            iter(f.evidence.values())
+        )
+        st.markdown("##### Priority case")
+        with st.container(border=True):
+            left, right = st.columns([3, 2], gap="large")
+            with left:
+                st.markdown(
+                    f"**{CAUSE_LABEL[f.root_cause]}** · {f.customer_name} · {f.contract_id} · {f.sku} · "
+                    f"{review_status(f, decisions)}"
+                )
+                m = st.columns(3)
+                m[0].metric("Contract price", f"${f.expected_unit_price_latest}")
+                m[1].metric("Billed price", f"${f.billed_unit_price_latest}")
+                m[2].metric(
+                    "Potential underbilling",
+                    usd(f.amount),
+                    help=f"Across {f.line_count} invoice lines, {f.first_date} to {f.last_date}",
+                )
+                st.caption(f"Calculation: {f.calculation_latest}")
+            with right:
+                st.markdown(f"Source: clause **{ev['clause_id']}**, page {ev['page']}")
+                st.markdown(
+                    f"<div class='quote'>{html.escape(str(ev['quote']))}</div>",
+                    unsafe_allow_html=True,
+                )
+                b1, b2 = st.columns(2)
+                if b1.button("Open evidence", icon=":material/search:", width="stretch"):
+                    open_finding(f, "analysis")
+                if b2.button("Validate", icon=":material/fact_check:", width="stretch"):
+                    open_finding(f, "review")
+
+        st.markdown("##### Review queue")
+        top = sorted(findings, key=lambda x: x.priority_score, reverse=True)[:5]
+        st.dataframe(
+            pd.DataFrame(
+                {
+                    "Finding": [x.finding_id for x in top],
+                    "Customer": [x.customer_name for x in top],
+                    "Issue": [CAUSE_LABEL[x.root_cause] for x in top],
+                    "Amount": [float(x.amount) for x in top],
+                    "Status": [review_status(x, decisions) for x in top],
+                }
+            ),
+            hide_index=True,
+            width="stretch",
+            column_config={"Amount": st.column_config.NumberColumn(format="$%.2f")},
+        )
+        q1, q2 = st.columns(2)
+        q1.page_link(
+            PAGES["review"],
+            label=f"All {len(findings)} findings and {summary['lines_needing_review']} lines held for review",
+            icon=":material/fact_check:",
+        )
+        q2.caption(
+            "Lines the engine cannot price safely (currency mismatch, duplicates, unclear terms) are held for "
+            "a person, never guessed."
+        )
+
+    with st.expander("Opportunity sizing: illustrative scenario, not a client result"):
+        a, x, b, eq, r = st.columns([3, 0.4, 3, 0.4, 4], vertical_alignment="center")
+        billings = a.number_input(
+            "Addressable annual billings (USD billion)", 0.1, 100.0, 1.0, step=0.1, format="%.1f"
+        )
+        x.markdown("### ×")
+        rate = b.number_input(
+            "Assumed leakage rate (%)",
+            0.1,
+            5.0,
+            1.0,
+            step=0.1,
+            format="%.1f",
+            help="A conservative planning assumption for a price-leakage use case, not a measured industry "
+            "rate. See the sources below.",
+        )
+        eq.markdown("### =")
+        r.markdown(
+            f"""<div class="opp"><div class="tag">Gross opportunity to investigate</div>
+<div class="big">{money_short(billings * 1e9 * rate / 100)}</div></div>""",
+            unsafe_allow_html=True,
+        )
+        st.caption(
+            "Illustrative opportunity: 1% of addressable annual billings. This is a conservative planning "
+            "assumption, not a measured industry rate or validated recovery forecast. Published leakage "
+            "estimates are higher but use broader scopes and different measurement bases. The validated "
+            "opportunity and cash recovered are established through Finance review and a measured pilot."
+        )
         st.markdown(
+            "**Sources and caveats**\n"
             "- [MGI Research, *Revenue Leakage Series Part 1* (Dec 2025)]"
             "(https://mgiresearch.com/research/revenue-leakage/): revenue leakage of at least 3-5% of revenue. "
             "No sample size or method is published.\n"
@@ -268,104 +401,11 @@ class="chip">Human-validated recovery</span>
             "enforceability, customer disputes, recoverability and collection outcomes."
         )
 
-    st.subheader("Potential business value")
-    st.caption(
-        "Illustrative opportunity sizing — replace with pilot-validated figures when available."
-    )
-    cards = [
-        (
-            ":material/search:",
-            "Leakage identified",
-            "Find potential underbilling and missed contractual entitlements.",
-        ),
-        (
-            ":material/account_balance_wallet:",
-            "Cash inflow supported",
-            "Prioritise validated corrections, rebilling and recovery follow-up.",
-        ),
-        (
-            ":material/schedule:",
-            "Less manual effort",
-            "Reduce time spent reconciling contracts, orders and invoices.",
-        ),
-        (
-            ":material/verified_user:",
-            "Controlled decisions",
-            "Maintain evidence, review exceptions and audit financial decisions.",
-        ),
-    ]
-    for row in (cards[:2], cards[2:]):
-        for col, (icon, title, text) in zip(st.columns(2), row, strict=True):
-            with col.container(border=True):
-                st.markdown(f"{icon} **{title}**")
-                st.caption(text)
-
-    st.subheader("Built for the people who protect revenue")
-    st.markdown(
-        "".join(
-            f'<span class="aud">{a}</span>'
-            for a in (
-                "O2C leaders",
-                "Finance controllers",
-                "Revenue assurance",
-                "AR & billing teams",
-                "Transformation leaders",
-            )
-        ),
-        unsafe_allow_html=True,
-    )
-
-    st.subheader("How it works")
-    steps = st.columns(4)
-    for col, (n, title, text) in zip(
-        steps,
-        [
-            (
-                "1",
-                "Read the contract",
-                "AI extracts prices, escalations and amendments, quoting the clause.",
-            ),
-            (
-                "2",
-                "Calculate the gap",
-                "Deterministic logic compares what should have been billed with what was.",
-            ),
-            (
-                "3",
-                "Prioritise findings",
-                "Each discrepancy comes with evidence, an owner and an action.",
-            ),
-            (
-                "4",
-                "Validate and act",
-                "Finance confirms, investigates or closes each case before recovery.",
-            ),
-        ],
-        strict=True,
-    ):
-        with col.container(border=True):
-            st.markdown(f"**{n}. {title}**")
-            st.caption(text)
-    st.caption(
-        "AI interprets contract language, deterministic logic calculates the money, and Finance validates "
-        "recovery decisions."
-    )
-
-    st.subheader("In this prototype run (synthetic data)")
-    m = st.columns(3)
-    m[0].metric("Potential leakage detected", usd(summary["potential_underbilling"]))
-    m[1].metric("Findings to review", len(findings))
-    m[2].metric("Contracts analysed", summary["contracts"])
-    oracle_banner()
-
     st.divider()
-    l1, l2, l3, l4 = st.columns(4)
-    l1.page_link(
-        PAGES["analysis"], label="Start: Leakage Analysis", icon=":material/arrow_forward:"
-    )
-    l2.page_link(PAGES["flow"], label="End-to-end business flow", icon=":material/account_tree:")
-    l3.page_link(PAGES["arch"], label="Technical architecture", icon=":material/architecture:")
-    l4.link_button("GitHub repository", REPO_URL, icon=":material/code:")
+    l1, l2, l3 = st.columns(3)
+    l1.page_link(PAGES["flow"], label="Contract-to-cash journey", icon=":material/account_tree:")
+    l2.page_link(PAGES["arch"], label="Technical architecture", icon=":material/architecture:")
+    l3.link_button("GitHub repository", REPO_URL, icon=":material/code:")
     st.caption(DISCLAIMER)
 
 
@@ -755,6 +795,27 @@ def whatif_tab() -> None:
 
 
 # ---------------------------------------------------------------- Review Queue
+def recovery_panel(f, status: str) -> None:
+    """What happens after validation. Not integrated in the PoC, so nothing here is a measured result."""
+    st.markdown("**Recovery** · target operating model, not live in this prototype")
+    if status != VALIDATED:
+        st.caption("Recovery starts only after Finance validates the finding.")
+        return
+    c = st.columns(4)
+    c[0].metric("Validated opportunity", usd(f.amount))
+    c[1].metric(
+        "Billing correction / rebill", "Draft note ready", help="See the draft rebilling note"
+    )
+    c[2].metric("Receivable raised", "Not yet tracked")
+    c[3].metric(
+        "Cash recovered", "Not yet tracked", help="Recorded only when a cash receipt is reconciled"
+    )
+    st.caption(
+        "In a pilot these fields come from the billing and receivables systems. Cash recovered is reported "
+        "separately and is never inferred from the validated amount."
+    )
+
+
 def page_review() -> None:
     st.title("Review Queue")
     st.caption(
@@ -843,6 +904,7 @@ def page_review() -> None:
                         f"Recorded: {decision} for {f.finding_id}. Audit log: data/output/review_decisions.csv"
                     )
                     st.rerun()
+                recovery_panel(f, review_status(f, decisions))
     with tabs[1]:
         review = lines[lines["status"].isin(["REVIEW", "DUPLICATE"])]
         st.caption(
@@ -991,6 +1053,22 @@ def page_flow() -> None:
         "How a contract discrepancy becomes a validated recovery action. **AI interprets contract language, "
         "deterministic logic calculates the money, and Finance validates recovery decisions.**"
     )
+    s = st.columns(3)
+    for col, (name, text) in zip(
+        s,
+        [
+            (
+                "Detected",
+                "The system found a possible discrepancy, with clause and invoice evidence.",
+            ),
+            ("Validated", "Finance confirmed it is genuine and actionable. Built: Review Queue."),
+            ("Recovered", "The correction produced a reconciled cash receipt. Pilot scope."),
+        ],
+        strict=True,
+    ):
+        with col.container(border=True):
+            st.markdown(f"**{name}**")
+            st.caption(text)
     left, right = st.columns([3, 2])
     with left:
         st.graphviz_chart(FLOW_DOT, width="stretch")

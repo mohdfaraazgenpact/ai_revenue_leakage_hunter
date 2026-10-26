@@ -1,5 +1,7 @@
 # Mentor Demo Script: Current Synthetic Data
 
+For the 2-minute on-stage version (one case, four reveals), see `docs/live_reveal.md`. This script is the longer mentor walkthrough.
+
 Every input below is a real record in this repository's synthetic dataset (`data/contracts/`, `data/invoice_lines.csv`, `data/billing_adjustments.csv`). Figures come from the current run (Claude extraction, dataset fingerprint `cca8a43cec67`). If the data is regenerated, re-check them.
 
 The app has no contract upload or manual invoice entry. "Load" means selecting the record in the app. The only live edit is the escalation clause in **Leakage Analysis → What-if: change a contract**.
