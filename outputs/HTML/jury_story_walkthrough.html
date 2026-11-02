@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jury Story Walkthrough</title>
+<style>
+  :root {
+    --ink: #14213d; --ink-2: #44506a; --muted: #7a8499; --line: #dde2ec;
+    --bg: #f3f5f9; --paper: #ffffff; --navy: #0f1f3d; --accent: #e8573c;
+    --teal: #0f8b8d; --teal-soft: #e3f4f4; --gold: #b7791f; --gold-soft: #fbf3e4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: "Segoe UI", Arial, sans-serif; line-height: 1.5; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+  header.top { background: var(--navy); color: #fff; padding: 40px 0 28px; }
+  header.top h1 { font-size: 38px; letter-spacing: .3px; }
+  header.top h1 span { color: var(--accent); }
+  header.top h2 { font-size: 20px; font-weight: 500; color: #c8d1e3; margin-top: 4px; }
+  .banner {
+    margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    font-size: 13px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+  }
+  .banner b { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.25); padding: 6px 12px; border-radius: 999px; }
+  .banner i { color: var(--accent); font-style: normal; }
+  .meta { margin-top: 18px; font-size: 13px; color: #9fb0cf; }
+
+  nav.steps { position: sticky; top: 0; z-index: 5; background: var(--paper); border-bottom: 1px solid var(--line); }
+  nav.steps .wrap { display: flex; gap: 6px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; }
+  nav.steps a {
+    flex-shrink: 0; text-decoration: none; color: var(--ink-2); font-size: 13px; padding: 6px 12px;
+    border-radius: 999px; border: 1px solid var(--line); white-space: nowrap;
+  }
+  nav.steps a:hover, nav.steps a.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+  section.step { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; margin: 28px 0; overflow: hidden; scroll-margin-top: 70px; }
+  .step-head { display: flex; align-items: center; gap: 16px; padding: 20px 28px; border-bottom: 1px solid var(--line); }
+  .num { width: 44px; height: 44px; border-radius: 50%; background: var(--navy); color: #fff; font-weight: 700; font-size: 18px;
+         display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .chapter { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); }
+  .step-head h3 { font-size: 22px; letter-spacing: .3px; }
+  .notes { display: grid; grid-template-columns: 1fr 1.3fr; gap: 0; border-bottom: 1px solid var(--line); }
+  .note { padding: 16px 28px; border-right: 1px solid var(--line); }
+  .note:nth-child(2n) { border-right: 0; }
+  .note:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .note .k { font-size: 11.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .note p { font-size: 15.5px; }
+  .note.say { background: var(--gold-soft); }
+  .note.say p { font-style: italic; }
+  .note.react { background: var(--teal-soft); }
+  .note.react p { font-weight: 600; color: var(--teal); }
+
+  figure { padding: 22px 28px 26px; }
+  figure + figure { padding-top: 0; }
+  figure a { display: block; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; }
+  figure img { display: block; width: 100%; height: auto; }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+  figcaption code { font-size: 12px; }
+
+  .limit { margin: 0 28px 22px; font-size: 13.5px; color: var(--ink-2); background: #f7f9fc; border-left: 3px solid var(--muted); padding: 8px 12px; border-radius: 0 6px 6px 0; }
+
+  footer { padding: 10px 0 48px; color: var(--ink-2); font-size: 14px; }
+  footer h4 { font-size: 13px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--muted); margin: 18px 0 6px; }
+  footer pre { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-size: 12.5px; overflow-x: auto; }
+  footer ul { padding-left: 20px; }
+
+  @media (max-width: 760px) {
+    header.top h1 { font-size: 28px; }
+    .notes { grid-template-columns: 1fr; }
+    .note { border-right: 0 !important; border-bottom: 1px solid var(--line); }
+    .step-head, .note, figure { padding-left: 16px; padding-right: 16px; }
+    .limit { margin-left: 16px; margin-right: 16px; }
+  }
+  @media print {
+    nav.steps { display: none; }
+    section.step { break-inside: avoid-page; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <h1>AI Revenue <span>Leakage</span> Hunter</h1>
+    <h2>Jury Story Walkthrough — Contract Entitlement to Finance Action</h2>
+    <div class="banner">
+      <b>Why it matters</b><i>→</i><b>One missed entitlement</b><i>→</i><b>Prove the money</b><i>→</i><b>Prove the control</b><i>→</i><b>Show the path to cash</b>
+    </div>
+    <p class="meta">Screens captured from the running prototype on 2 November 2026 · synthetic data only · offline demo mode (cached AI, no live call) · findings are potential discrepancies, not confirmed recoveries.</p>
+  </div>
+</header>
+
+<nav class="steps" aria-label="Story steps">
+  <div class="wrap">
+    <a href="#s1">1 · Why it matters</a>
+    <a href="#s2">2 · Contract-to-cash journey</a>
+    <a href="#s3">3 · Priority case</a>
+    <a href="#s4">4 · Contract evidence</a>
+    <a href="#s5">5 · Money reveal</a>
+    <a href="#s6">6 · Evidence to action</a>
+    <a href="#s7">7 · Finance review</a>
+    <a href="#s8">8 · Refusing to guess</a>
+    <a href="#s9">9 · Path to cash</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- 1 -->
+  <section class="step" id="s1">
+    <div class="step-head"><div class="num">1</div><div><div class="chapter">Why it matters</div><h3>Business outcome — Home</h3></div></div>
+    <div class="notes">
+      <div class="note"><div class="k">What the jury sees</div><p>The Finance view: $757,338 potential leakage across 23 findings, $0 Finance-validated, cash recovered not yet tracked, and the four-stage path from contract to cash.</p></div>
+      <div class="note say"><div class="k">What I say</div><p>"Revenue is earned through contract entitlements. When an entitlement doesn't flow into billing, the value can disappear between the contract and the cash. These three numbers are kept apart on purpose: detected is not validated, and validated is not cash."</p></div>
+      <div class="note"><div class="k">Why it matters</div><p>It frames the problem in Finance terms before any technology appears.</p></div>
+      <div class="note react"><div class="k">Desired reaction</div><p>"This is a real Finance problem worth investigating."</p></div>
+    </div>
+    <figure>
+      <a href="../screenshots/jury_story/01_home_business_outcome.png" target="_blank"><img src="../screenshots/jury_story/01_home_business_outcome.png" alt="Home page: potential leakage, Finance validated and cash recovered tiles, with the contract-to-cash stages"></a>
+      <figcaption><code>01_home_business_outcome.png</code> · Home, top of page</figcaption>
+    </figure>
+    <figure>
+      <a href="../screenshots/jury_story/01b_opportunity_sizing.png" target="_blank"><img src="../screenshots/jury_story/01b_opportunity_sizing.png" alt="Opportunity sizing: USD 1 billion times 1 percent equals USD 10 million, illustrative"></a>
+      <figcaption><code>01b_opportunity_sizing.png</code> · Home → "Opportunity sizing" expander (optional): $1B × 1% = $10M to investigate, clearly labelled illustrative, with sources and caveats</figcaption>
+    </figure>
+  </section>
+
+  <!-- 2 -->
+  <section class="step" id="s2">
+    <div class="step-head"><div class="num">2</div><div><div class="chapter">Why it matters</div><h3>The end-to-end contract-to-cash journey</h3></div></div>
+    <div class="notes">
+      <div class="note"><div class="k">What the jury sees</div><p>The full journey from contract data to measured cash recovery. Blue boxes are built in the PoC; grey dashed boxes are pilot scope.</p></div>
+      <div class="note say"><div class="k">What I say</div><p>"Today the prototype covers reading the contract, reconciling it against invoices, and putting an evidence-backed finding in front of Finance. Rebilling, receivables and cash receipt are the target operating model we would take into a pilot."</p></div>
+      <div class="note"><div class="k">Why it matters</div><p>It shows exactly where the PoC ends and what a pilot adds, before anyone has to ask.</p></div>
+      <div class="note react"><div class="k">Desired reaction</div><p>"They are clear about what is built and what isn't."</p></div>
+    </div>
+    <figure>
+      <a href="../screenshots/jury_story/02_end_to_end_journey.png" target="_blank"><img src="../screenshots/jury_story/02_end_to_end_journey.png" alt="End-to-End Business Flow page with flowchart and step status table"></a>
+      <figcaption><code>02_end_to_end_journey.png</code> · Sidebar → How it works → End-to-End Flow</figcaption>
+    </figure>
+    <p class="limit">Limitation: this page sits under "How it works" and is fairly detailed. The "Where each step lives" table is truncated on the right by the app's own layout.</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="step" id="s3">
+    <div class="step-head"><div class="num">3</div><div><div class="chapter">One missed entitlement</div><h3>The priority case</h3></div></div>
+    <div class="notes">
+      <div class="note"><div class="k">What the jury sees</div><p>Meridian Freightways, contract C-2003: contract price $12.30 against $11.53 billed, $82,108 potential underbilling, awaiting review, with the source clause AM1.1 on page 4.</p></div>
+      <div class="note say"><div class="k">What I say</div><p>"Let me show you how one missed contract entitlement becomes a potential Finance opportunity."</p></div>
+      <div class="note"><div class="k">Why it matters</div><p>It moves from a portfolio number to one concrete case the jury can follow end to end.</p></div>
+      <div class="note react"><div class="k">Desired reaction</div><p>"Show me."</p></div>
+    </div>
+    <figure>
+      <a href="../screenshots/jury_story/03_priority_case.png" target="_blank"><img src="../screenshots/jury_story/03_priority_case.png" alt="Priority case card for contract C-2003"></a>
+      <figcaption><code>03_priority_case.png</code> · Home → Priority case. Next click: <b>Open evidence</b></figcaption>
+    </figure>
+  </section>
+
+  <!-- 4 -->
+  <section class="step" id="s4">
+    <div class="step-head"><div class="num">4</div><div><div class="chapter">One missed entitlement</div><h3>Contract evidence — C-2003, page 4</h3></div></div>
+    <div class="notes">
+      <div class="note"><div class="k">What the jury sees</div><p>Amendment No. 1, highlighted on page 4: from 29 September 2024 the unit price is USD 12.00. Beside it, the terms read from the contract, each with its clause and a verified quote.</p></div>
+      <div class="note say"><div class="k">What I say</div><p>"The amendment is on page 4. The information already existed in the contract. Billing never loaded it."</p></div>
+      <div class="note"><div class="k">Why it matters</div><p>The information wasn't missing. It existed in the contract and never reached billing.</p></div>
+      <div class="note react"><div class="k">Desired reaction</div><p>"I can see why this is hard to find at scale."</p></div>
+    </div>
+    <figure>
+      <a href="../screenshots/jury_story/04_contract_evidence_C2003.png" target="_blank"><img src="../screenshots/jury_story/04_contract_evidence_C2003.png" alt="Contract evidence tab for C-2003 showing the amendment on page 4"></a>
+      <figcaption><code>04_contract_evidence_C2003.png</code> · Leakage Analysis → Contract evidence → C-2003 → Page 4</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="step" id="s5">
+    <div class="step-head"><div class="num">5</div><div><div class="chapter">Prove the money</div><h3>The money reveal — Finding F-003</h3></div></div>
+    <div class="notes">
+      <div class="note"><div class="k">What the jury sees</div><p>USD 82,107.94 potential underbilling across 15 invoice lines (Oct 2024 – Dec 2025). The chart shows the contract price stepping up to 12.00 and then 12.30 while billing stayed at 11.25 and then 11.53.</p></div>
+      <div class="note say"><div class="k">What I say</div><p>"The contract changed and billing didn't follow. When the 2.5% escalation arrived, billing applied it to the old price, so the gap keeps compounding. This is a potential underbilling for Finance to validate, not recovered cash."</p></div>
+      <div class="note"><div class="k">Why it matters</div><p>Unstructured contract text becomes a quantified, explainable Finance case.</p></div>
+      <div class="note react"><div class="k">Desired reaction</div><p>"I can see exactly what was missed and why."</p></div>
+    </div>
+    <figure>
+      <a href="../screenshots/jury_story/05_finding_F003_money_reveal.png" target="_blank"><img src="../screenshots/jury_story/05_finding_F003_money_reveal.png" alt="Finding F-003 headline, narrative and contract versus billed price chart"></a>
+      <figcaption><code>05_finding_F003_money_reveal.png</code> · Leakage Analysis → Prioritised findings → F-003 (opened by the Home button)</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="step" id="s6">
+    <div class="step-head"><div class="num">6</div><div><div class="chapter">Prove the money</div><h3>Evidence to action</h3></div></div>
+    <div class="notes">
+      <div class="note"><div class="k">What the jury sees</div><p>Three quoted clauses (price A.1, escalation 4.2, amendment AM1.1); the calculation USD 12.00 × (1 + 2.5%) = USD 12.30; an owner, a recommended action and a draft rebilling note; and the affected invoice lines.</p></div>
+      <div class="note say"><div class="k">What I say</div><p>"Every number is one click from the clause and the invoice line. The AI read the contract; plain arithmetic calculated the money. And the finding arrives with an owner and a next step."</p></div>
+      <div class="note"><div class="k">Why it matters</div><p>AI reads the evidence and the financial engine calculates the money. That split is the core differentiation.</p></div>
+      <div class="note react"><div class="k">Desired reaction</div><p>"I could audit this."</p></div>
+    </div>
+    <figure>
+      <a href="../screenshots/jury_story/06_evidence_to_action.png" target="_blank"><img src="../screenshots/jury_story/06_evidence_to_action.png" alt="Contract evidence quotes, calculation, recommended action, draft rebill note and affected invoice lines for F-003"></a>
+      <figcaption><code>06_evidence_to_action.png</code> · Same finding, lower half. Next click: <b>Validate this finding in the Review Queue</b></figcaption>
+    </figure>
+    <p class="limit">Limitation: no single screen shows the whole chain. Contract evidence, calculation and invoice lines are here; the Finance action is on the next screen.</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="step" id="s7">
+    <div class="step-head"><div class="num">7</div><div><div class="chapter">Prove the control</div><h3>Finance review workflow — Review Queue</h3></div></div>
+    <div class="notes">
+      <div class="note"><div class="k">What the jury sees</div><p>F-003 awaiting review, with its evidence, calculation, owner and action, and a decision form (validated, unresolved or closed). The recovery panel stays empty: "Recovery starts only after Finance validates the finding."</p></div>
+      <div class="note say"><div class="k">What I say</div><p>"The system doesn't replace Finance judgement. It packages the evidence so a person can decide faster, and every decision is written to an audit log."</p></div>
+      <div class="note"><div class="k">Why it matters</div><p>A person stays accountable for every recovery action.</p></div>
+      <div class="note react"><div class="k">Desired reaction</div><p>"Finance stays in control."</p></div>
+    </div>
+    <figure>
+      <a href="../screenshots/jury_story/07_review_queue.png" target="_blank"><img src="../screenshots/jury_story/07_review_queue.png" alt="Review Queue with F-003 awaiting review and the decision form"></a>
+      <figcaption><code>07_review_queue.png</code> · Home → Priority case → <b>Validate</b></figcaption>
+    </figure>
+  </section>
+
+  <!-- 8 -->
+  <section class="step" id="s8">
+    <div class="step-head"><div class="num">8</div><div><div class="chapter">Prove the control</div><h3>The control moment — refusing to guess</h3></div></div>
+    <div class="notes">
+      <div class="note"><div class="k">What the jury sees</div><p>Invoice line IL-00801 (contract C-2015) was billed in EUR against a USD contract. Status REVIEW: "no FX conversion policy is configured". No leakage figure is produced. Other held lines include an invalid date, a blank amount and duplicates.</p></div>
+      <div class="note say"><div class="k">What I say</div><p>"It doesn't guess an exchange rate. No approved FX policy, no number. A person decides."</p></div>
+      <div class="note"><div class="k">Why it matters</div><p>A trustworthy Finance tool is defined as much by when it declines to produce a number as by what it finds.</p></div>
+      <div class="note react"><div class="k">Desired reaction</div><p>"This is built for financial control, not just AI answers."</p></div>
+    </div>
+    <figure>
+      <a href="../screenshots/jury_story/08_currency_exception_control.png" target="_blank"><img src="../screenshots/jury_story/08_currency_exception_control.png" alt="Data exceptions table with the EUR versus USD currency mismatch held for review"></a>
+      <figcaption><code>08_currency_exception_control.png</code> · Review Queue → Data exceptions · the EUR/USD case is the second row (captured in a wider window so the full reason is readable)</figcaption>
+    </figure>
+    <p class="limit">Limitation: the app doesn't highlight the EUR row, so point to it on stage. The tab reads "Data exceptions (5)" while the table lists more rows, because exact duplicates are counted separately.</p>
+  </section>
+
+  <!-- 9 -->
+  <section class="step" id="s9">
+    <div class="step-head"><div class="num">9</div><div><div class="chapter">Show the path to cash</div><h3>Business outcome and path to cash</h3></div></div>
+    <div class="notes">
+      <div class="note"><div class="k">What the jury sees</div><p>The reviewer records "Validated – recovery justified" for F-003. The recovery panel then shows: validated opportunity $82,108 · billing correction: draft note ready · receivable raised: not yet tracked · cash recovered: not yet tracked.</p></div>
+      <div class="note say"><div class="k">What I say</div><p>"Detected is not validated, and validated is not cash. We are not claiming AI recovers cash. We bridge the gap between what the contract entitles and what Finance acts on. The rebill, the receivable and the cash receipt are what a pilot would connect."</p></div>
+      <div class="note"><div class="k">Why it matters</div><p>It ends on a credible, measurable path to cash instead of a claimed recovery.</p></div>
+      <div class="note react"><div class="k">Desired reaction</div><p>"This is a practical proposition we could pilot."</p></div>
+    </div>
+    <figure>
+      <a href="../screenshots/jury_story/09_business_outcome_path_to_cash.png" target="_blank"><img src="../screenshots/jury_story/09_business_outcome_path_to_cash.png" alt="Review Queue after F-003 is validated, with the recovery panel"></a>
+      <figcaption><code>09_business_outcome_path_to_cash.png</code> · Review Queue → Validated – recovery justified → <b>Record decision</b> (synthetic walkthrough; the reviewer and comment were entered for the demo)</figcaption>
+    </figure>
+    <figure>
+      <a href="../screenshots/jury_story/09b_business_impact.png" target="_blank"><img src="../screenshots/jury_story/09b_business_impact.png" alt="Business Impact page: detected, validated, and cash requires pilot"></a>
+      <figcaption><code>09b_business_impact.png</code> · Business Impact: detected $757,338 → validated $82,108 → cash actually recovered: requires pilot</figcaption>
+    </figure>
+    <figure>
+      <a href="../screenshots/jury_story/09c_home_after_validation.png" target="_blank"><img src="../screenshots/jury_story/09c_home_after_validation.png" alt="Home after validation: Finance validated now 82,108, cash recovered not yet tracked"></a>
+      <figcaption><code>09c_home_after_validation.png</code> · Back on Home: Finance validated moves from $0 to $82,108; cash recovered still reads "Not yet tracked"</figcaption>
+    </figure>
+  </section>
+
+  <footer>
+    <h4>Closing line</h4>
+    <p>"The breakthrough isn't another dashboard that reports what happened. It connects what the business was entitled to earn with what it billed, and gives Finance the evidence to act on the difference."</p>
+
+    <h4>Do not say</h4>
+    <ul>
+      <li>"Recovered" or "found $X of revenue" as fact. Everything shown is synthetic and unvalidated.</li>
+      <li>That existing Finance platforms cannot do this, until their owners have confirmed what they do.</li>
+    </ul>
+
+    <h4>Rerun the capture</h4>
+<pre>python -m venv %TEMP%\pwenv
+%TEMP%\pwenv\Scripts\python -m pip install playwright pillow      # outside the project .venv
+# terminal 1: app, offline cache only
+$env:LLM_CACHE_MODE = "readonly"; .\scripts\tasks.ps1 app
+# terminal 2: delete data\output\review_decisions.csv if present, then
+%TEMP%\pwenv\Scripts\python scripts\capture_jury_story.py</pre>
+    <p>The script drives the installed Microsoft Edge, turns on Offline demo mode, captures the screens in this order and rejects blank or incomplete captures. It records the F-003 decision for step 9, then deletes <code>review_decisions.csv</code> so the app is stage-ready again.</p>
+  </footer>
+</main>
+
+<script>
+  // Highlight the current step in the sticky bar.
+  var links = document.querySelectorAll('nav.steps a');
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id); });
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  document.querySelectorAll('section.step').forEach(function (s) { obs.observe(s); });
+</script>
+</body>
+</html>
