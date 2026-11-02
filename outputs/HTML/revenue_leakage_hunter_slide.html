@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revenue Leakage Hunter</title>
+<style>
+  :root {
+    --ink: #14213d;
+    --ink-2: #44506a;
+    --muted: #7a8499;
+    --line: #dde2ec;
+    --bg: #eef1f6;
+    --paper: #ffffff;
+    --navy: #0f1f3d;
+    --accent: #e8573c;
+    --accent-soft: #fdece8;
+    --teal: #0f8b8d;
+    --teal-soft: #e3f4f4;
+    --gold: #b7791f;
+    --gold-soft: #fbf3e4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    font-family: "Segoe UI", "Funnel Sans", Arial, sans-serif;
+    color: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .stage { width: 1600px; height: 900px; transform-origin: center center; flex-shrink: 0; }
+  .slide {
+    width: 1600px; height: 900px; background: var(--paper);
+    box-shadow: 0 10px 40px rgba(15,31,61,.15);
+    display: grid; grid-template-rows: 112px 1fr 156px 212px;
+    overflow: hidden;
+  }
+
+  /* Header */
+  header {
+    background: var(--navy); color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 56px;
+  }
+  header h1 { font-size: 40px; font-weight: 700; letter-spacing: .5px; }
+  header h1 span { color: var(--accent); }
+  header p { font-size: 20px; font-style: italic; color: #c8d1e3; margin-top: 4px; }
+  .tag {
+    border: 1px solid rgba(255,255,255,.35); border-radius: 999px;
+    padding: 8px 18px; font-size: 15px; letter-spacing: 1.5px; text-transform: uppercase; color: #fff;
+  }
+
+  .label {
+    font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 14px;
+  }
+
+  /* Row 1: three columns */
+  .story { display: grid; grid-template-columns: 1fr 1.05fr 1.25fr; border-bottom: 1px solid var(--line); }
+  .story > section { padding: 26px 40px; border-right: 1px solid var(--line); display: flex; flex-direction: column; }
+  .story > section:last-child { border-right: 0; }
+  .step-no {
+    display: inline-flex; width: 26px; height: 26px; border-radius: 50%;
+    align-items: center; justify-content: center; font-size: 13px; color: #fff;
+    margin-right: 10px; vertical-align: middle;
+  }
+
+  /* Opportunity */
+  .opp .step-no { background: var(--gold); }
+  .calc { display: flex; flex-direction: column; gap: 6px; }
+  .calc .row { display: flex; align-items: baseline; gap: 14px; }
+  .calc .num { font-size: 40px; font-weight: 700; color: var(--ink); min-width: 120px; }
+  .calc .num.op { color: var(--muted); }
+  .calc .desc { font-size: 17px; color: var(--ink-2); }
+  .calc .total { border-top: 2px solid var(--ink); padding-top: 10px; margin-top: 6px; }
+  .calc .total .num { font-size: 64px; color: var(--gold); }
+  .calc .total .desc { font-weight: 600; color: var(--ink); }
+  .fine { font-size: 13.5px; color: var(--muted); font-style: italic; margin-top: auto; line-height: 1.4; }
+
+  /* Gap */
+  .gap .step-no { background: var(--accent); }
+  .chain { display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
+  .chain .node {
+    font-size: 18px; font-weight: 600; padding: 9px 18px; border-radius: 8px;
+    background: #f4f6fa; border: 1px solid var(--line); width: 260px;
+  }
+  .chain .link { width: 260px; text-align: center; font-size: 13px; color: var(--accent); font-weight: 700; height: 26px; line-height: 26px; position: relative; }
+  .chain .link::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; border-left: 2px dashed var(--accent); }
+  .chain .link span { background: var(--paper); position: relative; padding: 0 6px; }
+  .question {
+    margin-top: auto; background: var(--accent-soft); border-left: 4px solid var(--accent);
+    padding: 12px 16px; font-size: 18px; font-weight: 600; line-height: 1.35; border-radius: 0 8px 8px 0;
+  }
+
+  /* Solution */
+  .sol .step-no { background: var(--teal); }
+  .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; position: relative; }
+  .flow .card {
+    background: var(--teal-soft); border-radius: 10px; padding: 14px 12px; text-align: center; position: relative;
+  }
+  .flow .card:not(:last-child)::after {
+    content: "\2192"; position: absolute; right: -12px; top: 50%; transform: translateY(-50%);
+    color: var(--teal); font-weight: 700; font-size: 18px; z-index: 1;
+  }
+  .flow .card b { display: block; font-size: 20px; color: var(--teal); }
+  .flow .card small { display: block; font-size: 13px; color: var(--ink-2); margin-top: 6px; line-height: 1.3; }
+  .flow .card.human { background: var(--navy); }
+  .flow .card.human b { color: #fff; }
+  .flow .card.human small { color: #c8d1e3; }
+  .who { margin-top: 22px; display: grid; grid-template-columns: auto 1fr; gap: 12px 16px; font-size: 18px; }
+  .who dt { font-weight: 700; color: var(--teal); }
+  .who dd { color: var(--ink-2); }
+  .promise {
+    margin-top: auto; font-size: 18px; font-weight: 700; color: var(--navy);
+    border-top: 1px solid var(--line); padding-top: 10px;
+  }
+  .promise span { color: var(--teal); }
+
+  /* Row 2: ecosystem */
+  .eco { padding: 16px 56px; background: #f7f9fc; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; }
+  .eco .label { text-align: center; color: var(--navy); font-size: 15px; margin-bottom: 14px; }
+  .eco-row { display: grid; grid-template-columns: 1fr 50px 1fr 50px 1.15fr; align-items: center; }
+  .eco-box {
+    background: #fff; border: 1.5px dashed #b6bfd0; border-radius: 10px; padding: 12px 18px; text-align: center;
+  }
+  .eco-box b { display: block; font-size: 18px; }
+  .eco-box small { font-size: 14px; color: var(--muted); }
+  .eco-box.us { border: 2px solid var(--teal); background: var(--teal-soft); }
+  .eco-box.us b { color: var(--teal); }
+  .eco-box.us small { color: var(--ink-2); }
+  .eco-arrow { text-align: center; font-size: 26px; color: var(--muted); }
+  .eco .fine { text-align: center; margin-top: 10px; }
+
+  /* Row 3: built / needed */
+  .bottom { display: grid; grid-template-columns: 1fr 1.25fr; }
+  .bottom > section { padding: 22px 56px; }
+  .built { border-right: 1px solid var(--line); }
+  .built ul { list-style: none; display: grid; grid-template-columns: auto auto; gap: 16px 28px; justify-content: start; }
+  .built li { font-size: 18px; display: flex; gap: 10px; align-items: center; }
+  .built li::before {
+    content: "\2713"; color: #fff; background: var(--teal); width: 22px; height: 22px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0;
+  }
+  .need { background: var(--navy); color: #fff; display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; }
+  .need .label { color: #9fb0cf; }
+  .need ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+  .need li { font-size: 18px; display: flex; gap: 10px; align-items: center; }
+  .need li::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .need li em { font-style: normal; color: #9fb0cf; font-size: 14px; margin-left: 4px; }
+  .goal { border-left: 3px solid var(--accent); padding-left: 18px; display: flex; flex-direction: column; justify-content: center; }
+  .goal .label { margin-bottom: 8px; }
+  .goal p { font-size: 20px; font-weight: 600; line-height: 1.35; }
+  .goal p span { color: var(--accent); }
+
+  @media print {
+    @page { size: 1600px 900px; margin: 0; }
+    body { background: #fff; display: block; overflow: visible; }
+    .stage { transform: none !important; }
+    .slide { box-shadow: none; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="slide">
+
+    <header>
+      <div>
+        <h1>AI Revenue <span>Leakage</span> Hunter</h1>
+        <p>Turning contract entitlements into protected cash inflow</p>
+      </div>
+      <div class="tag">Invitation to collaborate</div>
+    </header>
+
+    <div class="story">
+      <!-- 1. Opportunity -->
+      <section class="opp">
+        <div class="label"><span class="step-no">1</span>The opportunity</div>
+        <div class="calc">
+          <div class="row"><div class="num">$1B</div><div class="desc">addressable revenue base</div></div>
+          <div class="row"><div class="num op">&times; 1%</div><div class="desc">conservative leakage scenario</div></div>
+          <div class="row total"><div class="num">$10M</div><div class="desc">opportunity<br>to investigate</div></div>
+        </div>
+        <p class="fine">Illustrative scenario; not a recovery forecast. The PoC currently focuses on price-related leakage.</p>
+      </section>
+
+      <!-- 2. Gap -->
+      <section class="gap">
+        <div class="label"><span class="step-no">2</span>The gap</div>
+        <div class="chain">
+          <div class="node">Contract</div>
+          <div class="link"><span>?</span></div>
+          <div class="node">Entitlement</div>
+          <div class="link"><span>?</span></div>
+          <div class="node">Invoice</div>
+          <div class="link"><span>?</span></div>
+          <div class="node">Finance action &amp; cash</div>
+        </div>
+        <div class="question" style="margin-top:16px">Where can contractual value be lost between entitlement and cash &mdash; despite existing systems?</div>
+      </section>
+
+      <!-- 3. Solution -->
+      <section class="sol">
+        <div class="label"><span class="step-no">3</span>The solution</div>
+        <div class="flow">
+          <div class="card"><b>Read</b><small>Contract terms</small></div>
+          <div class="card"><b>Reconcile</b><small>Contract vs invoice</small></div>
+          <div class="card"><b>Evidence</b><small>Clause + invoice line</small></div>
+          <div class="card human"><b>Act</b><small>Finance decides</small></div>
+        </div>
+        <dl class="who">
+          <dt>AI</dt><dd>reads and extracts contractual terms</dd>
+          <dt>Rules engine</dt><dd>deterministically calculates discrepancies</dd>
+          <dt>Evidence</dt><dd>links each finding to its clause and invoice</dd>
+          <dt>Finance</dt><dd>validates and triggers corrective action</dd>
+        </dl>
+        <div class="promise">AI does <span>not</span> calculate or invent the money.</div>
+      </section>
+    </div>
+
+    <!-- Ecosystem -->
+    <div class="eco">
+      <div class="label">Complementing the existing Finance ecosystem &mdash; not replacing it</div>
+      <div class="eco-row">
+        <div class="eco-box"><b>AP Suite / existing tools</b><small>Capability to be validated</small></div>
+        <div class="eco-arrow">&rarr;</div>
+        <div class="eco-box"><b>Finance One</b><small>Role to be validated</small></div>
+        <div class="eco-arrow">&rarr;</div>
+        <div class="eco-box us"><b>Revenue Leakage Hunter</b><small>The contract-to-cash bridge: evidence-backed leakage candidates</small></div>
+      </div>
+      <p class="fine">*Capability map to be validated with Finance and platform owners.</p>
+    </div>
+
+    <div class="bottom">
+      <section class="built">
+        <div class="label">What is built</div>
+        <ul>
+          <li>Working PoC on synthetic data</li>
+          <li>Contract &rarr; invoice reconciliation</li>
+          <li>Evidence-backed findings</li>
+          <li>Human Finance review step</li>
+        </ul>
+      </section>
+      <section class="need">
+        <div>
+          <div class="label">Collaboration needed</div>
+          <ul>
+            <li>Finance / O2C SME <em>validate the problem</em></li>
+            <li>Finance One / platform owner <em>map where we fit</em></li>
+            <li>UI / business experience <em>make it Finance-ready</em></li>
+          </ul>
+        </div>
+        <div class="goal">
+          <div class="label">Goal</div>
+          <p>Validate the real gap &mdash; and take a <span>practical Finance solution</span> to the Spark Tank jury.</p>
+        </div>
+      </section>
+    </div>
+
+  </div>
+</div>
+<script>
+  function fit() {
+    var s = Math.min(window.innerWidth / 1600, window.innerHeight / 900) * 0.96;
+    document.getElementById('stage').style.transform = 'scale(' + s + ')';
+  }
+  window.addEventListener('resize', fit);
+  fit();
+</script>
+</body>
+</html>
