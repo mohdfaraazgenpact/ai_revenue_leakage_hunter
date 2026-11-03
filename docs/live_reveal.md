@@ -23,7 +23,7 @@ Meridian Freightways Inc, contract C-2003, service LOG-3003 (last-mile parcel de
 | 4.2 | 1 | +2.5% each 1 June, from 1 June 2025, written as *"two and one-half percent (2.5%)"* |
 | **AM1.1** | **4** | **From 29 September 2024, the price is USD 12.00** |
 
-> "The amendment is on page 4. Billing never loaded it."
+> "The amendment is on page 4. It existed in the contract, but the invoice records do not reflect the amended entitlement."
 
 **Reaction we want:** "I can see why this is hard to find at scale."
 

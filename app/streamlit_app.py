@@ -83,6 +83,9 @@ mark {background: #ffe066; color: #111; padding: 0 2px;}
 @media (max-width: 800px) {.stages {grid-template-columns: 1fr 1fr;}}
 .opp {border: 1px solid rgba(128,128,128,.3); border-radius: 10px; padding: 1rem 1.2rem;}
 .opp .big {font-size: 2rem; font-weight: 700; color: #1e9e4a;}
+.disclose {font-size: .72rem; font-weight: 700; letter-spacing: .1em; color: #8a5a00; background: rgba(240,180,0,.14);
+           border: 1px solid rgba(240,180,0,.45); border-radius: 6px; padding: .3rem .7rem; margin-bottom: .8rem;
+           display: inline-block;}
 </style>""",
     unsafe_allow_html=True,
 )
@@ -215,7 +218,7 @@ def oracle_banner() -> None:
 
 
 # ---------------------------------------------------------------- Home
-# The live-reveal case (docs/live_reveal.md): an amendment on page 4 that billing never loaded.
+# The live-reveal case (docs/live_reveal.md): an amendment on page 4 that the invoices do not reflect.
 FEATURED = finding_key("C-2003", "LOG-3003", "AMENDMENT_NOT_APPLIED")
 # The clause that creates the entitlement the invoice missed.
 ENTITLEMENT_CLAUSE = {
@@ -253,9 +256,9 @@ invoiced, but what we should have invoiced, and what happened to the difference.
         (
             k[1],
             "val",
-            "Finance validated",
+            "Finance validated (demo)",
             usd(validated_usd),
-            f"Validated · {len(validated)} of {len(under)} findings",
+            f"Simulated decisions · {len(validated)} of {len(under)} findings",
         ),
         (k[2], "rec", "Cash recovered", "Not yet tracked", "Recovered · needs pilot integration"),
     ):
@@ -276,7 +279,11 @@ invoiced, but what we should have invoiced, and what happened to the difference.
             "built",
         ),
         ("Detect", f"{usd(detected)} potential underbilling, calculated, not estimated", "built"),
-        ("Validate", f"{len(validated)} validated by Finance, each decision audit-logged", "built"),
+        (
+            "Validate",
+            f"{len(validated)} validated (simulated demo decisions), each audit-logged",
+            "built",
+        ),
         ("Recover", "Rebill, receivable and cash receipt: target operating model", "pilot"),
     ]
     st.markdown(
@@ -802,7 +809,7 @@ def recovery_panel(f, status: str) -> None:
         st.caption("Recovery starts only after Finance validates the finding.")
         return
     c = st.columns(4)
-    c[0].metric("Validated opportunity", usd(f.amount))
+    c[0].metric("Validated opportunity (demo)", usd(f.amount))
     c[1].metric(
         "Billing correction / rebill", "Draft note ready", help="See the draft rebilling note"
     )
@@ -811,8 +818,9 @@ def recovery_panel(f, status: str) -> None:
         "Cash recovered", "Not yet tracked", help="Recorded only when a cash receipt is reconciled"
     )
     st.caption(
-        "In a pilot these fields come from the billing and receivables systems. Cash recovered is reported "
-        "separately and is never inferred from the validated amount."
+        "Demo decision on synthetic data, not a real Finance approval. In a pilot these fields come from the "
+        "billing and receivables systems. Cash recovered is reported separately and is never inferred from the "
+        "validated amount."
     )
 
 
@@ -834,10 +842,11 @@ def page_review() -> None:
     c[2].metric("Unresolved", statuses.count(UNRESOLVED))
     c[3].metric("Closed", statuses.count(CLOSED))
 
+    review = lines[lines["status"].isin(["REVIEW", "DUPLICATE"])]
     tabs = st.tabs(
         [
             f"Findings to validate ({len(findings)})",
-            f"Data exceptions ({summary['lines_needing_review']})",
+            f"Data exceptions ({len(review)})",
             "Decision audit log",
         ]
     )
@@ -857,7 +866,7 @@ def page_review() -> None:
                 pick = st.selectbox("Finding", [finding_label(f) for f in queue], key="review_pick")
                 f = queue[[finding_label(x) for x in queue].index(pick)]
                 st.markdown(f"**{f.headline}**")
-                k = st.columns(4)
+                k = st.columns([1, 1.7, 0.8, 2])
                 k[0].metric("Amount", usd(f.amount))
                 k[1].metric("Root cause", CAUSE_LABEL[f.root_cause])
                 k[2].metric("Invoice lines", f.line_count)
@@ -901,15 +910,17 @@ def page_review() -> None:
                         DECISION_LOG, mode="a", header=not DECISION_LOG.exists(), index=False
                     )
                     st.session_state["review_flash"] = (
-                        f"Recorded: {decision} for {f.finding_id}. Audit log: data/output/review_decisions.csv"
+                        f"Recorded (simulated demo decision): {decision} for {f.finding_id}. "
+                        "Audit log: data/output/review_decisions.csv"
                     )
                     st.rerun()
                 recovery_panel(f, review_status(f, decisions))
     with tabs[1]:
-        review = lines[lines["status"].isin(["REVIEW", "DUPLICATE"])]
+        dupes = int((review["status"] == "DUPLICATE").sum())
         st.caption(
-            "These invoice lines are never counted as matches or leakage. Each needs a person to fix the input "
-            "or confirm the contract terms."
+            f"{len(review) - dupes} line(s) held for review and {dupes} exact duplicate(s) excluded. These invoice "
+            "lines are never counted as matches or leakage. Each needs a person to fix the input or confirm the "
+            "contract terms."
         )
         if review.empty:
             st.success("No data exceptions.")
@@ -959,7 +970,7 @@ def page_impact() -> None:
         st.caption(f"{len(under)} underbilling findings · synthetic data · available now")
     with c[1].container(border=True):
         st.markdown(":material/fact_check: **2. Validated recovery opportunity**")
-        st.metric("Confirmed by Finance after checking evidence and terms", usd(validated_usd))
+        st.metric("Simulated Finance decisions in this demo", usd(validated_usd))
         st.caption(
             f"{len(validated)} validated of {len(reviewed)} reviewed · from Review Queue decisions "
             "(synthetic walkthrough)"
@@ -1075,7 +1086,7 @@ def page_flow() -> None:
         st.caption("Blue boxes: built in the PoC. Grey dashed boxes: future / pilot scope.")
     with right:
         st.markdown("**Where each step lives**")
-        st.dataframe(
+        st.table(
             pd.DataFrame(
                 [
                     (
@@ -1101,7 +1112,7 @@ def page_flow() -> None:
                     ("Finance validates discrepancy", "Built", "Review Queue → decision"),
                     ("Resolve, dispute or close case", "Built (decision only)", "Review Queue"),
                     ("Correct billing or initiate recovery", "Pilot", "Draft rebilling note only"),
-                    ("Track invoice, receivable and cash receipt", "Pilot", "-"),
+                    ("Track invoice, receivable and cash receipt", "Pilot", "Not in the PoC"),
                     (
                         "Measure validated value and cash recovered",
                         "Partly built",
@@ -1109,10 +1120,7 @@ def page_flow() -> None:
                     ),
                 ],
                 columns=["Step", "Status", "In the app"],
-            ),
-            hide_index=True,
-            width="stretch",
-            height=490,
+            ).set_index("Step"),  # st.table wraps long text instead of truncating it
         )
         st.page_link(PAGES["arch"], label="Technical architecture", icon=":material/architecture:")
 
@@ -1212,6 +1220,10 @@ def scorecard() -> None:
 
 
 # ---------------------------------------------------------------- navigation
+st.markdown(
+    '<div class="disclose">SYNTHETIC DATA | DEMONSTRATION ONLY | FINANCE VALIDATION REQUIRED</div>',
+    unsafe_allow_html=True,
+)
 PAGES = {
     "home": st.Page(page_home, title="Home", icon=":material/home:", url_path="home", default=True),
     "analysis": st.Page(
